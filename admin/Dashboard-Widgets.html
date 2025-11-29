@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com - Cambodia's Real Estate Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .top-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://placehold.co/1600x600/2563eb/ffffff?text=Phnom+Penh+Skyline') no-repeat center center/cover;
+            color: white;
+            padding: 5rem 0 3rem;
+            text-align: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-header p {
+            font-size: 1.125rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Dashboard Widgets */
+        .dashboard-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .widget-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .widget-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .widget-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .widget-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .widget-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .widget-content {
+            padding: 1.5rem;
+        }
+
+        .widget-desc {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .user-perspectives {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .perspective {
+            flex: 1;
+        }
+
+        .perspective-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .perspective-content {
+            color: var(--dark);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* Dashboard Widget Types */
+        .search-widget .widget-header {
+            background-color: rgba(37, 99, 235, 0.1);
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .search-widget .widget-icon {
+            color: var(--primary);
+        }
+
+        .grid-widget .widget-header {
+            background-color: rgba(5, 150, 105, 0.1);
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .grid-widget .widget-icon {
+            color: var(--secondary);
+        }
+
+        .latest-widget .widget-header {
+            background-color: rgba(220, 38, 38, 0.1);
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .latest-widget .widget-icon {
+            color: #dc2626;
+        }
+
+        .price-widget .widget-header {
+            background-color: rgba(124, 58, 237, 0.1);
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .price-widget .widget-icon {
+            color: #7c3aed;
+        }
+
+        .cta-widget .widget-header {
+            background-color: rgba(234, 88, 12, 0.1);
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .cta-widget .widget-icon {
+            color: #ea580c;
+        }
+
+        .news-widget .widget-header {
+            background-color: rgba(8, 145, 178, 0.1);
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .news-widget .widget-icon {
+            color: #0891b2;
+        }
+
+        .agency-widget .widget-header {
+            background-color: rgba(153, 27, 27, 0.1);
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .agency-widget .widget-icon {
+            color: #991b1b;
+        }
+
+        /* Search Widget */
+        .search-container {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+        }
+
+        .search-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            background-color: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 1rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Properties Grid */
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .property-mini {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background-color: var(--light-gray);
+            border-radius: 0.375rem;
+            border: 1px solid var(--border);
+        }
+
+        .property-img {
+            width: 80px;
+            height: 60px;
+            background-color: var(--border);
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+
+        .property-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .property-info {
+            flex: 1;
+            font-size: 0.875rem;
+        }
+
+        .property-price {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .property-location {
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+
+        /* Latest Properties */
+        .latest-timeline {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .latest-timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0.75rem 0;
+        }
+
+        .timeline-point {
+            position: absolute;
+            left: -1.25rem;
+            top: 1rem;
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: var(--shadow);
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-content {
+            font-size: 0.875rem;
+            color: var(--dark);
+        }
+
+        /* Price Segments */
+        .price-segments {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .price-segment {
+            background-color: var(--light-gray);
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .segment-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .segment-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Agency Logos */
+        .agency-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .agency-logo {
+            height: 60px;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--gray);
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+
+        .agency-logo:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--primary);
+        }
+
+        .agency-logo img {
+            max-height: 40px;
+            max-width: 100px;
+            object-fit: contain;
+        }
+
+        .agency-logo-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .search-form {
+                grid-template-columns: 1fr 1fr auto;
+            }
+
+            .search-form>div:first-child {
+                grid-column: 1 / 3;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .nav-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .search-form button {
+                grid-column: 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .dashboard-widgets {
+                grid-template-columns: 1fr;
+            }
+
+            .latest-timeline {
+                padding-left: 1.5rem;
+            }
+
+            .latest-timeline::before {
+                left: 0.75rem;
+            }
+
+            .timeline-point {
+                left: -1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="left">
+            <a href="#"><i class="fas fa-phone"></i>+855 92 800 801</a>
+            <a href="#"><i class="fas fa-envelope"></i> info@peanech.com</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="#" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="#">Buy</a>
+                    <a href="#">Rent</a>
+                    <a href="#">Commercial</a>
+                    <a href="#">New Developments</a>
+                    <a href="#">Agents</a>
+                    <a href="#">News</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <button class="btn btn-outline">Log In</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <h1>Your Real Estate Market Dashboard</h1>
+            <p>The homepage functions as a dynamic, multi-user interface that aggregates data, provides tools for
+                action, and offers insights for every participant in the Cambodian real estate ecosystem.</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Widgets -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Key Dashboard Widgets</h2>
+                    <p>How each component serves different user personas simultaneously</p>
+                </div>
+            </div>
+
+            <div class="dashboard-widgets">
+                <!-- Widget 1: Main Search Bar -->
+                <div class="widget-card search-widget">
+                    <div class="widget-header">
+                        <i class="widget-icon fas fa-search"></i>
+                        <h3 class="widget-title">Main Search Bar</h3>
+                    </div>
+                    <div class="widget-content">
+                        <p class="widget-desc">The primary control for navigating the market. Filter by location,
+                            property type, price range, and specific features to find exactly what you're looking for.
+                        </p>
+
+                        <div class="search-container">
+                            <form class="search-form">
+                                <input type="text" placeholder="Search by location, property name, or keyword..."
+                                    class="search-input">
+
+                                <select class="search-select">
+                                    <option>All Property Types</option>
+                                    <option>House</option>
+                                    <option>Land</option>
+                                    <option>Apartment/Condo</option>
+                                    <option>Commercial</option>
+                                </select>
+
+                                <select class="search-select">
+                                    <option>For Sale or Rent</option>
+                                    <option>For Sale</option>
+                                    <option>For Rent</option>
+                                </select>
+
+                                <button type="submit" class="search-btn">Search</button>
+                            </form>
+                        </div>
+
+                        <div class="user-perspectives">
+                            <div class="perspective">
+                                <div class="perspective-title">For Buyer/Renter</div>
+                                <div class="perspective-content">Primary tool to find assets and navigate the market
+                                    inventory.</div>
+                            </div>
+                            <div class="perspective">
+                                <div class="perspective-title">For Seller/Agent</div>
+                                <div class="perspective-content">N/A - This widget is for discovery, not listing.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget 2: Listing Grid -->
+                <div class="widget-card grid-widget">
+                    <div class="widget-header">
+                        <i class="widget-icon fas fa-th-large"></i>
+                        <h3 class="widget-title">Listing Grid</h3>
+                    </div>
+                    <div class="widget-content">
+                        <p class="widget-desc">Shows real-time inventory of available properties across Cambodia,
+                            providing a comprehensive view of the current market landscape.</p>
+
+                        <div class="properties-grid">
+                            <!-- Property 1 -->
+                            <div class="property-mini">
+                                <div class="property-img">
+                                    <img src="https://placehold.co/80x60/2563eb/ffffff?text=PP" alt="Phnom Penh">
+                                </div>
+                                <div class="property-info">
+                                    <div class="property-price">$450,000</div>
+                                    <div class="property-location">Luxury Villa, Toul Kork</div>
+                                </div>
+                            </div>
+
+                            <!-- Property 2 -->
+                            <div class="property-mini">
+                                <div class="property-img">
+                                    <img src="https://placehold.co/80x60/059669/ffffff?text=SR" alt="Siem Reap">
+                                </div>
+                                <div class="property-info">
+                                    <div class="property-price">$280,000</div>
+                                    <div class="property-location">Ocean View Condo, Sihanoukville</div>
+                                </div>
+                            </div>
+
+                            <!-- Property 3 -->
+                            <div class="property-mini">
+                                <div class="property-img">
+                                    <img src="https://placehold.co/80x60/dc2626/ffffff?text=SV" alt="Sihanoukville">
+                                </div>
+                                <div class="property-info">
+                                    <div class="property-price">$180,000</div>
+                                    <div class="property-location">Prime Land, Siem Reap</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="user-perspectives">
+                            <div class="perspective">
+                                <div class="perspective-title">For Buyer/Renter</div>
+                                <div class="perspective-content">View available inventory to find properties that match
+                                    their criteria and budget.</div>
+                            </div>
+                            <div class="perspective">
+                                <div class="perspective-title">For Seller/Agent</div>
+                                <div class="perspective-content">Analyze competition and market prices to position their
+                                    own listings effectively.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget 3: Latest Properties -->
+                <div class="widget-card latest-widget">
+                    <div class="widget-header">
+                        <i class="widget-icon fas fa-clock"></i>
+                        <h3 class="widget-title">"Latest Properties"</h3>
+                    </div>
+                    <div class="widget-content">
+                        <p class="widget-desc">Shows the newest properties added to the platform, providing insight into
+                            market velocity and recent activity.</p>
+
+                        <div class="latest-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-date">Today, 2:30 PM</div>
+                                <div class="timeline-content">New 3-bedroom condo listed in BKK1</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-date">Today, 10:15 AM</div>
+                                <div class="timeline-content">Luxury villa added in Toul Kork</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-date">Yesterday, 5:45 PM</div>
+                                <div class="timeline-content">Commercial property listed in Chamkarmon</div>
+                            </div>
+                        </div>
+
+                        <div class="user-perspectives">
+                            <div class="perspective">
+                                <div class="perspective-title">For Buyer/Renter</div>
+                                <div class="perspective-content">See newest opportunities before they become popular and
+                                    potentially get first look.</div>
+                            </div>
+                            <div class="perspective">
+                                <div class="perspective-title">For Seller/Agent</div>
+                                <div class="perspective-content">Gauge market activity and velocity to understand the
+                                    competitive landscape.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget 4: Price Display -->
+                <div class="widget-card price-widget">
+                    <div class="widget-header">
+                        <i class="widget-icon fas fa-tag"></i>
+                        <h3 class="widget-title">Price Display</h3>
+                    </div>
+                    <div class="widget-content">
+                        <p class="widget-desc">Shows current market rates for different property types and locations,
+                            providing pricing benchmarks across the market.</p>
+
+                        <div class="price-segments">
+                            <div class="price-segment">
+                                <div class="segment-label">Luxury Condos</div>
+                                <div class="segment-value">$850/m²</div>
+                            </div>
+                            <div class="price-segment">
+                                <div class="segment-label">Premium Apartments</div>
+                                <div class="segment-value">$620/m²</div>
+                            </div>
+                            <div class="price-segment">
+                                <div class="segment-label">Standard Housing</div>
+                                <div class="segment-value">$410/m²</div>
+                            </div>
+                        </div>
+
+                        <div class="user-perspectives">
+                            <div class="perspective">
+                                <div class="perspective-title">For Buyer/Renter</div>
+                                <div class="perspective-content">Understand market cost to determine fair pricing and
+                                    budget appropriately.</div>
+                            </div>
+                            <div class="perspective">
+                                <div class="perspective-title">For Seller/Agent</div>
+                                <div class="perspective-content">Benchmark their asking price against comparable
+                                    properties in the market.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget 5: List Your Property CTA -->
+                <div class="widget-card cta-widget">
+                    <div class="widget-header">
+                        <i class="widget-icon fas fa-plus-circle"></i>
+                        <h3 class="widget-title">"List Your Property" CTA</h3>
+                    </div>
+                    <div class="widget-content">
+                        <p class="widget-desc">The primary call-to-action for property owners and agents to add their
+                            assets to the platform and gain market visibility.</p>
+
+                        <div style="text-align: center; margin: 1.5rem 0;">
+                            <button class="btn btn-primary"
+                                style="padding: 0.75rem 2rem; font-size: 1.125rem; font-weight: 600;">
+                                <i class="fas fa-plus-circle"></i> List Your Property
+                            </button>
+                        </div>
+
+                        <div class="user-perspectives">
+                            <div class="perspective">
+                                <div class="perspective-title">For Buyer/Renter</div>
+                                <div class="perspective-content">N/A - This action is not relevant to those seeking
+                                    properties.</div>
+                            </div>
+                            <div class="perspective">
+                                <div class="perspective-title">For Seller/Agent</div>
+                                <div class="perspective-content">Primary action to add an asset to the market and start
+                                    receiving inquiries.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget 6: News & Guides -->
+                <div class="widget-card news-widget">
+                    <div class="widget-header">
+                        <i class="widget-icon fas fa-book"></i>
+                        <h3 class="widget-title">News & Guides</h3>
+                    </div>
+                    <div class="widget-content">
+                        <p class="widget-desc">Provides educational content and market insights to help users make
+                            informed decisions about the real estate market.</p>
+
+                        <div style="margin: 1.5rem 0;">
+                            <div
+                                style="display: flex; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
+                                <div
+                                    style="width: 80px; height: 60px; background-color: var(--border); border-radius: 0.25rem;">
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: var(--dark); font-size: 0.875rem;">Market
+                                        Report: Q3 2023 Trends</div>
+                                    <div style="color: var(--gray); font-size: 0.75rem; margin-top: 0.25rem;">Analyze
+                                        price movements and demand patterns</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 1rem;">
+                                <div
+                                    style="width: 80px; height: 60px; background-color: var(--border); border-radius: 0.25rem;">
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: var(--dark); font-size: 0.875rem;">How to Buy
+                                        Property in Cambodia</div>
+                                    <div style="color: var(--gray); font-size: 0.75rem; margin-top: 0.25rem;">A
+                                        comprehensive guide for investors</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="user-perspectives">
+                            <div class="perspective">
+                                <div class="perspective-title">For Buyer/Renter</div>
+                                <div class="perspective-content">Education and market context to make informed
+                                    purchasing decisions.</div>
+                            </div>
+                            <div class="perspective">
+                                <div class="perspective-title">For Seller/Agent</div>
+                                <div class="perspective-content">Establish thought leadership and demonstrate market
+                                    expertise.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget 7: Agency Logos -->
+                <div class="widget-card agency-widget">
+                    <div class="widget-header">
+                        <i class="widget-icon fas fa-building"></i>
+                        <h3 class="widget-title">Agency Logos</h3>
+                    </div>
+                    <div class="widget-content">
+                        <p class="widget-desc">Showcases the leading real estate agencies and developers partnered with
+                            the platform, establishing credibility and trust.</p>
+
+                        <div class="agency-logos">
+                            <div class="agency-logo">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <div
+                                        style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                                        CB</div>
+                                    <span style="font-weight: 600; color: var(--dark);">CBRE</span>
+                                </div>
+                            </div>
+
+                            <div class="agency-logo">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <div
+                                        style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                                        KF</div>
+                                    <span style="font-weight: 600; color: var(--dark);">Knight Frank</span>
+                                </div>
+                            </div>
+
+                            <div class="agency-logo">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <div
+                                        style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                                        VT</div>
+                                    <span style="font-weight: 600; color: var(--dark);">VTrust</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="user-perspectives">
+                            <div class="perspective">
+                                <div class="perspective-title">For Buyer/Renter</div>
+                                <div class="perspective-content">Identify reputable partners to work with for property
+                                    transactions.</div>
+                            </div>
+                            <div class="perspective">
+                                <div class="perspective-title">For Seller/Agent</div>
+                                <div class="perspective-content">Brand visibility and advertising to attract new clients
+                                    and listings.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 3rem 0; margin-top: 4rem;">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2023 Peanech.com. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.nav-actions').classList.toggle('show');
+        });
+
+        // Add hover effects to agency logos
+        document.querySelectorAll('.agency-logo').forEach(logo => {
+            logo.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-3px)';
+                this.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+            });
+
+            logo.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+            });
+        });
+
+        // List Your Property button click
+        document.querySelector('.btn-primary').addEventListener('click', function () {
+            alert('You clicked on "List Your Property". This would take you to the property listing submission form where you can add your property to the platform.');
+        });
+    </script>
+</body>
+
+</html>

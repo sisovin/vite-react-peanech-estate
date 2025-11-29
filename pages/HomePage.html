@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com - Cambodia's Leading Property Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .top-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Hero Search Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://placehold.co/1600x600/2563eb/ffffff?text=Phnom+Penh+Skyline') no-repeat center center/cover;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-container {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+        }
+
+        .search-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            background-color: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 1rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Properties Grid */
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .property-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .property-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .property-card:hover .property-img img {
+            transform: scale(1.05);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .property-price {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .property-content {
+            padding: 1.25rem;
+        }
+
+        .property-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .property-location {
+            display: flex;
+            align-items: center;
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+            gap: 0.5rem;
+        }
+
+        .property-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .property-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .property-agent {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .agent-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.375rem;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .agent-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        /* Location Filters */
+        .location-filters {
+            background-color: #f1f5f9;
+            padding: 3rem 0;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .location-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0.75rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .location-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .location-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .location-item h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-item p {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        /* News Section */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .news-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .news-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 1.25rem;
+        }
+
+        .news-category {
+            display: inline-block;
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .news-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .news-excerpt {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        /* Partners Section */
+        .partners {
+            background-color: #f8fafc;
+            padding: 3rem 0;
+        }
+
+        .partners-container {
+            text-align: center;
+        }
+
+        .partners-title {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+        }
+
+        .partner-logo {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--gray);
+            min-width: 120px;
+        }
+
+        /* Hot Projects Section */
+        .hot-projects {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-slider {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--light-gray);
+        }
+
+        .project-slider::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .project-slider::-webkit-scrollbar-track {
+            background: var(--light-gray);
+            border-radius: 3px;
+        }
+
+        .project-slider::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .project-card {
+            min-width: 300px;
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-img {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1rem;
+        }
+
+        .project-badge {
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .project-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .project-location {
+            display: flex;
+            align-items: center;
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+
+        .project-price {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: background-color 0.2s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .search-form {
+                grid-template-columns: 1fr 1fr 1fr auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .nav-actions.show {
+                display: flex;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .search-form>div:nth-child(3) {
+                grid-column: 1 / 3;
+            }
+
+            .search-form button {
+                grid-column: 1 / 3;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .hero {
+                padding: 3rem 0;
+            }
+
+            .section-header h2 {
+                font-size: 1.75rem;
+            }
+
+            .cta-content h2 {
+                font-size: 1.75rem;
+            }
+
+            .locations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="left">
+            <a href="#"><i class="fas fa-phone"></i> +855 92 800 801</a>
+            <a href="#"><i class="fas fa-envelope"></i> info@peanech.com</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="/peanech.com/pages/HomePage.html" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="#">Buy</a>
+                    <a href="#">Rent</a>
+                    <a href="#">Commercial</a>
+                    <a href="#">New Developments</a>
+                    <a href="#">Agents</a>
+                    <a href="#">News</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <button class="btn btn-outline">Log In</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Search Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Find Your Dream Property in Cambodia</h1>
+            <p>Discover thousands of properties for sale and rent across Phnom Penh, Siem Reap, Sihanoukville and more
+            </p>
+
+            <div class="search-container">
+                <form class="search-form">
+                    <input type="text" placeholder="Search by location, property name, or keyword..."
+                        class="search-input">
+
+                    <select class="search-select">
+                        <option>All Property Types</option>
+                        <option>House</option>
+                        <option>Land</option>
+                        <option>Apartment/Condo</option>
+                        <option>Commercial</option>
+                        <option>Villa</option>
+                        <option>Townhouse</option>
+                    </select>
+
+                    <select class="search-select">
+                        <option>For Sale or Rent</option>
+                        <option>For Sale</option>
+                        <option>For Rent</option>
+                    </select>
+
+                    <select class="search-select">
+                        <option>All Locations</option>
+                        <option>Phnom Penh</option>
+                        <option>Siem Reap</option>
+                        <option>Sihanoukville</option>
+                        <option>Kep</option>
+                        <option>Kampot</option>
+                        <optgroup label="Phnom Penh Districts">
+                            <option>Chamkarmon</option>
+                            <option>Toul Kork</option>
+                            <option>7 Makara</option>
+                            <option>BKK1</option>
+                            <option>Russey Keo</option>
+                        </optgroup>
+                    </select>
+
+                    <button type="submit" class="search-btn">Search Properties</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Featured Properties</h2>
+                    <p>Hand-picked premium listings with excellent value</p>
+                </div>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="properties-grid">
+                <!-- Property 1 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/2563eb/ffffff?text=Modern+Flat+BKK1"
+                            alt="Modern Flat in BKK1">
+                        <span class="property-badge">For Rent</span>
+                        <span class="property-price">$1,200/month</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Modern Flat for Rent in BKK1</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Boulevard Keo Monorom, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>2 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>2 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>85m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">CB</div>
+                            <div class="agent-name">CBRE Cambodia</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/059669/ffffff?text=Luxury+Villa+Toul+Kork"
+                            alt="Luxury Villa in Toul Kork">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$450,000</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Luxury Villa in Toul Kork</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Toul Kork, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>4 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>3 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>320m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">KF</div>
+                            <div class="agent-name">Knight Frank</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 3 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/dc2626/ffffff?text=Ocean+View+Condo"
+                            alt="Ocean View Condo in Sihanoukville">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$280,000</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Ocean View Condo in Sihanoukville</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Oceanfront, Sihanoukville</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>3 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>2 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>120m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">VT</div>
+                            <div class="agent-name">VTrust Group</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 4 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/7c3aed/ffffff?text=Land+Siem+Reap"
+                            alt="Prime Land in Siem Reap">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$180,000</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Prime Land in Siem Reap</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Angkor Wat Area, Siem Reap</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>1,200m²</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-ruler-combined"></i>
+                                <span>Commercial</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">PC</div>
+                            <div class="agent-name">Property Cambodia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hot New Developments -->
+    <section class="section hot-projects">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Hot New Developments</h2>
+                    <p>Latest condo and housing projects from top developers</p>
+                </div>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="project-slider">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://placehold.co/300x200/2563eb/ffffff?text=Riverside+Residences"
+                            alt="Riverside Residences">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-badge">New Launch</span>
+                        <h3 class="project-title">Riverside Residences</h3>
+                        <div class="project-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Chroy Changvar, Phnom Penh</span>
+                        </div>
+                        <div class="project-price">From $180,000</div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://placehold.co/300x200/059669/ffffff?text=Green+Park+Villas"
+                            alt="Green Park Villas">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-badge">Pre-Sale</span>
+                        <h3 class="project-title">Green Park Villas</h3>
+                        <div class="project-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Toul Kork, Phnom Penh</span>
+                        </div>
+                        <div class="project-price">From $320,000</div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://placehold.co/300x200/dc2626/ffffff?text=Ocean+Bliss+Condos"
+                            alt="Ocean Bliss Condos">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-badge">Luxury</span>
+                        <h3 class="project-title">Ocean Bliss Condos</h3>
+                        <div class="project-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Sihanoukville</span>
+                        </div>
+                        <div class="project-price">From $250,000</div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://placehold.co/300x200/7c3aed/ffffff?text=Angkor+Garden+Homes"
+                            alt="Angkor Garden Homes">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-badge">New</span>
+                        <h3 class="project-title">Angkor Garden Homes</h3>
+                        <div class="project-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Siem Reap</span>
+                        </div>
+                        <div class="project-price">From $150,000</div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://placehold.co/300x200/ea580c/ffffff?text=Sky+Tower+Phnom+Penh"
+                            alt="Sky Tower Phnom Penh">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-badge">High-Rise</span>
+                        <h3 class="project-title">Sky Tower Phnom Penh</h3>
+                        <div class="project-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>BKK1, Phnom Penh</span>
+                        </div>
+                        <div class="project-price">From $220,000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Properties -->
+    <section class="section" style="background-color: #f8fafc;">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Latest Properties</h2>
+                    <p>Recently listed properties added to our platform</p>
+                </div>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="properties-grid">
+                <!-- Property 1 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/ea580c/ffffff?text=New+Condo+Project"
+                            alt="New Condo Project in Phnom Penh">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$320,000</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">New Condo Project in Phnom Penh</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Chamkarmon, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>2 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>2 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>95m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">HG</div>
+                            <div class="agent-name">Habitat Group</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/0891b2/ffffff?text=Townhouse+Rental"
+                            alt="Modern Townhouse for Rent">
+                        <span class="property-badge">For Rent</span>
+                        <span class="property-price">$1,800/month</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Modern Townhouse for Rent</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>7 Makara, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>3 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>3 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>220m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">RC</div>
+                            <div class="agent-name">Realty Cambodia</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 3 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/16a34a/ffffff?text=Commercial+Space"
+                            alt="Commercial Office Space">
+                        <span class="property-badge">For Rent</span>
+                        <span class="property-price">$3,500/month</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Commercial Office Space</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Central Business District, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>450m²</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-building"></i>
+                                <span>Office</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">CB</div>
+                            <div class="agent-name">CBRE Cambodia</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 4 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/9333ea/ffffff?text=Luxury+Penthouse"
+                            alt="Luxury Penthouse in Sihanoukville">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$650,000</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Luxury Penthouse in Sihanoukville</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Oceanfront, Sihanoukville</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>4 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>4 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>280m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">VT</div>
+                            <div class="agent-name">VTrust Group</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location-Based Filters -->
+    <section class="section location-filters">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Popular Locations</h2>
+                    <p>Explore properties in Cambodia's most sought-after areas</p>
+                </div>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="locations-grid">
+                <!-- Location 1 -->
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <h3>Phnom Penh</h3>
+                    <p>1,247 properties</p>
+                </div>
+
+                <!-- Location 2 -->
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-archway"></i>
+                    </div>
+                    <h3>Siem Reap</h3>
+                    <p>432 properties</p>
+                </div>
+
+                <!-- Location 3 -->
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <h3>Sihanoukville</h3>
+                    <p>389 properties</p>
+                </div>
+
+                <!-- Location 4 -->
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <h3>Kep</h3>
+                    <p>156 properties</p>
+                </div>
+
+                <!-- Location 5 -->
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3>Kampot</h3>
+                    <p>134 properties</p>
+                </div>
+
+                <!-- Location 6 -->
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Chamkarmon</h3>
+                    <p>321 properties</p>
+                </div>
+
+                <!-- Location 7 -->
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Toul Kork</h3>
+                    <p>289 properties</p>
+                </div>
+
+                <!-- Location 8 -->
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-tower-observation"></i>
+                    </div>
+                    <h3>7 Makara</h3>
+                    <p>245 properties</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call-to-Action for Property Owners -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>List Your Property with Us</h2>
+                <p>Reach thousands of potential buyers and renters across Cambodia. Our platform provides maximum
+                    visibility for your property with professional presentation and targeted marketing.</p>
+                <button class="btn btn-outline" style="background-color: white; color: var(--primary);">Add Your
+                    Property</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real Estate News & Guides -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Real Estate News & Guides</h2>
+                    <p>Stay informed with the latest market trends, investment tips, and lifestyle content</p>
+                </div>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="news-grid">
+                <!-- News 1 -->
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://placehold.co/400x250/2563eb/ffffff?text=Market+Trends" alt="Market Trends">
+                    </div>
+                    <div class="news-content">
+                        <span class="news-category">Market Trends</span>
+                        <h3 class="news-title">Cambodia Real Estate Market Report 2023</h3>
+                        <p class="news-excerpt">An in-depth analysis of property prices, demand patterns, and investment
+                            opportunities across major Cambodian cities.</p>
+                        <div class="news-meta">
+                            <span>Oct 15, 2023</span>
+                            <a href="#" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- News 2 -->
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://placehold.co/400x250/059669/ffffff?text=Investment+Guide"
+                            alt="Investment Guide">
+                    </div>
+                    <div class="news-content">
+                        <span class="news-category">Investment Guide</span>
+                        <h3 class="news-title">How to Buy Property in Cambodia as a Foreigner</h3>
+                        <p class="news-excerpt">A comprehensive guide covering legal requirements, ownership
+                            restrictions, and step-by-step purchasing process for international investors.</p>
+                        <div class="news-meta">
+                            <span>Sept 28, 2023</span>
+                            <a href="#" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- News 3 -->
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://placehold.co/400x250/dc2626/ffffff?text=Area+Guide" alt="Area Guide">
+                    </div>
+                    <div class="news-content">
+                        <span class="news-category">Area Guide</span>
+                        <h3 class="news-title">Living in Toul Kork: Neighborhood Guide</h3>
+                        <p class="news-excerpt">Discover why Toul Kork has become one of Phnom Penh's most desirable
+                            residential areas for families and professionals.</p>
+                        <div class="news-meta">
+                            <span>Sept 10, 2023</span>
+                            <a href="#" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner & Agency Logos -->
+    <section class="partners">
+        <div class="container partners-container">
+            <p class="partners-title">TRUSTED BY CAMBODIA'S LEADING REAL ESTATE PROFESSIONALS</p>
+            <div class="partner-logos">
+                <div class="partner-logo">CBRE</div>
+                <div class="partner-logo">Knight Frank</div>
+                <div class="partner-logo">VTrust Group</div>
+                <div class="partner-logo">Habitat Group</div>
+                <div class="partner-logo">Realty Cambodia</div>
+                <div class="partner-logo">Sokha Group</div>
+                <div class="partner-logo">Borey Peng Huoth</div>
+                <div class="partner-logo">Golden Gate</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Peanech.com</h3>
+                    <p style="color: #cbd5e1; margin-bottom: 1.5rem;">Cambodia's leading property portal connecting
+                        buyers, sellers, and renters across the country.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Property</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Properties for Sale</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Properties for Rent</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> New Developments</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Commercial Properties</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Land & Plots</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Real Estate News</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Market Reports</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Investment Guides</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Mortgage Calculator</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Price Guides</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Careers</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> #123, Street 456, Phnom Penh</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +855 12 345 678</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@peanech.com</a></li>
+                        <li><a href="#"><i class="fas fa-download"></i> Download App</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2023 Peanech.com. All rights reserved. Cambodia's #1 Property Portal.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.nav-actions').classList.toggle('show');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

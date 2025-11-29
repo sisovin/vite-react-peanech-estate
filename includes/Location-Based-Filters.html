@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com - Cambodia's Leading Property Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .top-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Location Filters Section */
+        .location-filters {
+            background-color: #f1f5f9;
+            padding: 4rem 0;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .location-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .location-img {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .location-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .location-card:hover .location-img img {
+            transform: scale(1.05);
+        }
+
+        .location-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.8));
+        }
+
+        .location-count {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .location-content {
+            padding: 1.25rem;
+        }
+
+        .location-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .location-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .location-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .districts-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .district-tag {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            transition: background-color 0.2s;
+        }
+
+        .district-tag:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .nav-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .locations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="left">
+            <a href="#"><i class="fas fa-phone"></i>+855 92 800 801</a>
+            <a href="#"><i class="fas fa-envelope"></i> info@peanech.com</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="#" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="#">Buy</a>
+                    <a href="#">Rent</a>
+                    <a href="#">Commercial</a>
+                    <a href="#">New Developments</a>
+                    <a href="#">Agents</a>
+                    <a href="#">News</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <button class="btn btn-outline">Log In</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container" style="padding: 4rem 0;">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--dark);">Find
+                    Properties in Cambodia's Most Sought-After Locations</h1>
+                <p style="font-size: 1.125rem; color: var(--gray);">Explore homes, land, and commercial properties in
+                    the country's prime areas</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location-Based Filters -->
+    <section class="section location-filters">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Popular Locations</h2>
+                    <p>Discover properties in Cambodia's most desirable areas</p>
+                </div>
+                <a href="#" class="view-all">View All Locations <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="locations-grid">
+                <!-- Phnom Penh -->
+                <div class="location-card">
+                    <div class="location-img">
+                        <img src="https://placehold.co/400x300/2563eb/ffffff?text=Phnom+Penh+Cityscape"
+                            alt="Phnom Penh">
+                        <div class="location-overlay"></div>
+                        <div class="location-count">1,247 Properties</div>
+                    </div>
+                    <div class="location-content">
+                        <h3 class="location-title">Phnom Penh</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;">Cambodia's vibrant capital city with modern
+                            developments and traditional charm</p>
+                        <div class="location-stats">
+                            <div class="location-stat">
+                                <i class="fas fa-home"></i>
+                                <span>Residential</span>
+                            </div>
+                            <div class="location-stat">
+                                <i class="fas fa-building"></i>
+                                <span>Commercial</span>
+                            </div>
+                        </div>
+                        <div class="districts-list">
+                            <span class="district-tag">Chamkarmon</span>
+                            <span class="district-tag">Toul Kork</span>
+                            <span class="district-tag">7 Makara</span>
+                            <span class="district-tag">BKK1</span>
+                            <span class="district-tag">Russey Keo</span>
+                            <span class="district-tag">Boeung Keng Kang</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Siem Reap -->
+                <div class="location-card">
+                    <div class="location-img">
+                        <img src="https://placehold.co/400x300/059669/ffffff?text=Siem+Reap+Angkor" alt="Siem Reap">
+                        <div class="location-overlay"></div>
+                        <div class="location-count">432 Properties</div>
+                    </div>
+                    <div class="location-content">
+                        <h3 class="location-title">Siem Reap</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;">Gateway to Angkor Wat with growing real
+                            estate opportunities</p>
+                        <div class="location-stats">
+                            <div class="location-stat">
+                                <i class="fas fa-home"></i>
+                                <span>Residential</span>
+                            </div>
+                            <div class="location-stat">
+                                <i class="fas fa-umbrella-beach"></i>
+                                <span>Tourism</span>
+                            </div>
+                        </div>
+                        <div class="districts-list">
+                            <span class="district-tag">Angkor Wat Area</span>
+                            <span class="district-tag">Wat Bo</span>
+                            <span class="district-tag">Phum Thmei</span>
+                            <span class="district-tag">Svay Dangkum</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sihanoukville -->
+                <div class="location-card">
+                    <div class="location-img">
+                        <img src="https://placehold.co/400x300/dc2626/ffffff?text=Sihanoukville+Beach"
+                            alt="Sihanoukville">
+                        <div class="location-overlay"></div>
+                        <div class="location-count">389 Properties</div>
+                    </div>
+                    <div class="location-content">
+                        <h3 class="location-title">Sihanoukville</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;">Coastal city with beachfront properties and
+                            investment potential</p>
+                        <div class="location-stats">
+                            <div class="location-stat">
+                                <i class="fas fa-home"></i>
+                                <span>Residential</span>
+                            </div>
+                            <div class="location-stat">
+                                <i class="fas fa-water"></i>
+                                <span>Oceanfront</span>
+                            </div>
+                        </div>
+                        <div class="districts-list">
+                            <span class="district-tag">Otres Beach</span>
+                            <span class="district-tag">Victory Beach</span>
+                            <span class="district-tag">Serendipity</span>
+                            <span class="district-tag">Independence</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kep -->
+                <div class="location-card">
+                    <div class="location-img">
+                        <img src="https://placehold.co/400x300/7c3aed/ffffff?text=Kep+Coastline" alt="Kep">
+                        <div class="location-overlay"></div>
+                        <div class="location-count">156 Properties</div>
+                    </div>
+                    <div class="location-content">
+                        <h3 class="location-title">Kep</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;">Charming coastal town known for its crab
+                            market and relaxed atmosphere</p>
+                        <div class="location-stats">
+                            <div class="location-stat">
+                                <i class="fas fa-home"></i>
+                                <span>Residential</span>
+                            </div>
+                            <div class="location-stat">
+                                <i class="fas fa-tree"></i>
+                                <span>Nature</span>
+                            </div>
+                        </div>
+                        <div class="districts-list">
+                            <span class="district-tag">Kep National Park</span>
+                            <span class="district-tag">Rising Sun</span>
+                            <span class="district-tag">Coastal Road</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kampot -->
+                <div class="location-card">
+                    <div class="location-img">
+                        <img src="https://placehold.co/400x300/ea580c/ffffff?text=Kampot+River" alt="Kampot">
+                        <div class="location-overlay"></div>
+                        <div class="location-count">134 Properties</div>
+                    </div>
+                    <div class="location-content">
+                        <h3 class="location-title">Kampot</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;">Riverside town famous for pepper production
+                            and French colonial architecture</p>
+                        <div class="location-stats">
+                            <div class="location-stat">
+                                <i class="fas fa-home"></i>
+                                <span>Residential</span>
+                            </div>
+                            <div class="location-stat">
+                                <i class="fas fa-mountain"></i>
+                                <span>Hillside</span>
+                            </div>
+                        </div>
+                        <div class="districts-list">
+                            <span class="district-tag">Riverside</span>
+                            <span class="district-tag">Bokor Mountain</span>
+                            <span class="district-tag">Old Market</span>
+                            <span class="district-tag">Wat Damnak</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Battambang -->
+                <div class="location-card">
+                    <div class="location-img">
+                        <img src="https://placehold.co/400x300/0891b2/ffffff?text=Battambang+Art" alt="Battambang">
+                        <div class="location-overlay"></div>
+                        <div class="location-count">89 Properties</div>
+                    </div>
+                    <div class="location-content">
+                        <h3 class="location-title">Battambang</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;">Cultural hub with French colonial
+                            architecture and arts scene</p>
+                        <div class="location-stats">
+                            <div class="location-stat">
+                                <i class="fas fa-home"></i>
+                                <span>Residential</span>
+                            </div>
+                            <div class="location-stat">
+                                <i class="fas fa-palette"></i>
+                                <span>Cultural</span>
+                            </div>
+                        </div>
+                        <div class="districts-list">
+                            <span class="district-tag">Riverside</span>
+                            <span class="district-tag">Central Market</span>
+                            <span class="district-tag">Wat Kor</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Guide Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Location Guides</h2>
+                    <p>Learn more about living in Cambodia's top destinations</p>
+                </div>
+                <a href="#" class="view-all">View All Guides <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                <!-- Guide 1 -->
+                <div style="background: white; border-radius: 0.75rem; overflow: hidden; box-shadow: var(--shadow);">
+                    <div style="height: 180px; overflow: hidden;">
+                        <img src="https://placehold.co/300x200/2563eb/ffffff?text=Toul+Kork+Guide" alt="Toul Kork Guide"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.25rem;">
+                        <span
+                            style="display: inline-block; background-color: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.75rem;">Location
+                            Guide</span>
+                        <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--dark);">
+                            Living in Toul Kork: Neighborhood Guide</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem; font-size: 0.875rem;">Discover why Toul Kork
+                            has become one of Phnom Penh's most desirable residential areas.</p>
+                        <a href="#"
+                            style="color: var(--primary); font-weight: 500; text-decoration: none; font-size: 0.875rem;">Read
+                            More</a>
+                    </div>
+                </div>
+
+                <!-- Guide 2 -->
+                <div style="background: white; border-radius: 0.75rem; overflow: hidden; box-shadow: var(--shadow);">
+                    <div style="height: 180px; overflow: hidden;">
+                        <img src="https://placehold.co/300x200/059669/ffffff?text=Siem+Reap+Investment"
+                            alt="Siem Reap Investment" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.25rem;">
+                        <span
+                            style="display: inline-block; background-color: rgba(5, 150, 105, 0.1); color: var(--secondary); padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.75rem;">Investment
+                            Guide</span>
+                        <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--dark);">
+                            Investing in Siem Reap Real Estate</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem; font-size: 0.875rem;">A comprehensive guide
+                            to property investment opportunities near Angkor Wat.</p>
+                        <a href="#"
+                            style="color: var(--primary); font-weight: 500; text-decoration: none; font-size: 0.875rem;">Read
+                            More</a>
+                    </div>
+                </div>
+
+                <!-- Guide 3 -->
+                <div style="background: white; border-radius: 0.75rem; overflow: hidden; box-shadow: var(--shadow);">
+                    <div style="height: 180px; overflow: hidden;">
+                        <img src="https://placehold.co/300x200/dc2626/ffffff?text=Sihanoukville+Coastal"
+                            alt="Sihanoukville Coastal" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.25rem;">
+                        <span
+                            style="display: inline-block; background-color: rgba(220, 38, 38, 0.1); color: var(--secondary); padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.75rem;">Area
+                            Guide</span>
+                        <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--dark);">
+                            Coastal Living in Sihanoukville</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem; font-size: 0.875rem;">Explore the lifestyle,
+                            property types, and investment potential of Cambodia's beach city.</p>
+                        <a href="#"
+                            style="color: var(--primary); font-weight: 500; text-decoration: none; font-size: 0.875rem;">Read
+                            More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 3rem 0; margin-top: 4rem;">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2023 Peanech.com. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.nav-actions').classList.toggle('show');
+        });
+
+        // Add click events to location cards
+        document.querySelectorAll('.location-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const location = this.querySelector('.location-title').textContent;
+                alert(`You clicked on ${location}. This would navigate to the property listings for this location.`);
+            });
+        });
+
+        // Add hover effects to district tags
+        document.querySelectorAll('.district-tag').forEach(tag => {
+            tag.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const district = this.textContent;
+                const location = this.closest('.location-card').querySelector('.location-title').textContent;
+                alert(`You clicked on ${district} in ${location}. This would navigate to the property listings for this specific district.`);
+            });
+        });
+    </script>
+</body>
+
+</html>

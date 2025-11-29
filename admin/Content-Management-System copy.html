@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com Admin Dashboard - Content Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .admin-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: #0f172a;
+            font-size: 0.875rem;
+        }
+
+        .admin-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-bar a:hover {
+            color: white;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+            background-color: var(--dark);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+            padding: 0.5rem 0;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+            border-bottom-color: var(--secondary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* CMS Module */
+        .cms-management {
+            padding: 2rem 0 4rem;
+            background-color: #f1f5f9;
+        }
+
+        .cms-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+            box-shadow: var(--shadow);
+        }
+
+        .cms-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .cms-tab.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .cms-tab:hover:not(.active) {
+            background-color: var(--light-gray);
+        }
+
+        .filters-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .search-filter {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background-color: white;
+            appearance: none;
+            background-image: url("image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 1rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Content Tables */
+        .content-table-container {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .content-table th {
+            text-align: left;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .content-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .content-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content-table tr:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .content-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .content-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-published {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-draft {
+            background-color: rgba(156, 163, 175, 0.1);
+            color: #6b7280;
+        }
+
+        .status-scheduled {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .author-avatar {
+            width: 32px;
+            height: 32px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .content-date {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .action-buttons-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .action-btn:hover {
+            background-color: var(--border);
+            color: var(--dark);
+        }
+
+        .edit-btn {
+            color: var(--primary);
+        }
+
+        .edit-btn:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .publish-btn {
+            color: var(--secondary);
+        }
+
+        .publish-btn:hover {
+            background-color: rgba(5, 150, 105, 0.1);
+        }
+
+        .delete-btn {
+            color: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        /* Content Editor Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0.25rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .close-modal:hover {
+            background-color: var(--light-gray);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .textarea-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .editor-container {
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            overflow: hidden;
+        }
+
+        .editor-toolbar {
+            background-color: var(--light-gray);
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .toolbar-btn {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid var(--border);
+            background-color: white;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .toolbar-btn:hover {
+            background-color: var(--border);
+        }
+
+        .editor-content {
+            padding: 1rem;
+            min-height: 300px;
+            background-color: white;
+        }
+
+        .editor-content:focus {
+            outline: none;
+        }
+
+        .sidebar-section {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+        }
+
+        .publish-options {
+            margin-bottom: 1.5rem;
+        }
+
+        .status-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-option {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .status-option:hover {
+            background-color: var(--light-gray);
+        }
+
+        .status-option.selected {
+            background-color: rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .schedule-input {
+            margin-bottom: 1rem;
+        }
+
+        .schedule-input label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.875rem;
+        }
+
+        .date-time-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .date-time-group input {
+            flex: 1;
+        }
+
+        .featured-image {
+            margin-bottom: 1.5rem;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 200px;
+            background-color: var(--border);
+            border-radius: 0.375rem;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .image-placeholder {
+            color: var(--gray);
+            font-size: 1.5rem;
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px dashed var(--border);
+            border-radius: 0.375rem;
+            background-color: rgba(37, 99, 235, 0.05);
+            color: var(--primary);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-btn:hover {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .categories-tags {
+            margin-bottom: 1.5rem;
+        }
+
+        .tag-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            min-height: 45px;
+        }
+
+        .tag {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tag-remove {
+            cursor: pointer;
+        }
+
+        .tag-input input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 0.25rem 0;
+        }
+
+        .seo-settings {
+            margin-bottom: 1.5rem;
+        }
+
+        .seo-preview {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .seo-title {
+            color: #1a0dab;
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .seo-url {
+            color: #006621;
+            margin-bottom: 0.25rem;
+        }
+
+        .seo-description {
+            color: #545454;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn-modal {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-cancel {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--border);
+        }
+
+        .btn-save {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-publish {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-publish:hover {
+            background-color: #047857;
+        }
+
+        /* Banner Management */
+        .banner-preview {
+            height: 200px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://placehold.co/1200x200/2563eb/ffffff?text=Peanech.com+Banner') no-repeat center center/cover;
+            border-radius: 0.5rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .banner-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .banner-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .banner-cta {
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .editor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .user-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--dark);
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .user-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 1.5rem 0;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .content-table th,
+            .content-table td {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .admin-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 1rem;
+            }
+
+            .editor-toolbar {
+                justify-content: flex-start;
+            }
+
+            .date-time-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Admin Bar -->
+    <div class="admin-bar">
+        <div class="left">
+            <a href="/admin/"><i class="fas fa-lock"></i> Admin Dashboard</a>
+            <a href="/"><i class="fas fa-home"></i> View Public Site</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fas fa-bell"></i> Notifications <span
+                    style="background-color: var(--secondary); color: white; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.75rem;">3</span></a>
+            <a href="#"><i class="fas fa-user-circle"></i> Admin User</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="#" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="/admin/Admin-Dashboard.html">Dashboard</a>
+                    <a href="/admin/Property-Listings-Management.html">Listings</a>
+                    <a href="/admin/User-Management.html">Users</a>
+                    <a href="/admin/Agent-Agency-Management.html">Agents</a>
+                    <a href="/admin/Content-Management-System.html" class="active">Content</a>
+                    <a href="/admin/Finance-Billing.html">Finance</a>
+                    <a href="/admin/Reports.html">Reports</a>
+                    <a href="/admin/Communication-Tools.html">Communication</a>
+                    <a href="/admin/Settings.html">Settings</a>
+                </nav>
+
+                <div class="user-actions">
+                    <button class="btn btn-outline"><i class="fas fa-cog"></i> Settings</button>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Content</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Management System -->
+    <section class="cms-management">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Content Management System</h2>
+                    <p>Manage all non-listing content on the site including news, pages, and promotional banners.</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-outline">Refresh</button>
+                    <button class="btn btn-primary">Export Data</button>
+                </div>
+            </div>
+
+            <div class="cms-tabs">
+                <div class="cms-tab active">News & Articles</div>
+                <div class="cms-tab">Static Pages</div>
+                <div class="cms-tab">Banners & Ads</div>
+            </div>
+
+            <div class="filters-bar">
+                <div class="search-filter">
+                    <input type="text" placeholder="Search content..." class="search-input">
+                    <select class="filter-select">
+                        <option>All Status</option>
+                        <option>Published</option>
+                        <option>Draft</option>
+                        <option>Scheduled</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Categories</option>
+                        <option>Market Reports</option>
+                        <option>Buying Guides</option>
+                        <option>News</option>
+                        <option>Company Updates</option>
+                    </select>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-outline"><i class="fas fa-filter"></i> Advanced Filters</button>
+                    <button class="btn btn-primary" onclick="openContentModal('article')"><i class="fas fa-plus"></i>
+                        New Article</button>
+                </div>
+            </div>
+
+            <div class="content-table-container">
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Author</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="content-title">Market Report: Q3 2023 Trends in Phnom Penh</div>
+                            </td>
+                            <td>Market Report</td>
+                            <td><span class="content-status status-published">Published</span></td>
+                            <td>
+                                <div class="author-info">
+                                    <div class="author-avatar">JS</div>
+                                    <div class="author-name">James Wilson</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="content-date">Published: Sep 15, 2023</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openContentModal('article', 'Market Report: Q3 2023 Trends in Phnom Penh')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openContentModal('article', 'Market Report: Q3 2023 Trends in Phnom Penh', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="content-title">How to Buy Property in Cambodia: A Complete Guide</div>
+                            </td>
+                            <td>Buying Guide</td>
+                            <td><span class="content-status status-published">Published</span></td>
+                            <td>
+                                <div class="author-info">
+                                    <div class="author-avatar">LC</div>
+                                    <div class="author-name">Lisa Chen</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="content-date">Published: Aug 28, 2023</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openContentModal('article', 'How to Buy Property in Cambodia: A Complete Guide')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openContentModal('article', 'How to Buy Property in Cambodia: A Complete Guide', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="content-title">Living in Toul Kork: Neighborhood Guide</div>
+                            </td>
+                            <td>Buying Guide</td>
+                            <td><span class="content-status status-published">Published</span></td>
+                            <td>
+                                <div class="author-info">
+                                    <div class="author-avatar">TK</div>
+                                    <div class="author-name">Thomas Kim</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="content-date">Published: Jul 10, 2023</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openContentModal('article', 'Living in Toul Kork: Neighborhood Guide')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openContentModal('article', 'Living in Toul Kork: Neighborhood Guide', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="content-title">New Condo Developments Launching in Q4 2023</div>
+                            </td>
+                            <td>News</td>
+                            <td><span class="content-status status-scheduled">Scheduled</span></td>
+                            <td>
+                                <div class="author-info">
+                                    <div class="author-avatar">MJ</div>
+                                    <div class="author-name">Maria Johnson</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="content-date">Scheduled: Oct 1, 2023</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openContentModal('article', 'New Condo Developments Launching in Q4 2023')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openContentModal('article', 'New Condo Developments Launching in Q4 2023', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn publish-btn"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="content-title">Peanech.com Launches New Mobile App</div>
+                            </td>
+                            <td>Company Update</td>
+                            <td><span class="content-status status-draft">Draft</span></td>
+                            <td>
+                                <div class="author-info">
+                                    <div class="author-avatar">AS</div>
+                                    <div class="author-name">Alex Smith</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="content-date">Last edited: Sep 5, 2023</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openContentModal('article', 'Peanech.com Launches New Mobile App')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openContentModal('article', 'Peanech.com Launches New Mobile App', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn publish-btn"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="content-title">Investment Opportunities in Siem Reap</div>
+                            </td>
+                            <td>Market Report</td>
+                            <td><span class="content-status status-draft">Draft</span></td>
+                            <td>
+                                <div class="author-info">
+                                    <div class="author-avatar">SK</div>
+                                    <div class="author-name">Sarah Kim</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="content-date">Last edited: Sep 1, 2023</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openContentModal('article', 'Investment Opportunities in Siem Reap')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openContentModal('article', 'Investment Opportunities in Siem Reap', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn publish-btn"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; color: var(--gray); font-size: 0.875rem;">
+                <div>
+                    Showing 1-6 of 42 content items
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Previous</button>
+                    <button
+                        style="padding: 0.5rem 1rem; background-color: var(--primary); color: white; border: none; border-radius: 0.375rem;">1</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Editor Modal -->
+    <div id="contentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-pen"></i> <span id="modalContentTitle">Edit Article</span></h3>
+                <button class="close-modal" onclick="closeContentModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="editor-grid">
+                    <div>
+                        <div class="form-group">
+                            <label for="contentTitle">Title</label>
+                            <input type="text" id="contentTitle" class="form-control"
+                                value="Market Report: Q3 2023 Trends in Phnom Penh">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contentSlug">URL Slug</label>
+                            <input type="text" id="contentSlug" class="form-control"
+                                value="market-report-q3-2023-trends-phnom-penh">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contentExcerpt">Excerpt</label>
+                            <textarea id="contentExcerpt"
+                                class="form-control textarea-control">An in-depth analysis of the Phnom Penh real estate market in Q3 2023, covering price movements, demand patterns, and future projections.</textarea>
+                        </div>
+
+                        <div class="section-title"><i class="fas fa-pen-fancy"></i> Content Editor</div>
+                        <div class="editor-container">
+                            <div class="editor-toolbar">
+                                <button class="toolbar-btn"><i class="fas fa-bold"></i></button>
+                                <button class="toolbar-btn"><i class="fas fa-italic"></i></button>
+                                <button class="toolbar-btn"><i class="fas fa-underline"></i></button>
+                                <button class="toolbar-btn"><i class="fas fa-list-ul"></i></button>
+                                <button class="toolbar-btn"><i class="fas fa-list-ol"></i></button>
+                                <button class="toolbar-btn"><i class="fas fa-link"></i></button>
+                                <button class="toolbar-btn"><i class="fas fa-image"></i></button>
+                                <button class="toolbar-btn"><i class="fas fa-heading"></i></button>
+                                <button class="toolbar-btn"><i class="fas fa-quote-left"></i></button>
+                                <button class="toolbar-btn"><i class="fas fa-code"></i></button>
+                            </div>
+                            <div class="editor-content" contenteditable="true">
+                                <h2>Market Report: Q3 2023 Trends in Phnom Penh</h2>
+                                <p>The Phnom Penh real estate market has shown significant resilience in Q3 2023 despite
+                                    global economic uncertainties. This report provides a comprehensive analysis of
+                                    current market conditions, price movements, and demand patterns.</p>
+
+                                <h3>Price Trends</h3>
+                                <p>Average property prices in Phnom Penh have increased by 3.2% quarter-over-quarter,
+                                    with luxury condos in central districts showing the highest growth at 5.8%. The
+                                    premium segment continues to attract foreign investors, particularly from China,
+                                    South Korea, and Singapore.</p>
+
+                                <h3>Demand Patterns</h3>
+                                <p>There has been a noticeable shift in buyer preferences, with increased demand for
+                                    properties with home offices and green spaces. The rental market remains strong,
+                                    with vacancy rates below 5% for quality apartments in central locations.</p>
+
+                                <h3>Future Projections</h3>
+                                <p>Market analysts predict continued moderate growth in the second half of 2023, driven
+                                    by infrastructure development and foreign direct investment. However, rising
+                                    interest rates may temper demand in the mid-range segment.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="sidebar-section">
+                            <div class="publish-options">
+                                <h4 class="section-title"><i class="fas fa-paper-plane"></i> Publish</h4>
+                                <div class="status-selector">
+                                    <div class="status-option selected">
+                                        <div><i class="fas fa-check-circle"></i></div>
+                                        <div>Published</div>
+                                    </div>
+                                    <div class="status-option">
+                                        <div><i class="fas fa-save"></i></div>
+                                        <div>Draft</div>
+                                    </div>
+                                    <div class="status-option">
+                                        <div><i class="fas fa-clock"></i></div>
+                                        <div>Scheduled</div>
+                                    </div>
+                                </div>
+
+                                <div class="schedule-input">
+                                    <label for="publishDate">Publish Date & Time</label>
+                                    <div class="date-time-group">
+                                        <input type="date" id="publishDate" class="form-control" value="2023-09-15">
+                                        <input type="time" id="publishTime" class="form-control" value="10:00">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="featured-image">
+                                <h4 class="section-title"><i class="fas fa-image"></i> Featured Image</h4>
+                                <div class="image-preview">
+                                    <img src="https://placehold.co/800x400/2563eb/ffffff?text=Market+Report+Q3+2023"
+                                        alt="Market Report Q3 2023">
+                                </div>
+                                <button class="upload-btn">
+                                    <i class="fas fa-upload"></i> Upload New Image
+                                </button>
+                            </div>
+
+                            <div class="categories-tags">
+                                <h4 class="section-title"><i class="fas fa-tags"></i> Categories & Tags</h4>
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select id="category" class="form-control">
+                                        <option value="market-report" selected>Market Report</option>
+                                        <option value="buying-guide">Buying Guide</option>
+                                        <option value="news">News</option>
+                                        <option value="company-update">Company Update</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Tags</label>
+                                    <div class="tag-input">
+                                        <div class="tag">
+                                            Phnom Penh
+                                            <i class="tag-remove fas fa-times"></i>
+                                        </div>
+                                        <div class="tag">
+                                            Market Trends
+                                            <i class="tag-remove fas fa-times"></i>
+                                        </div>
+                                        <div class="tag">
+                                            Q3 2023
+                                            <i class="tag-remove fas fa-times"></i>
+                                        </div>
+                                        <input type="text" placeholder="Add a tag...">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="seo-settings">
+                                <h4 class="section-title"><i class="fas fa-search"></i> SEO Settings</h4>
+                                <div class="seo-preview">
+                                    <div class="seo-title">Market Report: Q3 2023 Trends in Phnom Penh | Peanech.com
+                                    </div>
+                                    <div class="seo-url">https://peanech.com/market-report-q3-2023-trends-phnom-penh
+                                    </div>
+                                    <div class="seo-description">An in-depth analysis of the Phnom Penh real estate
+                                        market in Q3 2023, covering price movements, demand patterns, and future
+                                        projections.</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="seoTitle">SEO Title</label>
+                                    <input type="text" id="seoTitle" class="form-control"
+                                        value="Market Report: Q3 2023 Trends in Phnom Penh | Peanech.com">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="seoDescription">Meta Description</label>
+                                    <textarea id="seoDescription"
+                                        class="form-control textarea-control">An in-depth analysis of the Phnom Penh real estate market in Q3 2023, covering price movements, demand patterns, and future projections.</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel" onclick="closeContentModal()">Cancel</button>
+                <button class="btn-modal btn-save">Save Draft</button>
+                <button class="btn-modal btn-publish">Publish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 2rem 0; margin-top: 2rem;">
+        <div class="container" style="text-align: center;">
+            <p>Peanech.com Admin Dashboard &copy; 2023. All rights reserved.</p>
+            <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem;">Internal use only.
+                Unauthorized access prohibited.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.user-actions').classList.toggle('show');
+        });
+
+        // Open content modal
+        function openContentModal(contentType, title = '', isEditing = false) {
+            document.getElementById('modalContentTitle').textContent = isEditing ? `Edit ${title}` : `New ${contentType.charAt(0).toUpperCase() + contentType.slice(1)}`;
+            document.getElementById('contentModal').style.display = 'flex';
+
+            if (title) {
+                document.getElementById('contentTitle').value = title;
+            }
+        }
+
+        // Close content modal
+        function closeContentModal() {
+            document.getElementById('contentModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('contentModal');
+            if (event.target == modal) {
+                closeContentModal();
+            }
+        }
+
+        // Add content functionality
+        document.querySelector('.btn-primary').addEventListener('click', function (e) {
+            if (e.target.textContent.includes('New Article')) {
+                openContentModal('article');
+            }
+        });
+
+        // Delete content functionality
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const contentTitle = this.closest('tr')?.querySelector('.content-title')?.textContent;
+
+                if (confirm(`Are you sure you want to delete "${contentTitle}"? This action cannot be undone.`)) {
+                    alert(`Content "${contentTitle}" has been deleted.`);
+                }
+            });
+        });
+
+        // Publish content functionality
+        document.querySelectorAll('.publish-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const contentTitle = this.closest('tr')?.querySelector('.content-title')?.textContent;
+
+                alert(`Content "${contentTitle}" has been published and is now live on the website.`);
+            });
+        });
+
+        // Status option selection
+        document.querySelectorAll('.status-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('.status-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Tag removal
+        document.querySelectorAll('.tag-remove').forEach(removeBtn => {
+            removeBtn.addEventListener('click', function () {
+                this.closest('.tag').remove();
+            });
+        });
+
+        // Add new tag
+        document.querySelector('.tag-input input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && this.value.trim() !== '') {
+                const tagContainer = this.parentElement;
+                const newTag = document.createElement('div');
+                newTag.className = 'tag';
+                newTag.innerHTML = `${this.value} <i class="tag-remove fas fa-times"></i>`;
+
+                tagContainer.insertBefore(newTag, this);
+                this.value = '';
+
+                // Add event listener to the new remove button
+                newTag.querySelector('.tag-remove').addEventListener('click', function () {
+                    this.closest('.tag').remove();
+                });
+            }
+        });
+
+        // Upload featured image
+        document.querySelector('.upload-btn').addEventListener('click', function () {
+            alert('This would open a file upload dialog to select a new featured image.');
+        });
+    </script>
+</body>
+
+</html>

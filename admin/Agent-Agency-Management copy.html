@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com Admin Dashboard - Agent & Agency Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .admin-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: #0f172a;
+            font-size: 0.875rem;
+        }
+
+        .admin-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-bar a:hover {
+            color: white;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+            background-color: var(--dark);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+            padding: 0.5rem 0;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+            border-bottom-color: var(--secondary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Agent Management Module */
+        .agent-management {
+            padding: 2rem 0 4rem;
+            background-color: #f1f5f9;
+        }
+
+        .filters-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .search-filter {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background-color: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 1rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Agents Tabs */
+        .agents-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+            box-shadow: var(--shadow);
+        }
+
+        .agents-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .agents-tab.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .agents-tab:hover:not(.active) {
+            background-color: var(--light-gray);
+        }
+
+        .tab-badge {
+            margin-left: 0.5rem;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-pending {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        /* Agents Table */
+        .agents-table-container {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .agents-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .agents-table th {
+            text-align: left;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .agents-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .agents-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .agents-table tr:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .agent-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .agent-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .agency-name {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .agent-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-verified {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-pending {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .status-suspended {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+        }
+
+        .subscription-info {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .subscription-tier {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        .tier-basic {
+            background-color: rgba(156, 163, 175, 0.1);
+            color: #6b7280;
+        }
+
+        .tier-premium {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .tier-gold {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .action-buttons-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .action-btn:hover {
+            background-color: var(--border);
+            color: var(--dark);
+        }
+
+        .edit-btn {
+            color: var(--primary);
+        }
+
+        .edit-btn:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .verify-btn {
+            color: var(--secondary);
+        }
+
+        .verify-btn:hover {
+            background-color: rgba(5, 150, 105, 0.1);
+        }
+
+        .suspend-btn {
+            color: #dc2626;
+        }
+
+        .suspend-btn:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        /* Agency Profile Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0.25rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .close-modal:hover {
+            background-color: var(--light-gray);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .verification-docs {
+            margin-top: 1rem;
+        }
+
+        .doc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            background-color: var(--light-gray);
+        }
+
+        .doc-name {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .doc-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-approved {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-pending {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .status-rejected {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .doc-btn {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            background-color: var(--border);
+            color: var(--dark);
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .doc-btn.view {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .doc-btn.approve {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .doc-btn.reject {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .subscription-details {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+        }
+
+        .subscription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .current-tier {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .tier-gold {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        .features-list {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .features-list li {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .renewal-date {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .billing-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .billing-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .upgrade-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .upgrade-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .invoice-btn {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+
+        .invoice-btn:hover {
+            background-color: var(--border);
+        }
+
+        /* Performance Analytics */
+        .analytics-container {
+            margin-top: 1.5rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-card {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .metric-label {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .chart-container {
+            height: 300px;
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-bar {
+            position: absolute;
+            bottom: 40px;
+            width: 30px;
+            background-color: var(--primary);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+
+        .chart-y-axis {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 40px;
+            width: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .y-label {
+            text-align: right;
+            padding-right: 0.5rem;
+        }
+
+        .leads-chart {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+        }
+
+        .leads-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .leads-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .leads-timeframe {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .leads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .lead-item {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        .lead-user {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .lead-property {
+            color: var(--gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .lead-time {
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+
+        .response-rate {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .rate-value {
+            color: var(--secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .user-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--dark);
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .user-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 1.5rem 0;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .agents-table th,
+            .agents-table td {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+
+            .agent-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .agent-avatar {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .admin-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 1rem;
+            }
+
+            .subscription-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .billing-actions {
+                flex-direction: column;
+            }
+
+            .billing-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Admin Bar -->
+    <div class="admin-bar">
+        <div class="left">
+            <a href="/admin/"><i class="fas fa-lock"></i> Admin Dashboard</a>
+            <a href="/"><i class="fas fa-home"></i> View Public Site</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fas fa-bell"></i> Notifications <span
+                    style="background-color: var(--secondary); color: white; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.75rem;">3</span></a>
+            <a href="#"><i class="fas fa-user-circle"></i> Admin User</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="#" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="/admin/Admin-Dashboard.html">Dashboard</a>
+                    <a href="/admin/Property-Listings-Management.html">Listings</a>
+                    <a href="/admin/User-Management.html">Users</a>
+                    <a href="/admin/Agent-Agency-Management.html" class="active">Agents</a>
+                    <a href="/admin/Content-Management-System.html">Content</a>
+                    <a href="/admin/Finance-Billing.html">Finance</a>
+                    <a href="/admin/Reports.html">Reports</a>
+                    <a href="/admin/Communication-Tools.html">Communication</a>
+                    <a href="/admin/Settings.html">Settings</a>
+                </nav>
+
+                <div class="user-actions">
+                    <button class="btn btn-outline"><i class="fas fa-cog"></i> Settings</button>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Agency</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Agent & Agency Management -->
+    <section class="agent-management">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Agent & Agency Management</h2>
+                    <p>Manage business accounts, verify credentials, and track performance metrics.</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-outline">Refresh</button>
+                    <button class="btn btn-primary">Export Data</button>
+                </div>
+            </div>
+
+            <div class="agents-tabs">
+                <div class="agents-tab active">All Agencies</div>
+                <div class="agents-tab">Verified <span
+                        style="background-color: rgba(5, 150, 105, 0.1); color: var(--secondary); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">128</span>
+                </div>
+                <div class="agents-tab">Pending Verification <span class="tab-badge badge-pending">14</span></div>
+                <div class="agents-tab">Suspended <span
+                        style="background-color: rgba(220, 38, 38, 0.1); color: #dc2626; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">5</span>
+                </div>
+            </div>
+
+            <div class="filters-bar">
+                <div class="search-filter">
+                    <input type="text" placeholder="Search agencies or agents..." class="search-input">
+                    <select class="filter-select">
+                        <option>All Subscription Plans</option>
+                        <option>Basic</option>
+                        <option>Premium</option>
+                        <option>Gold</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Status</option>
+                        <option>Verified</option>
+                        <option>Pending</option>
+                        <option>Suspended</option>
+                    </select>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-outline"><i class="fas fa-filter"></i> Advanced Filters</button>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Agency</button>
+                </div>
+            </div>
+
+            <div class="agents-table-container">
+                <table class="agents-table">
+                    <thead>
+                        <tr>
+                            <th>Agency & Agent</th>
+                            <th>Contact</th>
+                            <th>Verification</th>
+                            <th>Subscription</th>
+                            <th>Performance</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">CB</div>
+                                    <div>
+                                        <div class="agent-name">CBRE Cambodia</div>
+                                        <div class="agency-name">John Wilson, Lead Agent</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 12 345 678</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">info@cbrecambodia.com</div>
+                            </td>
+                            <td><span class="agent-status status-verified">Verified</span></td>
+                            <td>
+                                <div class="subscription-info">Gold Plan</div>
+                                <div class="subscription-tier tier-gold">Gold</div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark); font-weight: 600;">47 listings</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">12.4K views, 47 leads</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openAgencyModal('CBRE Cambodia')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openAgencyModal('CBRE Cambodia', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">KF</div>
+                                    <div>
+                                        <div class="agent-name">Knight Frank</div>
+                                        <div class="agency-name">Lisa Chen, Senior Agent</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 92 456 789</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">info@knightfrank.com.kh</div>
+                            </td>
+                            <td><span class="agent-status status-verified">Verified</span></td>
+                            <td>
+                                <div class="subscription-info">Premium Plan</div>
+                                <div class="subscription-tier tier-premium">Premium</div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark); font-weight: 600;">38 listings</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">9.8K views, 32 leads</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openAgencyModal('Knight Frank')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openAgencyModal('Knight Frank', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">VT</div>
+                                    <div>
+                                        <div class="agent-name">VTrust Group</div>
+                                        <div class="agency-name">Thomas Kim, Founder</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 85 789 123</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">contact@vtrustgroup.com</div>
+                            </td>
+                            <td><span class="agent-status status-pending">Pending</span></td>
+                            <td>
+                                <div class="subscription-info">Basic Plan</div>
+                                <div class="subscription-tier tier-basic">Basic</div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark); font-weight: 600;">24 listings</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">5.2K views, 18 leads</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openAgencyModal('VTrust Group')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn verify-btn"
+                                        onclick="openAgencyModal('VTrust Group', true)"><i
+                                            class="fas fa-check"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">PC</div>
+                                    <div>
+                                        <div class="agent-name">Property Cambodia</div>
+                                        <div class="agency-name">Maria Johnson, Director</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 77 234 567</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">hello@propertycambodia.com</div>
+                            </td>
+                            <td><span class="agent-status status-verified">Verified</span></td>
+                            <td>
+                                <div class="subscription-info">Gold Plan</div>
+                                <div class="subscription-tier tier-gold">Gold</div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark); font-weight: 600;">52 listings</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">14.1K views, 56 leads</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openAgencyModal('Property Cambodia')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openAgencyModal('Property Cambodia', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">HG</div>
+                                    <div>
+                                        <div class="agent-name">Habitat Group</div>
+                                        <div class="agency-name">Alex Smith, Sales Manager</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 16 876 543</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">sales@habitatgroup.com</div>
+                            </td>
+                            <td><span class="agent-status status-pending">Pending</span></td>
+                            <td>
+                                <div class="subscription-info">Premium Plan</div>
+                                <div class="subscription-tier tier-premium">Premium</div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark); font-weight: 600;">31 listings</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">7.6K views, 24 leads</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openAgencyModal('Habitat Group')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn verify-btn"
+                                        onclick="openAgencyModal('Habitat Group', true)"><i
+                                            class="fas fa-check"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">RC</div>
+                                    <div>
+                                        <div class="agent-name">Realty Cambodia</div>
+                                        <div class="agency-name">Sarah Kim, Principal</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 96 321 456</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">info@realtycambodia.com</div>
+                            </td>
+                            <td><span class="agent-status status-verified">Verified</span></td>
+                            <td>
+                                <div class="subscription-info">Basic Plan</div>
+                                <div class="subscription-tier tier-basic">Basic</div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark); font-weight: 600;">18 listings</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">3.8K views, 12 leads</div>
+                            </td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openAgencyModal('Realty Cambodia')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openAgencyModal('Realty Cambodia', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; color: var(--gray); font-size: 0.875rem;">
+                <div>
+                    Showing 1-6 of 147 agencies
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Previous</button>
+                    <button
+                        style="padding: 0.5rem 1rem; background-color: var(--primary); color: white; border: none; border-radius: 0.375rem;">1</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agency Profile Modal -->
+    <div id="agencyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-building"></i> <span id="modalAgencyName">Agency Profile</span>
+                </h3>
+                <button class="close-modal" onclick="closeAgencyModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-grid">
+                    <div>
+                        <div class="section-title"><i class="fas fa-user-tie"></i> Agency Information</div>
+                        <div class="form-group">
+                            <label for="agencyName">Agency Name</label>
+                            <input type="text" id="agencyName" class="form-control" value="CBRE Cambodia">
+                        </div>
+                        <div class="form-group">
+                            <label for="agencyEmail">Email Address</label>
+                            <input type="email" id="agencyEmail" class="form-control" value="info@cbrecambodia.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="agencyPhone">Phone Number</label>
+                            <input type="text" id="agencyPhone" class="form-control" value="+855 12 345 678">
+                        </div>
+                        <div class="form-group">
+                            <label for="agencyWebsite">Website</label>
+                            <input type="text" id="agencyWebsite" class="form-control"
+                                value="https://www.cbrecambodia.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="agencyAddress">Address</label>
+                            <input type="text" id="agencyAddress" class="form-control"
+                                value="Level 15, Vattanac Capital, Corner of Monivong Blvd & Norodom Blvd, Phnom Penh">
+                        </div>
+
+                        <div class="section-title"><i class="fas fa-user"></i> Primary Contact</div>
+                        <div class="form-group">
+                            <label for="contactName">Contact Name</label>
+                            <input type="text" id="contactName" class="form-control" value="John Wilson">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactTitle">Title</label>
+                            <input type="text" id="contactTitle" class="form-control" value="Lead Agent">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">Contact Email</label>
+                            <input type="email" id="contactEmail" class="form-control"
+                                value="john.wilson@cbrecambodia.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">Contact Phone</label>
+                            <input type="text" id="contactPhone" class="form-control" value="+855 12 345 678">
+                        </div>
+
+                        <div class="section-title"><i class="fas fa-file-contract"></i> Team Members (8)</div>
+                        <div style="background-color: var(--light-gray); border-radius: 0.375rem; padding: 1rem;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
+                                <div style="font-weight: 600; color: var(--dark);">John Wilson</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Lead Agent</div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
+                                <div style="font-weight: 600; color: var(--dark);">Lisa Chen</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Senior Agent</div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
+                                <div style="font-weight: 600; color: var(--dark);">Thomas Kim</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Agent</div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+                                <div style="font-weight: 600; color: var(--dark);">Maria Johnson</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Agent</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="verification-details">
+                            <h4 class="section-title"><i class="fas fa-certificate"></i> Verification System</h4>
+                            <p style="color: var(--gray); font-size: 0.875rem; margin-bottom: 1rem;">Review and verify
+                                agency credentials and documentation.</p>
+
+                            <div class="verification-docs">
+                                <div class="doc-item">
+                                    <div>
+                                        <div class="doc-name">Business License</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">License #CBRE2023-001
+                                        </div>
+                                    </div>
+                                    <div class="doc-status status-approved">Approved</div>
+                                    <div class="doc-actions">
+                                        <button class="doc-btn view"><i class="fas fa-eye"></i> View</button>
+                                    </div>
+                                </div>
+
+                                <div class="doc-item">
+                                    <div>
+                                        <div class="doc-name">Tax Registration</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">Document #TAX2023-045
+                                        </div>
+                                    </div>
+                                    <div class="doc-status status-approved">Approved</div>
+                                    <div class="doc-actions">
+                                        <button class="doc-btn view"><i class="fas fa-eye"></i> View</button>
+                                    </div>
+                                </div>
+
+                                <div class="doc-item">
+                                    <div>
+                                        <div class="doc-name">Professional Certification</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">Certification #PRO2023-078
+                                        </div>
+                                    </div>
+                                    <div class="doc-status status-approved">Approved</div>
+                                    <div class="doc-actions">
+                                        <button class="doc-btn view"><i class="fas fa-eye"></i> View</button>
+                                    </div>
+                                </div>
+
+                                <div class="doc-item">
+                                    <div>
+                                        <div class="doc-name">Bank Account Verification</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">Bank: ABA Bank</div>
+                                    </div>
+                                    <div class="doc-status status-approved">Approved</div>
+                                    <div class="doc-actions">
+                                        <button class="doc-btn view"><i class="fas fa-eye"></i> View</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                style="margin-top: 1rem; padding: 1rem; background-color: rgba(37, 99, 235, 0.1); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: 0.375rem; font-size: 0.875rem;">
+                                <div style="font-weight: 600; color: var(--primary);">Verification Status</div>
+                                <div style="color: var(--dark); margin-top: 0.25rem;">This agency has been fully
+                                    verified and approved to list properties.</div>
+                                <div style="color: var(--gray); font-size: 0.75rem; margin-top: 0.25rem;">Verified on:
+                                    March 15, 2023 by Admin User #001</div>
+                            </div>
+                        </div>
+
+                        <div class="subscription-details">
+                            <div class="subscription-header">
+                                <div>
+                                    <div class="current-tier">Current Subscription</div>
+                                    <div class="tier-gold">GOLD PLAN</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div class="price">$299/month</div>
+                                    <div class="renewal-date">Next renewal: May 15, 2023</div>
+                                </div>
+                            </div>
+
+                            <div style="margin: 1rem 0;">
+                                <strong>Plan Features:</strong>
+                                <ul class="features-list">
+                                    <li>Up to 50 property listings</li>
+                                    <li>Featured listings (5 per month)</li>
+                                    <li>Premium placement in search results</li>
+                                    <li>Analytics dashboard access</li>
+                                    <li>Dedicated support</li>
+                                </ul>
+                            </div>
+
+                            <div class="billing-actions">
+                                <button class="billing-btn upgrade-btn"><i class="fas fa-level-up-alt"></i> Upgrade
+                                    Plan</button>
+                                <button class="billing-btn invoice-btn"><i class="fas fa-file-invoice"></i> View
+                                    Invoices</button>
+                            </div>
+                        </div>
+
+                        <div class="analytics-container">
+                            <h4 class="section-title"><i class="fas fa-chart-bar"></i> Performance Analytics</h4>
+
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-value">47</div>
+                                    <div class="metric-label">Total Listings</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-value">12.4K</div>
+                                    <div class="metric-label">Total Views</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-value">47</div>
+                                    <div class="metric-label">Leads Generated</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-value">92%</div>
+                                    <div class="metric-label">Response Rate</div>
+                                </div>
+                            </div>
+
+                            <div class="chart-container">
+                                <div class="chart-y-axis">
+                                    <div class="y-label">14K</div>
+                                    <div class="y-label">10K</div>
+                                    <div class="y-label">6K</div>
+                                    <div class="y-label">2K</div>
+                                    <div class="y-label">0</div>
+                                </div>
+                                <div class="chart-bar" style="height: 120px; left: 10%;"></div>
+                                <div class="chart-bar" style="height: 140px; left: 25%;"></div>
+                                <div class="chart-bar" style="height: 100px; left: 40%;"></div>
+                                <div class="chart-bar" style="height: 160px; left: 55%;"></div>
+                                <div class="chart-bar" style="height: 130px; left: 70%;"></div>
+                                <div class="chart-bar" style="height: 150px; left: 85%;"></div>
+
+                                <div class="chart-labels">
+                                    <span>Jan</span>
+                                    <span>Feb</span>
+                                    <span>Mar</span>
+                                    <span>Apr</span>
+                                    <span>May</span>
+                                    <span>Jun</span>
+                                </div>
+                            </div>
+
+                            <div class="leads-chart">
+                                <div class="leads-header">
+                                    <div class="leads-title">Recent Leads (Last 7 Days)</div>
+                                    <div class="leads-timeframe">47 leads</div>
+                                </div>
+
+                                <div class="leads-grid">
+                                    <div class="lead-item">
+                                        <div class="lead-user">James Wilson</div>
+                                        <div class="lead-property">Luxury Villa, Toul Kork</div>
+                                        <div class="lead-time">Today, 10:30 AM</div>
+                                    </div>
+                                    <div class="lead-item">
+                                        <div class="lead-user">Lisa Chen</div>
+                                        <div class="lead-property">Ocean View Condo, Sihanoukville</div>
+                                        <div class="lead-time">Yesterday, 3:45 PM</div>
+                                    </div>
+                                    <div class="lead-item">
+                                        <div class="lead-user">Thomas Kim</div>
+                                        <div class="lead-property">Prime Land, Siem Reap</div>
+                                        <div class="lead-time">Apr 10, 2023</div>
+                                    </div>
+                                </div>
+
+                                <div class="response-rate">
+                                    <i class="fas fa-reply" style="color: var(--secondary);"></i>
+                                    <span>Response Rate: <span class="rate-value">92%</span> (43/47)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel" onclick="closeAgencyModal()">Cancel</button>
+                <button class="btn-modal btn-save">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 2rem 0; margin-top: 2rem;">
+        <div class="container" style="text-align: center;">
+            <p>Peanech.com Admin Dashboard &copy; 2023. All rights reserved.</p>
+            <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem;">Internal use only.
+                Unauthorized access prohibited.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.user-actions').classList.toggle('show');
+        });
+
+        // Open agency modal
+        function openAgencyModal(agencyName, isEditing = false) {
+            document.getElementById('modalAgencyName').textContent = agencyName;
+            document.getElementById('agencyModal').style.display = 'flex';
+
+            // Change button text based on mode
+            const saveButton = document.querySelector('.btn-save');
+            if (isEditing) {
+                saveButton.textContent = 'Save Changes';
+            } else {
+                saveButton.textContent = 'Close';
+                saveButton.classList.remove('btn-save');
+                saveButton.classList.add('btn-cancel');
+            }
+        }
+
+        // Close agency modal
+        function closeAgencyModal() {
+            document.getElementById('agencyModal').style.display = 'none';
+
+            // Reset button to default state
+            const saveButton = document.querySelector('.btn-modal');
+            saveButton.textContent = 'Save Changes';
+            saveButton.classList.remove('btn-cancel');
+            saveButton.classList.add('btn-save');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('agencyModal');
+            if (event.target == modal) {
+                closeAgencyModal();
+            }
+        }
+
+        // Add agency functionality
+        document.querySelector('.btn-primary').addEventListener('click', function (e) {
+            if (e.target.textContent.includes('Add Agency')) {
+                alert('This would open a form to add a new agency to the platform.');
+            }
+        });
+
+        // Suspend agency functionality
+        document.querySelectorAll('.suspend-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const agencyName = this.closest('tr')?.querySelector('.agent-name')?.textContent ||
+                    this.closest('.modal-body')?.querySelector('#agencyName')?.value;
+
+                if (confirm(`Are you sure you want to suspend ${agencyName}'s account? This will prevent them from listing properties and accessing premium features.`)) {
+                    alert(`${agencyName}'s account has been suspended.`);
+                }
+            });
+        });
+
+        // Verify agency functionality
+        document.querySelectorAll('.verify-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const agencyName = this.closest('tr')?.querySelector('.agent-name')?.textContent;
+
+                if (confirm(`Are you sure you want to verify ${agencyName}? This will approve their credentials and activate their premium features.`)) {
+                    alert(`${agencyName} has been verified and approved.`);
+                }
+            });
+        });
+
+        // Upgrade plan functionality
+        document.querySelector('.upgrade-btn').addEventListener('click', function () {
+            const agencyName = document.getElementById('modalAgencyName').textContent;
+            alert(`This would open a form to upgrade ${agencyName}'s subscription plan.`);
+        });
+
+        // View invoices functionality
+        document.querySelector('.invoice-btn').addEventListener('click', function () {
+            const agencyName = document.getElementById('modalAgencyName').textContent;
+            alert(`This would show all invoices for ${agencyName}.`);
+        });
+
+        // Initialize chart bars with animation
+        document.querySelectorAll('.chart-bar').forEach(bar => {
+            const originalHeight = bar.style.height;
+            bar.style.height = '0px';
+            setTimeout(() => {
+                bar.style.height = originalHeight;
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

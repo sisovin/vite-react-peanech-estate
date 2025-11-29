@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com Admin Dashboard - Financial & Billing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .admin-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: #0f172a;
+            font-size: 0.875rem;
+        }
+
+        .admin-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-bar a:hover {
+            color: white;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+            background-color: var(--dark);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+            padding: 0.5rem 0;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+            border-bottom-color: var(--secondary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Financial Module */
+        .financial-management {
+            padding: 2rem 0 4rem;
+            background-color: #f1f5f9;
+        }
+
+        .financial-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+            box-shadow: var(--shadow);
+        }
+
+        .financial-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .financial-tab.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .financial-tab:hover:not(.active) {
+            background-color: var(--light-gray);
+        }
+
+        .filters-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .search-filter {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background-color: white;
+            appearance: none;
+            background-image: url("image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 1rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .card-content {
+            padding: 1.25rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .metric-label {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .trend-up {
+            color: var(--secondary);
+        }
+
+        .trend-down {
+            color: #dc2626;
+        }
+
+        /* Transactions Table */
+        .transactions-table-container {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transactions-table th {
+            text-align: left;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .transactions-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .transactions-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .transactions-table tr:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .transaction-type {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .transaction-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-completed {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-pending {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .status-failed {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .transaction-date {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .transaction-agency {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .action-buttons-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .action-btn:hover {
+            background-color: var(--border);
+            color: var(--dark);
+        }
+
+        .view-btn {
+            color: var(--primary);
+        }
+
+        .view-btn:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .invoice-btn {
+            color: var(--secondary);
+        }
+
+        .invoice-btn:hover {
+            background-color: rgba(5, 150, 105, 0.1);
+        }
+
+        .refund-btn {
+            color: #dc2626;
+        }
+
+        .refund-btn:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        /* Invoice Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0.25rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .close-modal:hover {
+            background-color: var(--light-gray);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .invoice-container {
+            background-color: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .invoice-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .invoice-logo span {
+            color: var(--secondary);
+        }
+
+        .invoice-details {
+            text-align: right;
+        }
+
+        .invoice-number {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .invoice-date {
+            color: var(--gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .invoice-due {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .invoice-to {
+            margin-bottom: 1.5rem;
+        }
+
+        .invoice-to-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .invoice-to-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .invoice-to-address {
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        .invoice-items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .invoice-items th {
+            text-align: left;
+            padding: 0.75rem;
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .invoice-items td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .invoice-items tr:last-child td {
+            border-bottom: none;
+        }
+
+        .invoice-total {
+            text-align: right;
+            font-size: 1.125rem;
+            margin-top: 1rem;
+        }
+
+        .total-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .total-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .invoice-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn-modal {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-cancel {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--border);
+        }
+
+        .btn-save {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-send {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-send:hover {
+            background-color: #047857;
+        }
+
+        /* Payout Management */
+        .payout-section {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            margin-top: 1.5rem;
+        }
+
+        .payout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .payout-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .payout-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .payout-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .payout-table th {
+            text-align: left;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .payout-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .payout-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .payout-tenant {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .payout-property {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .payout-amount {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .payout-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-hold {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .status-released {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: var(--secondary);
+        }
+
+        .payout-actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .payout-btn {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .release-btn {
+            color: var(--secondary);
+        }
+
+        .release-btn:hover {
+            background-color: rgba(5, 150, 105, 0.1);
+        }
+
+        .refund-btn {
+            color: #dc2626;
+        }
+
+        .refund-btn:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .user-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--dark);
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .user-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 1.5rem 0;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .transactions-table th,
+            .transactions-table td {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .admin-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 1rem;
+            }
+
+            .invoice-container {
+                padding: 1rem;
+            }
+
+            .invoice-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .invoice-details {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Admin Bar -->
+    <div class="admin-bar">
+        <div class="left">
+            <a href="/admin/"><i class="fas fa-lock"></i> Admin Dashboard</a>
+            <a href="/"><i class="fas fa-home"></i> View Public Site</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fas fa-bell"></i> Notifications <span
+                    style="background-color: var(--secondary); color: white; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.75rem;">3</span></a>
+            <a href="#"><i class="fas fa-user-circle"></i> Admin User</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="#" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="/admin/Admin-Dashboard.html">Dashboard</a>
+                    <a href="/admin/Property-Listings-Management.html">Listings</a>
+                    <a href="/admin/User-Management.html">Users</a>
+                    <a href="/admin/Agent-Agency-Management.html">Agents</a>
+                    <a href="/admin/Content-Management-System.html" >Content</a>
+                    <a href="/admin/Finance-Billing.html" class="active">Finance</a>
+                    <a href="/admin/Reports.html">Reports</a>
+                    <a href="/admin/Communication-Tools.html">Communication</a>
+                    <a href="/admin/Settings.html">Settings</a>
+                </nav>
+
+                <div class="user-actions">
+                    <button class="btn btn-outline"><i class="fas fa-cog"></i> Settings</button>
+                    <button class="btn btn-primary"><i class="fas fa-file-invoice"></i> Create Invoice</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Financial & Billing Module -->
+    <section class="financial-management">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Financial & Billing</h2>
+                    <p>Manage all financial transactions, invoices, and payouts for the platform.</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-outline">Refresh</button>
+                    <button class="btn btn-primary">Export Data</button>
+                </div>
+            </div>
+
+            <div class="financial-tabs">
+                <div class="financial-tab active">Transactions</div>
+                <div class="financial-tab">Invoices</div>
+                <div class="financial-tab">Payouts</div>
+            </div>
+
+            <div class="filters-bar">
+                <div class="search-filter">
+                    <input type="text" placeholder="Search transactions..." class="search-input">
+                    <select class="filter-select">
+                        <option>All Types</option>
+                        <option>Subscription</option>
+                        <option>Featured Listing</option>
+                        <option>Advertising</option>
+                        <option>Commission</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Status</option>
+                        <option>Completed</option>
+                        <option>Pending</option>
+                        <option>Failed</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>This Month</option>
+                        <option>Last Month</option>
+                        <option>This Quarter</option>
+                        <option>This Year</option>
+                        <option>All Time</option>
+                    </select>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-outline"><i class="fas fa-filter"></i> Advanced Filters</button>
+                    <button class="btn btn-primary" onclick="openInvoiceModal()"><i class="fas fa-file-invoice"></i>
+                        Create Invoice</button>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Revenue Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-wallet"></i>
+                        <span>Monthly Revenue</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-value">$247,890</div>
+                        <div class="metric-label">Total Revenue This Month</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>8.7% from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transactions Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-exchange-alt"></i>
+                        <span>Transaction Volume</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-value">187</div>
+                        <div class="metric-label">Transactions This Month</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12 new today</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Outstanding Invoices Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-clock"></i>
+                        <span>Outstanding Invoices</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-value">$42,350</div>
+                        <div class="metric-label">Total Amount Due</div>
+                        <div class="metric-trend trend-down">
+                            <i class="fas fa-clock"></i>
+                            <span>14 invoices overdue</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="transactions-table-container">
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Transaction</th>
+                            <th>Agency</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="transaction-type">Gold Subscription Plan</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">CBRE Cambodia</div>
+                            </td>
+                            <td>
+                                <div class="transaction-agency">CBRE Cambodia</div>
+                            </td>
+                            <td>
+                                <div class="transaction-date">Oct 15, 2023</div>
+                            </td>
+                            <td>
+                                <div class="transaction-amount">$299.00</div>
+                            </td>
+                            <td><span class="transaction-status status-completed">Completed</span></td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openInvoiceModal('INV-2023-1015')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn invoice-btn"><i class="fas fa-file-invoice"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="transaction-type">Featured Listing Fee</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Luxury Villa, Toul Kork</div>
+                            </td>
+                            <td>
+                                <div class="transaction-agency">Knight Frank</div>
+                            </td>
+                            <td>
+                                <div class="transaction-date">Oct 14, 2023</div>
+                            </td>
+                            <td>
+                                <div class="transaction-amount">$150.00</div>
+                            </td>
+                            <td><span class="transaction-status status-completed">Completed</span></td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openInvoiceModal('INV-2023-1014')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn invoice-btn"><i class="fas fa-file-invoice"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="transaction-type">Premium Subscription Plan</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">VTrust Group</div>
+                            </td>
+                            <td>
+                                <div class="transaction-agency">VTrust Group</div>
+                            </td>
+                            <td>
+                                <div class="transaction-date">Oct 12, 2023</div>
+                            </td>
+                            <td>
+                                <div class="transaction-amount">$199.00</div>
+                            </td>
+                            <td><span class="transaction-status status-completed">Completed</span></td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openInvoiceModal('INV-2023-1012')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn invoice-btn"><i class="fas fa-file-invoice"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="transaction-type">Advertising Package</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Banner Ad - Homepage</div>
+                            </td>
+                            <td>
+                                <div class="transaction-agency">Property Cambodia</div>
+                            </td>
+                            <td>
+                                <div class="transaction-date">Oct 10, 2023</div>
+                            </td>
+                            <td>
+                                <div class="transaction-amount">$500.00</div>
+                            </td>
+                            <td><span class="transaction-status status-completed">Completed</span></td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openInvoiceModal('INV-2023-1010')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn invoice-btn"><i class="fas fa-file-invoice"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="transaction-type">Commission Fee</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Property Sale - Ocean View Condo
+                                </div>
+                            </td>
+                            <td>
+                                <div class="transaction-agency">Habitat Group</div>
+                            </td>
+                            <td>
+                                <div class="transaction-date">Oct 8, 2023</div>
+                            </td>
+                            <td>
+                                <div class="transaction-amount">$8,500.00</div>
+                            </td>
+                            <td><span class="transaction-status status-completed">Completed</span></td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openInvoiceModal('INV-2023-1008')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn invoice-btn"><i class="fas fa-file-invoice"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="transaction-type">Gold Subscription Plan</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Realty Cambodia</div>
+                            </td>
+                            <td>
+                                <div class="transaction-agency">Realty Cambodia</div>
+                            </td>
+                            <td>
+                                <div class="transaction-date">Oct 5, 2023</div>
+                            </td>
+                            <td>
+                                <div class="transaction-amount">$299.00</div>
+                            </td>
+                            <td><span class="transaction-status status-pending">Pending</span></td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn" onclick="openInvoiceModal('INV-2023-1005')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn invoice-btn"><i class="fas fa-file-invoice"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; color: var(--gray); font-size: 0.875rem;">
+                <div>
+                    Showing 1-6 of 187 transactions
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Previous</button>
+                    <button
+                        style="padding: 0.5rem 1rem; background-color: var(--primary); color: white; border: none; border-radius: 0.375rem;">1</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next</button>
+                </div>
+            </div>
+
+            <!-- Payout Management Section -->
+            <div class="payout-section">
+                <div class="payout-header">
+                    <div class="payout-title">Security Deposit Management</div>
+                    <div class="payout-actions">
+                        <button class="btn btn-outline"><i class="fas fa-sync"></i> Refresh</button>
+                        <button class="btn btn-primary"><i class="fas fa-search"></i> Search Deposits</button>
+                    </div>
+                </div>
+
+                <table class="payout-table">
+                    <thead>
+                        <tr>
+                            <th>Tenant</th>
+                            <th>Property</th>
+                            <th>Lease Period</th>
+                            <th>Deposit Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="payout-tenant">James Wilson</div>
+                                <div class="payout-property">Modern Flat, BKK1</div>
+                            </td>
+                            <td>
+                                <div>Oct 1, 2023 - Sep 30, 2024</div>
+                            </td>
+                            <td>
+                                <div class="payout-amount">$2,400</div>
+                            </td>
+                            <td><span class="payout-status status-hold">Hold</span></td>
+                            <td>
+                                <div class="payout-actions-cell">
+                                    <button class="payout-btn release-btn"><i class="fas fa-hand-holding-usd"></i>
+                                        Release</button>
+                                    <button class="payout-btn refund-btn"><i class="fas fa-undo"></i> Refund</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="payout-tenant">Lisa Chen</div>
+                                <div class="payout-property">Ocean View Condo, Sihanoukville</div>
+                            </td>
+                            <td>
+                                <div>Sep 15, 2023 - Sep 14, 2024</div>
+                            </td>
+                            <td>
+                                <div class="payout-amount">$3,600</div>
+                            </td>
+                            <td><span class="payout-status status-hold">Hold</span></td>
+                            <td>
+                                <div class="payout-actions-cell">
+                                    <button class="payout-btn release-btn"><i class="fas fa-hand-holding-usd"></i>
+                                        Release</button>
+                                    <button class="payout-btn refund-btn"><i class="fas fa-undo"></i> Refund</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="payout-tenant">Thomas Kim</div>
+                                <div class="payout-property">Townhouse, 7 Makara</div>
+                            </td>
+                            <td>
+                                <div>Aug 1, 2023 - Jul 31, 2024</div>
+                            </td>
+                            <td>
+                                <div class="payout-amount">$4,200</div>
+                            </td>
+                            <td><span class="payout-status status-released">Released</span></td>
+                            <td>
+                                <div class="payout-actions-cell">
+                                    <button class="payout-btn view-btn"><i class="fas fa-eye"></i> View Details</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-file-invoice"></i> <span id="modalInvoiceTitle">Invoice
+                        Details</span></h3>
+                <button class="close-modal" onclick="closeInvoiceModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="invoice-container">
+                    <div class="invoice-header">
+                        <div>
+                            <div class="invoice-logo">Peanech<span>.com</span></div>
+                            <div style="color: var(--gray); margin-top: 0.5rem;">123 Business Tower, Phnom Penh</div>
+                            <div style="color: var(--gray);">+855 12 345 678</div>
+                            <div style="color: var(--gray);">billing@peanech.com</div>
+                        </div>
+                        <div class="invoice-details">
+                            <div class="invoice-number">Invoice #<span id="invoiceNumber">INV-2023-1015</span></div>
+                            <div class="invoice-date">Date: October 15, 2023</div>
+                            <div class="invoice-due">Due: October 30, 2023</div>
+                        </div>
+                    </div>
+
+                    <div class="invoice-to">
+                        <div class="invoice-to-label">Billed To:</div>
+                        <div class="invoice-to-name">CBRE Cambodia</div>
+                        <div class="invoice-to-address">
+                            Level 15, Vattanac Capital<br>
+                            Corner of Monivong Blvd & Norodom Blvd<br>
+                            Phnom Penh, Cambodia<br>
+                            contact@cbrecambodia.com
+                        </div>
+                    </div>
+
+                    <table class="invoice-items">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Gold Subscription Plan (Oct 15, 2023 - Nov 14, 2023)</td>
+                                <td>1</td>
+                                <td>$299.00</td>
+                                <td>$299.00</td>
+                            </tr>
+                            <tr>
+                                <td>Featured Listing: Luxury Villa, Toul Kork (7 days)</td>
+                                <td>1</td>
+                                <td>$150.00</td>
+                                <td>$150.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="invoice-total">
+                        <div class="total-label">Total Amount Due:</div>
+                        <div class="total-amount">$449.00</div>
+                    </div>
+
+                    <div class="invoice-footer">
+                        <div>Thank you for your business! Payment is due within 15 days.</div>
+                        <div style="margin-top: 0.5rem;">Payment Methods: Bank Transfer, Credit Card, ABA Pay</div>
+                    </div>
+                </div>
+
+                <div class="section-title"><i class="fas fa-info-circle"></i> Transaction Details</div>
+                <div
+                    style="background-color: var(--light-gray); padding: 1rem; border-radius: 0.375rem; margin-bottom: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div>
+                            <div style="font-weight: 600; color: var(--dark); margin-bottom: 0.5rem;">Transaction ID
+                            </div>
+                            <div style="color: var(--gray);">TXN-789456123</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: var(--dark); margin-bottom: 0.5rem;">Payment Method
+                            </div>
+                            <div style="color: var(--gray);">Credit Card (Visa)</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: var(--dark); margin-bottom: 0.5rem;">Payment Date</div>
+                            <div style="color: var(--gray);">October 15, 2023</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: var(--dark); margin-bottom: 0.5rem;">Status</div>
+                            <div style="color: var(--secondary); font-weight: 600;">Completed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title"><i class="fas fa-history"></i> Payment History</div>
+                <div style="background-color: var(--light-gray); padding: 1rem; border-radius: 0.375rem;">
+                    <div
+                        style="display: flex; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
+                        <div
+                            style="width: 32px; height: 32px; background-color: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">
+                            <i class="fas fa-check" style="color: var(--secondary);"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: var(--dark);">Payment Received</div>
+                            <div style="color: var(--gray); font-size: 0.875rem;">October 15, 2023 • $449.00</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; padding: 0.5rem 0;">
+                        <div
+                            style="width: 32px; height: 32px; background-color: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">
+                            <i class="fas fa-file-invoice" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: var(--dark);">Invoice Created</div>
+                            <div style="color: var(--gray); font-size: 0.875rem;">October 15, 2023 • Invoice
+                                #INV-2023-1015</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel" onclick="closeInvoiceModal()">Close</button>
+                <button class="btn-modal btn-send"><i class="fas fa-envelope"></i> Resend Invoice</button>
+                <button class="btn-modal btn-save"><i class="fas fa-download"></i> Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 2rem 0; margin-top: 2rem;">
+        <div class="container" style="text-align: center;">
+            <p>Peanech.com Admin Dashboard &copy; 2023. All rights reserved.</p>
+            <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem;">Internal use only.
+                Unauthorized access prohibited.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.user-actions').classList.toggle('show');
+        });
+
+        // Open invoice modal
+        function openInvoiceModal(invoiceNumber = 'INV-2023-XXXX') {
+            document.getElementById('modalInvoiceTitle').textContent = `Invoice ${invoiceNumber}`;
+            document.getElementById('invoiceNumber').textContent = invoiceNumber;
+            document.getElementById('invoiceModal').style.display = 'flex';
+        }
+
+        // Close invoice modal
+        function closeInvoiceModal() {
+            document.getElementById('invoiceModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('invoiceModal');
+            if (event.target == modal) {
+                closeInvoiceModal();
+            }
+        }
+
+        // Create invoice functionality
+        document.querySelector('.btn-primary').addEventListener('click', function (e) {
+            if (e.target.textContent.includes('Create Invoice')) {
+                openInvoiceModal('INV-2023-NEW');
+            }
+        });
+
+        // Resend invoice functionality
+        document.querySelector('.btn-send').addEventListener('click', function () {
+            const invoiceNumber = document.getElementById('invoiceNumber').textContent;
+            alert(`Invoice ${invoiceNumber} has been resent to the client's email address.`);
+        });
+
+        // Download PDF functionality
+        document.querySelector('.btn-save').addEventListener('click', function () {
+            const invoiceNumber = document.getElementById('invoiceNumber').textContent;
+            alert(`Downloading invoice ${invoiceNumber} as PDF...`);
+        });
+
+        // Release security deposit functionality
+        document.querySelectorAll('.release-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const tenantName = this.closest('tr').querySelector('.payout-tenant').textContent;
+                const depositAmount = this.closest('tr').querySelector('.payout-amount').textContent;
+
+                if (confirm(`Are you sure you want to release the security deposit of ${depositAmount} for ${tenantName}?`)) {
+                    this.closest('tr').querySelector('.payout-status').textContent = 'Released';
+                    this.closest('tr').querySelector('.payout-status').className = 'payout-status status-released';
+                    this.parentElement.innerHTML = '<button class="payout-btn view-btn"><i class="fas fa-eye"></i> View Details</button>';
+                    alert(`Security deposit for ${tenantName} has been released.`);
+                }
+            });
+        });
+
+        // Refund security deposit functionality
+        document.querySelectorAll('.refund-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const tenantName = this.closest('tr').querySelector('.payout-tenant').textContent;
+                const depositAmount = this.closest('tr').querySelector('.payout-amount').textContent;
+
+                const reason = prompt(`Please provide a reason for refunding the security deposit of ${depositAmount} for ${tenantName}:`, 'End of lease term, no damages');
+
+                if (reason) {
+                    this.closest('tr').querySelector('.payout-status').textContent = 'Released';
+                    this.closest('tr').querySelector('.payout-status').className = 'payout-status status-released';
+                    this.parentElement.innerHTML = '<button class="payout-btn view-btn"><i class="fas fa-eye"></i> View Details</button>';
+                    alert(`Security deposit for ${tenantName} has been refunded with reason: ${reason}`);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

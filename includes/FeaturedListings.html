@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com - Cambodia's Leading Property Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .top-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Properties Grid */
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .property-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .property-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .property-card:hover .property-img img {
+            transform: scale(1.05);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .property-price {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .image-counter {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .property-content {
+            padding: 1.25rem;
+        }
+
+        .property-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            line-height: 1.4;
+        }
+
+        .property-location {
+            display: flex;
+            align-items: center;
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+            gap: 0.5rem;
+        }
+
+        .property-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .property-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .property-agent {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .agent-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.375rem;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .agent-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .agent-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .agent-type {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        /* Image Gallery Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            max-width: 1200px;
+            height: 80vh;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -50px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .caption-container {
+            text-align: center;
+            background-color: #222;
+            padding: 2px 16px;
+            color: white;
+        }
+
+        .modal-images {
+            display: none;
+            max-height: 100%;
+            max-width: 100%;
+            margin: auto;
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .nav-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="left">
+            <a href="#"><i class="fas fa-phone"></i>+855 92 800 801</a>
+            <a href="#"><i class="fas fa-envelope"></i> info@peanech.com</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="#" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="#">Buy</a>
+                    <a href="#">Rent</a>
+                    <a href="#">Commercial</a>
+                    <a href="#">New Developments</a>
+                    <a href="#">Agents</a>
+                    <a href="#">News</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <button class="btn btn-outline">Log In</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Featured Properties Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Featured Properties</h2>
+                    <p>Discover our hand-picked selection of premium properties across Cambodia</p>
+                </div>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="properties-grid">
+                <!-- Property 1 -->
+                <div class="property-card" onclick="openModal('property1')">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/2563eb/ffffff?text=Modern+Flat+BKK1"
+                            alt="Modern Flat in BKK1">
+                        <span class="property-badge">For Rent</span>
+                        <span class="property-price">$1,200/month</span>
+                        <span class="image-counter">1/5</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Modern Flat for Rent in BKK1</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Boulevard Keo Monorom, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>2 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>2 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>85m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">CB</div>
+                            <div class="agent-info">
+                                <div class="agent-name">CBRE Cambodia</div>
+                                <div class="agent-type">Real Estate Agency</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div class="property-card" onclick="openModal('property2')">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/059669/ffffff?text=Luxury+Villa+Toul+Kork"
+                            alt="Luxury Villa in Toul Kork">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$450,000</span>
+                        <span class="image-counter">1/8</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Luxury Villa in Toul Kork</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Toul Kork, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>4 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>3 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>320m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">KF</div>
+                            <div class="agent-info">
+                                <div class="agent-name">Knight Frank</div>
+                                <div class="agent-type">Real Estate Agency</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 3 -->
+                <div class="property-card" onclick="openModal('property3')">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/dc2626/ffffff?text=Ocean+View+Condo"
+                            alt="Ocean View Condo in Sihanoukville">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$280,000</span>
+                        <span class="image-counter">1/6</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Ocean View Condo in Sihanoukville</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Oceanfront, Sihanoukville</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>3 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>2 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>120m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">VT</div>
+                            <div class="agent-info">
+                                <div class="agent-name">VTrust Group</div>
+                                <div class="agent-type">Developer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 4 -->
+                <div class="property-card" onclick="openModal('property4')">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/7c3aed/ffffff?text=Land+Siem+Reap"
+                            alt="Prime Land in Siem Reap">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$180,000</span>
+                        <span class="image-counter">1/4</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Prime Land in Siem Reap</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Angkor Wat Area, Siem Reap</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>1,200m²</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-ruler-combined"></i>
+                                <span>Commercial</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">PC</div>
+                            <div class="agent-info">
+                                <div class="agent-name">Property Cambodia</div>
+                                <div class="agent-type">Real Estate Agency</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 5 -->
+                <div class="property-card" onclick="openModal('property5')">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/ea580c/ffffff?text=New+Condo+Project"
+                            alt="New Condo Project in Phnom Penh">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$320,000</span>
+                        <span class="image-counter">1/7</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">New Condo Project in Phnom Penh</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Chamkarmon, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>2 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>2 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>95m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">HG</div>
+                            <div class="agent-info">
+                                <div class="agent-name">Habitat Group</div>
+                                <div class="agent-type">Developer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 6 -->
+                <div class="property-card" onclick="openModal('property6')">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/0891b2/ffffff?text=Townhouse+Rental"
+                            alt="Modern Townhouse for Rent">
+                        <span class="property-badge">For Rent</span>
+                        <span class="property-price">$1,800/month</span>
+                        <span class="image-counter">1/5</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Modern Townhouse for Rent</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>7 Makara, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>3 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>3 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>220m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">RC</div>
+                            <div class="agent-info">
+                                <div class="agent-name">Realty Cambodia</div>
+                                <div class="agent-type">Real Estate Agency</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Gallery Modals -->
+    <div id="property1" class="modal">
+        <span class="close" onclick="closeModal('property1')">&times;</span>
+        <div class="modal-content">
+            <img class="modal-images" src="https://placehold.co/1200x800/2563eb/ffffff?text=Modern+Flat+BKK1+1"
+                alt="Modern Flat in BKK1">
+            <img class="modal-images" src="https://placehold.co/1200x800/2563eb/ffffff?text=Modern+Flat+BKK1+2"
+                alt="Modern Flat in BKK1">
+            <img class="modal-images" src="https://placehold.co/1200x800/2563eb/ffffff?text=Modern+Flat+BKK1+3"
+                alt="Modern Flat in BKK1">
+            <img class="modal-images" src="https://placehold.co/1200x800/2563eb/ffffff?text=Modern+Flat+BKK1+4"
+                alt="Modern Flat in BKK1">
+            <img class="modal-images" src="https://placehold.co/1200x800/2563eb/ffffff?text=Modern+Flat+BKK1+5"
+                alt="Modern Flat in BKK1">
+            <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+            <div class="caption-container">
+                <p id="caption">Modern Flat for Rent in BKK1</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="property2" class="modal">
+        <span class="close" onclick="closeModal('property2')">&times;</span>
+        <div class="modal-content">
+            <img class="modal-images" src="https://placehold.co/1200x800/059669/ffffff?text=Luxury+Villa+Toul+Kork+1"
+                alt="Luxury Villa in Toul Kork">
+            <img class="modal-images" src="https://placehold.co/1200x800/059669/ffffff?text=Luxury+Villa+Toul+Kork+2"
+                alt="Luxury Villa in Toul Kork">
+            <img class="modal-images" src="https://placehold.co/1200x800/059669/ffffff?text=Luxury+Villa+Toul+Kork+3"
+                alt="Luxury Villa in Toul Kork">
+            <img class="modal-images" src="https://placehold.co/1200x800/059669/ffffff?text=Luxury+Villa+Toul+Kork+4"
+                alt="Luxury Villa in Toul Kork">
+            <img class="modal-images" src="https://placehold.co/1200x800/059669/ffffff?text=Luxury+Villa+Toul+Kork+5"
+                alt="Luxury Villa in Toul Kork">
+            <img class="modal-images" src="https://placehold.co/1200x800/059669/ffffff?text=Luxury+Villa+Toul+Kork+6"
+                alt="Luxury Villa in Toul Kork">
+            <img class="modal-images" src="https://placehold.co/1200x800/059669/ffffff?text=Luxury+Villa+Toul+Kork+7"
+                alt="Luxury Villa in Toul Kork">
+            <img class="modal-images" src="https://placehold.co/1200x800/059669/ffffff?text=Luxury+Villa+Toul+Kork+8"
+                alt="Luxury Villa in Toul Kork">
+            <a class="prev" onclick="plusSlides(-1, 1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 1)">&#10095;</a>
+            <div class="caption-container">
+                <p id="caption">Luxury Villa in Toul Kork</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="property3" class="modal">
+        <span class="close" onclick="closeModal('property3')">&times;</span>
+        <div class="modal-content">
+            <img class="modal-images" src="https://placehold.co/1200x800/dc2626/ffffff?text=Ocean+View+Condo+1"
+                alt="Ocean View Condo in Sihanoukville">
+            <img class="modal-images" src="https://placehold.co/1200x800/dc2626/ffffff?text=Ocean+View+Condo+2"
+                alt="Ocean View Condo in Sihanoukville">
+            <img class="modal-images" src="https://placehold.co/1200x800/dc2626/ffffff?text=Ocean+View+Condo+3"
+                alt="Ocean View Condo in Sihanoukville">
+            <img class="modal-images" src="https://placehold.co/1200x800/dc2626/ffffff?text=Ocean+View+Condo+4"
+                alt="Ocean View Condo in Sihanoukville">
+            <img class="modal-images" src="https://placehold.co/1200x800/dc2626/ffffff?text=Ocean+View+Condo+5"
+                alt="Ocean View Condo in Sihanoukville">
+            <img class="modal-images" src="https://placehold.co/1200x800/dc2626/ffffff?text=Ocean+View+Condo+6"
+                alt="Ocean View Condo in Sihanoukville">
+            <a class="prev" onclick="plusSlides(-1, 2)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 2)">&#10095;</a>
+            <div class="caption-container">
+                <p id="caption">Ocean View Condo in Sihanoukville</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="property4" class="modal">
+        <span class="close" onclick="closeModal('property4')">&times;</span>
+        <div class="modal-content">
+            <img class="modal-images" src="https://placehold.co/1200x800/7c3aed/ffffff?text=Land+Siem+Reap+1"
+                alt="Prime Land in Siem Reap">
+            <img class="modal-images" src="https://placehold.co/1200x800/7c3aed/ffffff?text=Land+Siem+Reap+2"
+                alt="Prime Land in Siem Reap">
+            <img class="modal-images" src="https://placehold.co/1200x800/7c3aed/ffffff?text=Land+Siem+Reap+3"
+                alt="Prime Land in Siem Reap">
+            <img class="modal-images" src="https://placehold.co/1200x800/7c3aed/ffffff?text=Land+Siem+Reap+4"
+                alt="Prime Land in Siem Reap">
+            <a class="prev" onclick="plusSlides(-1, 3)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 3)">&#10095;</a>
+            <div class="caption-container">
+                <p id="caption">Prime Land in Siem Reap</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="property5" class="modal">
+        <span class="close" onclick="closeModal('property5')">&times;</span>
+        <div class="modal-content">
+            <img class="modal-images" src="https://placehold.co/1200x800/ea580c/ffffff?text=New+Condo+Project+1"
+                alt="New Condo Project in Phnom Penh">
+            <img class="modal-images" src="https://placehold.co/1200x800/ea580c/ffffff?text=New+Condo+Project+2"
+                alt="New Condo Project in Phnom Penh">
+            <img class="modal-images" src="https://placehold.co/1200x800/ea580c/ffffff?text=New+Condo+Project+3"
+                alt="New Condo Project in Phnom Penh">
+            <img class="modal-images" src="https://placehold.co/1200x800/ea580c/ffffff?text=New+Condo+Project+4"
+                alt="New Condo Project in Phnom Penh">
+            <img class="modal-images" src="https://placehold.co/1200x800/ea580c/ffffff?text=New+Condo+Project+5"
+                alt="New Condo Project in Phnom Penh">
+            <img class="modal-images" src="https://placehold.co/1200x800/ea580c/ffffff?text=New+Condo+Project+6"
+                alt="New Condo Project in Phnom Penh">
+            <img class="modal-images" src="https://placehold.co/1200x800/ea580c/ffffff?text=New+Condo+Project+7"
+                alt="New Condo Project in Phnom Penh">
+            <a class="prev" onclick="plusSlides(-1, 4)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 4)">&#10095;</a>
+            <div class="caption-container">
+                <p id="caption">New Condo Project in Phnom Penh</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="property6" class="modal">
+        <span class="close" onclick="closeModal('property6')">&times;</span>
+        <div class="modal-content">
+            <img class="modal-images" src="https://placehold.co/1200x800/0891b2/ffffff?text=Townhouse+Rental+1"
+                alt="Modern Townhouse for Rent">
+            <img class="modal-images" src="https://placehold.co/1200x800/0891b2/ffffff?text=Townhouse+Rental+2"
+                alt="Modern Townhouse for Rent">
+            <img class="modal-images" src="https://placehold.co/1200x800/0891b2/ffffff?text=Townhouse+Rental+3"
+                alt="Modern Townhouse for Rent">
+            <img class="modal-images" src="https://placehold.co/1200x800/0891b2/ffffff?text=Townhouse+Rental+4"
+                alt="Modern Townhouse for Rent">
+            <img class="modal-images" src="https://placehold.co/1200x800/0891b2/ffffff?text=Townhouse+Rental+5"
+                alt="Modern Townhouse for Rent">
+            <a class="prev" onclick="plusSlides(-1, 5)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 5)">&#10095;</a>
+            <div class="caption-container">
+                <p id="caption">Modern Townhouse for Rent</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 3rem 0; margin-top: 4rem;">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2023 Peanech.com. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.nav-actions').classList.toggle('show');
+        });
+
+        // Image Gallery Modal Functions
+        let slideIndex = [1, 1, 1, 1, 1, 1];
+        const modalIds = ['property1', 'property2', 'property3', 'property4', 'property5', 'property6'];
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+            const index = modalIds.indexOf(modalId);
+            showSlides(slideIndex[index], index);
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        function plusSlides(n, modalIndex) {
+            showSlides(slideIndex[modalIndex] += n, modalIndex);
+        }
+
+        function showSlides(n, modalIndex) {
+            const modal = document.getElementById(modalIds[modalIndex]);
+            const slides = modal.getElementsByClassName("modal-images");
+
+            if (n > slides.length) { slideIndex[modalIndex] = 1 }
+            if (n < 1) { slideIndex[modalIndex] = slides.length }
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            slides[slideIndex[modalIndex] - 1].style.display = "block";
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            modalIds.forEach(id => {
+                const modal = document.getElementById(id);
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            });
+        }
+
+        // Keyboard navigation for modals
+        document.addEventListener('keydown', function (e) {
+            if (e.key === "Escape") {
+                modalIds.forEach(id => {
+                    document.getElementById(id).style.display = "none";
+                });
+            }
+
+            modalIds.forEach((id, index) => {
+                const modal = document.getElementById(id);
+                if (modal.style.display === "block") {
+                    if (e.key === "ArrowRight") {
+                        plusSlides(1, index);
+                    } else if (e.key === "ArrowLeft") {
+                        plusSlides(-1, index);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,192 +1,174 @@
-# React PeanechEstate
+# 🏠 Peanech Real Estate Platform
 
-A modern, full-stack real estate platform built with React, TypeScript, and Tailwind CSS. PeanechEstate offers seamless property discovery, advanced booking management, agent analytics, and cutting-edge UI/UX. Designed for responsiveness, scalability, and optimal performance.
+<div align="center">
 
----
+**Cambodia's Premier Full-Stack Real Estate Platform**
 
-## Table of Contents
+[![React](https://img.shields.io/badge/React-19.1-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-4.18-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Technical Stack](#technical-stack)
-- [Core Components](#core-components)
-- [Dashboards](#dashboards)
-- [Marketing & Business Features](#marketing--business-features)
-- [Contributing](#contributing)
-- [License](#license)
+</div>
 
 ---
 
-## Features
+## 📋 Overview
 
-### 1. Complete UI Structure
+Peanech Real Estate is a comprehensive full-stack platform designed for the Cambodian real estate market. It provides a modern solution for property buyers, sellers, agents, and administrators.
 
-- **TopBar:** Contact information and social media icons.
-- **Header:** Logo, navigation links, dark mode toggle, user avatar dropdown.
-- **Footer:** Responsive, includes contact info, newsletter signup, and quick links.
+## 🎯 Key Features
 
-### 2. Main Sections
+- 🔍 Advanced Property Search & Filters
+- ❤️ Favorites Management
+- 📱 Fully Responsive Design
+- 🗺️ Location-Based Search
+- 📊 Analytics Dashboard
+- 💬 Direct Messaging
+- 🖼️ Media Management
+- 🔐 Secure Authentication
+- 👥 Role-Based Access Control
 
-- **Hero Section:** Futuristic design, animated elements, and property search form.
-- **Core Features:** 8 key functionalities with elegant icons.
-- **Technical Stack:** Showcases modern technologies and app performance.
-- **Properties Section:** Featured listings with integrated booking system.
-- **Agents Section:** Detailed agent profiles, ratings, and contact.
-- **Marketing Features:** Social media integration and newsletter subscription.
-- **Payment Plans:** Three transparent subscription tiers for users.
+## 🛠️ Technology Stack
 
-### 3. Advanced Functionality
+**Frontend:** React 19.1, TypeScript, Vite, Tailwind CSS, React Router DOM  
+**Backend:** Node.js, Express.js, MySQL, JWT, Bcrypt  
+**Tools:** ESLint, Concurrently, Nodemon
 
-- **Dark Mode:** Toggle with system preference detection.
-- **User Authentication:** Context-driven, with role-based access (User/Agent/Admin).
-- **Responsive Design:** Optimized for mobile, tablet, and desktop.
-- **Booking Modal:** Schedule property viewings directly from listings.
-- **Interactive Elements:** Framer Motion-powered animations for engagement.
+## 📁 Project Structure
 
-### 4. Dashboard System
+```
+peanech-real-estate/
+├── frontend/          # React frontend
+├── backend/           # Express backend
+├── database/          # SQL migrations & seeds
+├── shared/            # Shared types & utilities
+└── README.md
+```
 
-- **User Dashboard:** Saved properties, scheduled tours, and messages.
-- **Agent Dashboard:** Manage listings, leads, and view sales performance.
-- **Admin Dashboard:** Analytics, property evaluation, asset management.
-
-### 5. Technical Features
-
-- **TypeScript:** End-to-end type safety.
-- **React Router:** Intuitive navigation.
-- **Faker.js:** Mock data for development and testing.
-- **Tailwind CSS:** Custom themes and animations.
-- **Context API:** Streamlined global state management.
-- **Modular Components:** Reusable and maintainable code structure.
-
-### 6. Marketing & Business Features
-
-- **Newsletter Signup:** Email validation and subscription.
-- **Social Media Integration:** Live follower counts displayed.
-- **Performance Analytics:** Real-time metrics and market insights.
-- **Subscription Plans:** Feature comparisons and secure payment-ready.
-- **Payment Integration:** Secure, modern payment setup (Stripe-ready).
-
----
-
-## Screenshots
-
-> _Add screenshots/gifs here to showcase UI, Dashboards, and Responsiveness._
-
----
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js >= 18.x
+- Node.js 18+
+- MySQL 8.0+
 - npm or yarn
 
 ### Installation
 
 ```bash
-git clone https://github.com/sisovin/react-peanech-estate.git
-cd react-peanech-estate
-npm install
-# or
-yarn install
+# Clone repository
+git clone https://github.com/sisovin/vite-react-peanech-estate.git
+cd vite-react-peanech-estate
+
+# Install all dependencies
+npm run install:all
+
+# Setup database
+mysql -u root -p < database/schema.sql
+
+# Configure environment variables
+# Copy backend/.env.example to backend/.env and update values
+# Copy frontend/.env.example to frontend/.env (if needed)
+
+# Start development servers
+npm run dev
 ```
 
-### Running the Development Server
+## 🌐 Access
+
+- Frontend: <http://localhost:5173>
+- Backend API: <http://localhost:5000/api>
+- Health Check: <http://localhost:5000/api/health>
+
+## 📚 API Endpoints
+
+### Authentication
+
+- POST `/api/auth/register` - Register user
+- POST `/api/auth/login` - Login
+- GET `/api/auth/me` - Get current user
+- POST `/api/auth/logout` - Logout
+
+### Properties
+
+- GET `/api/properties` - List properties
+- GET `/api/properties/:id` - Get property details
+- POST `/api/properties` - Create property (agent/admin)
+- PUT `/api/properties/:id` - Update property
+- DELETE `/api/properties/:id` - Delete property
+
+### Users
+
+- GET `/api/users/profile` - Get profile
+- PUT `/api/users/profile` - Update profile
+- GET `/api/users/favorites` - Get favorites
+- POST `/api/users/favorites` - Add favorite
+- DELETE `/api/users/favorites/:id` - Remove favorite
+
+### Admin
+
+- GET `/api/admin/analytics` - Get analytics
+- GET `/api/admin/users` - List users
+- GET `/api/admin/properties` - List properties
+- PATCH `/api/admin/properties/:id/approve` - Approve property
+
+## 🗄️ Database Schema
+
+Main tables: users, agents, properties, images, favorites, messages, payments, refresh_tokens
+
+See `database/schema.sql` for complete schema.
+
+## 🔐 Security
+
+- JWT authentication with refresh tokens
+- Bcrypt password hashing
+- Input validation & sanitization
+- SQL injection prevention
+- XSS protection
+- CORS configuration
+- Rate limiting
+
+## 📦 Deployment
+
+### Frontend
 
 ```bash
-npm start
-# or
-yarn start
+cd frontend
+npm run build
+# Deploy dist/ folder to Vercel, Netlify, etc.
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to explore the app.
+### Backend
 
----
+Deploy to Heroku, AWS, DigitalOcean, Railway, or Render
 
-## Project Structure
-
-```
-src/
-│
-├── components/      # Reusable UI components (Header, Footer, TopBar, etc.)
-├── sections/        # Main page sections (Hero, Features, Properties, Agents, etc.)
-├── dashboards/      # User, Agent, and Admin dashboard components
-├── context/         # Global state providers (AuthContext, ThemeContext, etc.)
-├── hooks/           # Custom React hooks
-├── routes/          # App routing definitions
-├── utils/           # Utility functions (e.g., with Faker.js)
-├── assets/          # Static assets (images, icons, etc.)
-└── App.tsx          # App root
-```
-
----
-
-## Technical Stack
-
-- **Frontend:** React 18+, TypeScript, Tailwind CSS (custom theme)
-- **Routing:** React Router DOM
-- **State Management:** Context API
-- **Mock Data:** Faker.js
-- **Animations:** Framer Motion
-- **Testing:** Jest, React Testing Library (recommended)
-- **Build Tool:** Vite or Create React App
-
----
-
-## Core Components
-
-- **TopBar:** Social links, contact info
-- **Header:** Navigation, logo, avatar, dark mode
-- **Footer:** Newsletter, contact, links
-- **HeroSection:** Animated main landing
-- **FeaturesSection:** 8 core features with icons
-- **TechStackSection:** Logos and performance metrics
-- **PropertiesSection:** Property cards, search, booking modal
-- **AgentsSection:** Profiles, ratings, contact
-- **PaymentPlans:** Subscription tiers, comparison table
-- **NewsletterSignup:** Form with validation
-- **SocialMediaWidget:** Live follower stats
-
----
-
-## Dashboards
-
-- **User Dashboard:** Saved listings, tours, inbox
-- **Agent Dashboard:** Manage properties, track leads
-- **Admin Dashboard:** Analytics, manage assets/evaluations
-
----
-
-## Marketing & Business Features
-
-- Newsletter capture (email validation)
-- Social media feeds and counts
-- Performance and market analytics display
-- Subscription plans with secure checkout (Stripe-ready)
-
----
-
-## Contributing
-
-Contributions are welcome! Please fork the repo and submit a pull request.
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Open Pull Request
+
+## 📝 License
+
+MIT License - see LICENSE file
+
+## 👥 Authors
+
+Peanech Development Team - [@sisovin](https://github.com/sisovin)
+
+## 📞 Support
+
+Open an issue on GitHub or email <support@peanech.com>
 
 ---
 
-## License
+<div align="center">
 
-MIT © [sisovin](https://github.com/sisovin)
+**Made with ❤️ for Cambodia's Real Estate Market**
 
----
-
-**Questions?**  
-Open an issue or contact the maintainer at [GitHub](https://github.com/sisovin).
-
----
+</div>

@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com Admin Dashboard - Property Listings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --admin-bar-height: 48px;
+            /* adjust to match your design */
+            --header-height: 64px;
+            /* adjust to match your design */
+            --top-offset: calc(var(--admin-bar-height) + var(--header-height));
+            --sidebar-width: 240px;
+            /* sidebar default width */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+        }
+
+        .admin-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: #0f172a;
+            font-size: 0.875rem;
+        }
+
+        .admin-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-bar a:hover {
+            color: white;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+            padding: 0.5rem 0;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+            border-bottom-color: var(--secondary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #ffffff;
+            height: calc(100vh - var(--top-offset));
+            position: fixed;
+            left: 0;
+            top: var(--top-offset);
+            box-shadow: var(--shadow);
+            overflow-y: auto;
+            padding: 0.5rem 0;
+            border-right: 1px solid var(--border);
+            transition: width 0.18s ease, transform 0.18s ease;
+        }
+
+        .sidebar .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar .menu-item {
+            display: block;
+        }
+
+        .sidebar .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--gray);
+            text-decoration: none;
+            transition: background-color 0.15s ease, color 0.15s ease, border-left-color 0.15s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar .menu-link .menu-icon {
+            width: 28px;
+            text-align: center;
+            font-size: 1.125rem;
+            color: inherit;
+        }
+
+        .sidebar .menu-link .label {
+            white-space: nowrap;
+        }
+
+        .sidebar .menu-item:hover .menu-link {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .sidebar .menu-item.active .menu-link {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.06), transparent);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Compact / collapsed state (small screens or explicit collapse) */
+        .sidebar.collapsed {
+            width: 72px;
+        }
+
+        .sidebar.collapsed .label {
+            display: none;
+        }
+
+        .sidebar.collapsed .menu-link {
+            justify-content: center;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Listings Management Module */
+        .listings-management {
+            margin-left: var(--sidebar-width);
+            padding: 2rem 0 4rem;
+            background-color: #f1f5f9;
+            transition: margin-left 0.18s ease;
+        }
+
+        /* When sidebar is collapsed, shrink content margin */
+        .sidebar.collapsed~.listings-management {
+            margin-left: 72px;
+        }
+
+        .filters-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .search-filter {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background-color: white;
+            appearance: none;
+            background-image: url("image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 1rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Listings Tabs */
+        .listings-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+            box-shadow: var(--shadow);
+        }
+
+        .listings-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .listings-tab.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .listings-tab:hover:not(.active) {
+            background-color: var(--light-gray);
+        }
+
+        .tab-badge {
+            margin-left: 0.5rem;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-pending {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .badge-flagged {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+        }
+
+        /* Listings Table */
+        .listings-table-container {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .listings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .listings-table th {
+            text-align: left;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .listings-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .listings-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .listings-table tr:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .property-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .property-img {
+            width: 80px;
+            height: 60px;
+            background-color: var(--border);
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+
+        .property-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .property-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .property-location {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .property-price {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .property-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .status-active {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-pending {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .status-rejected {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+        }
+
+        .status-sold {
+            background-color: rgba(153, 27, 27, 0.1);
+            color: #991b1b;
+        }
+
+        .status-expired {
+            background-color: rgba(156, 163, 175, 0.1);
+            color: #6b7280;
+        }
+
+        .agent-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .agent-avatar {
+            width: 32px;
+            height: 32px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .action-buttons-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .action-btn:hover {
+            background-color: var(--border);
+            color: var(--dark);
+        }
+
+        .edit-btn {
+            color: var(--primary);
+        }
+
+        .edit-btn:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .view-btn {
+            color: var(--secondary);
+        }
+
+        .view-btn:hover {
+            background-color: rgba(5, 150, 105, 0.1);
+        }
+
+        .feature-btn {
+            color: var(--secondary);
+        }
+
+        .feature-btn:hover {
+            background-color: rgba(5, 150, 105, 0.1);
+        }
+
+        .suspend-btn {
+            color: #dc2626;
+        }
+
+        .suspend-btn:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        /* Listing Detail Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0.25rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .close-modal:hover {
+            background-color: var(--light-gray);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .listing-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .media-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 120px;
+            border-radius: 0.375rem;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .gallery-item.selected {
+            border-color: var(--primary);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .gallery-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .gallery-btn.remove {
+            background-color: #dc2626;
+        }
+
+        .add-image-btn {
+            height: 120px;
+            border: 2px dashed var(--border);
+            border-radius: 0.375rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-image-btn:hover {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .add-image-icon {
+            font-size: 1.5rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .textarea-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature-item {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-icon {
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .feature-name {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .moderation-actions {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+        }
+
+        .actions-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .mod-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .approve-btn {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background-color: #047857;
+        }
+
+        .reject-btn {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background-color: #b91c1c;
+        }
+
+        .feature-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .feature-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .boost-btn {
+            background-color: #ea580c;
+            color: white;
+        }
+
+        .boost-btn:hover {
+            background-color: #c2410c;
+        }
+
+        .suspend-btn {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .suspend-btn:hover {
+            background-color: #4b5563;
+        }
+
+        .delete-btn {
+            background-color: #991b1b;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #7f1d1d;
+        }
+
+        /* Notification badge styling (moved from inline) */
+        .notification-count-badge {
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            display: inline-block;
+            line-height: 1;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .listing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 72px;
+            }
+
+            .sidebar .label {
+                display: none;
+            }
+
+            .listings-management {
+                margin-left: 72px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .user-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--dark);
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .user-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 1.5rem 0;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .listings-table th,
+            .listings-table td {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+
+            .property-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .property-img {
+                width: 100px;
+                height: 75px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .admin-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 1rem;
+            }
+
+            .action-buttons-row {
+                flex-direction: column;
+            }
+
+            .mod-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Admin Bar -->
+    <div class="admin-bar">
+        <div class="left">
+            <a href="/admin/"><i class="fas fa-lock"></i> Admin Dashboard</a>
+            <a href="/"><i class="fas fa-home"></i> View Public Site</a>
+        </div>
+        <div class="right">
+            <a href="#" class="notification-badge"><i class="fas fa-bell"></i> Notifications <span
+                    class="notification-count-badge">3</span></a>
+            <a href="#"><i class="fas fa-user-circle"></i> Admin User</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="/admin/" class="logo">
+            <i class="fas fa-home"></i> Peanech Admin Dashboard
+        </a>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar" aria-label="Main sidebar navigation">
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="/admin/Admin-Dashboard.html" class="menu-link">
+                    <i class="fas fa-tachometer-alt menu-icon" aria-hidden="true"></i>
+                    <span class="label">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="/admin/Property-Listings-Management.html" class="menu-link" aria-current="page">
+                    <i class="fas fa-building menu-icon" aria-hidden="true"></i>
+                    <span class="label">Listings</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/User-Management.html" class="menu-link">
+                    <i class="fas fa-users menu-icon" aria-hidden="true"></i>
+                    <span class="label">Users</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Agent-Agency-Management.html" class="menu-link">
+                    <i class="fas fa-user-tie menu-icon" aria-hidden="true"></i>
+                    <span class="label">Agents</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Content-Management-System.html" class="menu-link">
+                    <i class="fas fa-file-alt menu-icon" aria-hidden="true"></i>
+                    <span class="label">Content</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Finance-Billing.html" class="menu-link">
+                    <i class="fas fa-dollar-sign menu-icon" aria-hidden="true"></i>
+                    <span class="label">Finance</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Reports.html" class="menu-link">
+                    <i class="fas fa-chart-line menu-icon" aria-hidden="true"></i>
+                    <span class="label">Reports</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Communication-Tools.html" class="menu-link">
+                    <i class="fas fa-comments menu-icon" aria-hidden="true"></i>
+                    <span class="label">Communication</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Settings.html" class="menu-link">
+                    <i class="fas fa-cog menu-icon" aria-hidden="true"></i>
+                    <span class="label">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Property Listings Management -->
+    <section class="listings-management">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Property Listings Management</h2>
+                    <p>Review, moderate, and manage all property listings on the platform.</p>
+                </div>
+                <div class="section-actions">
+                    <button class="btn btn-outline">Refresh</button>
+                    <button class="btn btn-primary">Export Data</button>
+                </div>
+            </div>
+
+            <div class="listings-tabs">
+                <div class="listings-tab active">All Listings</div>
+                <div class="listings-tab">Active <span class="tab-badge"
+                        style="background-color: rgba(5, 150, 105, 0.1); color: var(--secondary);">8,432</span></div>
+                <div class="listings-tab">Pending <span class="tab-badge badge-pending">28</span></div>
+                <div class="listings-tab">Sold <span class="tab-badge"
+                        style="background-color: rgba(153, 27, 27, 0.1); color: #991b1b;">1,247</span></div>
+                <div class="listings-tab">Expired <span class="tab-badge"
+                        style="background-color: rgba(156, 163, 175, 0.1); color: #6b7280;">389</span></div>
+                <div class="listings-tab">Flagged <span class="tab-badge badge-flagged">14</span></div>
+            </div>
+
+            <div class="filters-bar">
+                <div class="search-filter">
+                    <input type="text" placeholder="Search listings..." class="search-input">
+                    <select class="filter-select">
+                        <option>All Status</option>
+                        <option>Active</option>
+                        <option>Pending</option>
+                        <option>Rejected</option>
+                        <option>Expired</option>
+                        <option>Sold</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Types</option>
+                        <option>House</option>
+                        <option>Apartment</option>
+                        <option>Land</option>
+                        <option>Commercial</option>
+                        <option>Villa</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Locations</option>
+                        <option>Phnom Penh</option>
+                        <option>Siem Reap</option>
+                        <option>Sihanoukville</option>
+                        <option>Kep</option>
+                        <option>Kampot</option>
+                    </select>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-outline"><i class="fas fa-filter"></i> Advanced Filters</button>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Listing</button>
+                </div>
+            </div>
+
+            <div class="listings-table-container">
+                <table class="listings-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Agent</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="property-info">
+                                    <div class="property-img">
+                                        <img src="https://placehold.co/160x120/2563eb/ffffff?text=Luxury+Villa"
+                                            alt="Luxury Villa">
+                                    </div>
+                                    <div>
+                                        <div class="property-title">Luxury Villa in Toul Kork</div>
+                                        <div class="property-location">Toul Kork, Phnom Penh</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="property-price">$450,000</div>
+                            </td>
+                            <td><span class="property-status status-active">Active</span></td>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">CB</div>
+                                    <div class="agent-name">CBRE Cambodia</div>
+                                </div>
+                            </td>
+                            <td>Mar 15, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openListingModal('Luxury Villa in Toul Kork', 'active')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openListingModal('Luxury Villa in Toul Kork', 'active', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn feature-btn"><i class="fas fa-star"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="property-info">
+                                    <div class="property-img">
+                                        <img src="https://placehold.co/160x120/059669/ffffff?text=Ocean+View"
+                                            alt="Ocean View Condo">
+                                    </div>
+                                    <div>
+                                        <div class="property-title">Ocean View Condo in Sihanoukville</div>
+                                        <div class="property-location">Sihanoukville</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="property-price">$280,000</div>
+                            </td>
+                            <td><span class="property-status status-pending">Pending</span></td>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">VT</div>
+                                    <div class="agent-name">VTrust Group</div>
+                                </div>
+                            </td>
+                            <td>Apr 10, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openListingModal('Ocean View Condo in Sihanoukville', 'pending')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openListingModal('Ocean View Condo in Sihanoukville', 'pending', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn feature-btn"><i class="fas fa-star"></i></button>
+                                    <button class="action-btn reject-btn"><i class="fas fa-times"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="property-info">
+                                    <div class="property-img">
+                                        <img src="https://placehold.co/160x120/dc2626/ffffff?text=Prime+Land"
+                                            alt="Prime Land">
+                                    </div>
+                                    <div>
+                                        <div class="property-title">Prime Land in Siem Reap</div>
+                                        <div class="property-location">Siem Reap</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="property-price">$180,000</div>
+                            </td>
+                            <td><span class="property-status status-active">Active</span></td>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">PC</div>
+                                    <div class="agent-name">Property Cambodia</div>
+                                </div>
+                            </td>
+                            <td>Feb 28, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openListingModal('Prime Land in Siem Reap', 'active')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openListingModal('Prime Land in Siem Reap', 'active', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn feature-btn"><i class="fas fa-star"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="property-info">
+                                    <div class="property-img">
+                                        <img src="https://placehold.co/160x120/7c3aed/ffffff?text=Modern+Flat"
+                                            alt="Modern Flat">
+                                    </div>
+                                    <div>
+                                        <div class="property-title">Modern Flat for Rent in BKK1</div>
+                                        <div class="property-location">BKK1, Phnom Penh</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="property-price">$1,200/month</div>
+                            </td>
+                            <td><span class="property-status status-sold">Sold</span></td>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">KF</div>
+                                    <div class="agent-name">Knight Frank</div>
+                                </div>
+                            </td>
+                            <td>Jan 10, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openListingModal('Modern Flat for Rent in BKK1', 'sold')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openListingModal('Modern Flat for Rent in BKK1', 'sold', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn feature-btn"><i class="fas fa-star"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="property-info">
+                                    <div class="property-img">
+                                        <img src="https://placehold.co/160x120/ea580c/ffffff?text=New+Condo"
+                                            alt="New Condo Project">
+                                    </div>
+                                    <div>
+                                        <div class="property-title">New Condo Project in Phnom Penh</div>
+                                        <div class="property-location">Chamkarmon, Phnom Penh</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="property-price">$320,000</div>
+                            </td>
+                            <td><span class="property-status status-pending">Pending</span></td>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">HG</div>
+                                    <div class="agent-name">Habitat Group</div>
+                                </div>
+                            </td>
+                            <td>Apr 5, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openListingModal('New Condo Project in Phnom Penh', 'pending')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openListingModal('New Condo Project in Phnom Penh', 'pending', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn feature-btn"><i class="fas fa-star"></i></button>
+                                    <button class="action-btn reject-btn"><i class="fas fa-times"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="property-info">
+                                    <div class="property-img">
+                                        <img src="https://placehold.co/160x120/0891b2/ffffff?text=Townhouse"
+                                            alt="Modern Townhouse">
+                                    </div>
+                                    <div>
+                                        <div class="property-title">Modern Townhouse for Rent</div>
+                                        <div class="property-location">7 Makara, Phnom Penh</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="property-price">$1,800/month</div>
+                            </td>
+                            <td><span class="property-status status-expired">Expired</span></td>
+                            <td>
+                                <div class="agent-info">
+                                    <div class="agent-avatar">RC</div>
+                                    <div class="agent-name">Realty Cambodia</div>
+                                </div>
+                            </td>
+                            <td>Dec 15, 2022</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openListingModal('Modern Townhouse for Rent', 'expired')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openListingModal('Modern Townhouse for Rent', 'expired', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn feature-btn"><i class="fas fa-star"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; color: var(--gray); font-size: 0.875rem;">
+                <div>
+                    Showing 1-6 of 10,121 listings
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Previous</button>
+                    <button
+                        style="padding: 0.5rem 1rem; background-color: var(--primary); color: white; border: none; border-radius: 0.375rem;">1</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Listing Detail Modal -->
+    <div id="listingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-home"></i> <span id="modalListingTitle">Property Details</span>
+                </h3>
+                <button class="close-modal" onclick="closeListingModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="listing-grid">
+                    <div>
+                        <div class="media-section">
+                            <h4 class="section-title"><i class="fas fa-images"></i> Media Gallery</h4>
+                            <div class="image-gallery">
+                                <div class="gallery-item selected">
+                                    <img src="https://placehold.co/300x200/2563eb/ffffff?text=Luxury+Villa+1"
+                                        alt="Luxury Villa">
+                                    <div class="gallery-actions">
+                                        <button class="gallery-btn"><i class="fas fa-star"></i></button>
+                                        <button class="gallery-btn remove"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="https://placehold.co/300x200/2563eb/ffffff?text=Luxury+Villa+2"
+                                        alt="Luxury Villa">
+                                    <div class="gallery-actions">
+                                        <button class="gallery-btn"><i class="fas fa-star"></i></button>
+                                        <button class="gallery-btn remove"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="https://placehold.co/300x200/2563eb/ffffff?text=Luxury+Villa+3"
+                                        alt="Luxury Villa">
+                                    <div class="gallery-actions">
+                                        <button class="gallery-btn"><i class="fas fa-star"></i></button>
+                                        <button class="gallery-btn remove"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="https://placehold.co/300x200/2563eb/ffffff?text=Luxury+Villa+4"
+                                        alt="Luxury Villa">
+                                    <div class="gallery-actions">
+                                        <button class="gallery-btn"><i class="fas fa-star"></i></button>
+                                        <button class="gallery-btn remove"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-image-btn">
+                                <div class="add-image-icon"><i class="fas fa-plus"></i></div>
+                                <div>Add More Images</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="listingTitle">Property Title</label>
+                            <input type="text" id="listingTitle" class="form-control" value="Luxury Villa in Toul Kork">
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="propertyType">Property Type</label>
+                                <select id="propertyType" class="form-control">
+                                    <option value="house">House</option>
+                                    <option value="apartment" selected>Apartment/Condo</option>
+                                    <option value="land">Land</option>
+                                    <option value="commercial">Commercial</option>
+                                    <option value="villa">Villa</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="listingStatus">Listing Status</label>
+                                <select id="listingStatus" class="form-control">
+                                    <option value="active" selected>Active</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="rejected">Rejected</option>
+                                    <option value="expired">Expired</option>
+                                    <option value="sold">Sold</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input type="text" id="price" class="form-control" value="$450,000">
+                            </div>
+                            <div class="form-group">
+                                <label for="priceType">Price Type</label>
+                                <select id="priceType" class="form-control">
+                                    <option value="sale" selected>For Sale</option>
+                                    <option value="rent">For Rent</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description"
+                                class="form-control textarea-control">Beautiful luxury villa located in the prestigious Toul Kork district of Phnom Penh. This stunning property features 4 bedrooms, 3 bathrooms, a spacious living area, modern kitchen, and a private garden with swimming pool. Perfect for families or as an investment property. Close to international schools, shopping centers, and business districts.</textarea>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <select id="country" class="form-control">
+                                    <option value="cambodia" selected>Cambodia</option>
+                                    <option value="thailand">Thailand</option>
+                                    <option value="vietnam">Vietnam</option>
+                                    <option value="laos">Laos</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" class="form-control" value="Phnom Penh">
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="district">District</label>
+                                <input type="text" id="district" class="form-control" value="Toul Kork">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Street Address</label>
+                                <input type="text" id="address" class="form-control"
+                                    value="123 Main Street, Building 456">
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="bedrooms">Bedrooms</label>
+                                <input type="number" id="bedrooms" class="form-control" value="4">
+                            </div>
+                            <div class="form-group">
+                                <label for="bathrooms">Bathrooms</label>
+                                <input type="number" id="bathrooms" class="form-control" value="3">
+                            </div>
+                            <div class="form-group">
+                                <label for="area">Area (m²)</label>
+                                <input type="number" id="area" class="form-control" value="320">
+                            </div>
+                        </div>
+
+                        <h4 class="section-title"><i class="fas fa-check-circle"></i> Features & Amenities</h4>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <i class="feature-icon fas fa-swimming-pool"></i>
+                                <span class="feature-name">Swimming Pool</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="feature-icon fas fa-car"></i>
+                                <span class="feature-name">Garage</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="feature-icon fas fa-wifi"></i>
+                                <span class="feature-name">High-Speed Internet</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="feature-icon fas fa-concierge-bell"></i>
+                                <span class="feature-name">Concierge Service</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="feature-icon fas fa-gift"></i>
+                                <span class="feature-name">Furnished</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="feature-icon fas fa-tree"></i>
+                                <span class="feature-name">Garden</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="moderation-actions">
+                            <h4 class="actions-title">Moderation Actions</h4>
+                            <p style="color: var(--gray); font-size: 0.875rem; margin-bottom: 1rem;">Take action to
+                                manage this listing's visibility and status.</p>
+
+                            <div class="action-buttons-row">
+                                <button class="mod-btn approve-btn"><i class="fas fa-check-circle"></i> Approve</button>
+                                <button class="mod-btn reject-btn"><i class="fas fa-times-circle"></i> Reject</button>
+                                <button class="mod-btn feature-btn"><i class="fas fa-star"></i> Feature</button>
+                                <button class="mod-btn boost-btn"><i class="fas fa-bolt"></i> Boost</button>
+                                <button class="mod-btn suspend-btn"><i class="fas fa-ban"></i> Suspend</button>
+                                <button class="mod-btn delete-btn"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <h4 class="section-title"><i class="fas fa-user"></i> Agent Information</h4>
+                            <div style="padding: 1rem; background-color: var(--light-gray); border-radius: 0.375rem;">
+                                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                    <div
+                                        style="width: 50px; height: 50px; background-color: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                                        CB</div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--dark);">CBRE Cambodia</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">Real Estate Agency</div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 0.5rem;">
+                                    <strong>Contact:</strong>+855 92 800 801
+                                </div>
+                                <div style="margin-bottom: 0.5rem;">
+                                    <strong>Email:</strong> info@cbrecambodia.com
+                                </div>
+                                <div>
+                                    <strong>Joined:</strong> Jan 15, 2020
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <h4 class="section-title"><i class="fas fa-history"></i> Listing History</h4>
+                            <div style="background-color: var(--light-gray); border-radius: 0.375rem; padding: 1rem;">
+                                <div
+                                    style="display: flex; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
+                                    <div
+                                        style="width: 32px; height: 32px; background-color: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">
+                                        <i class="fas fa-plus" style="color: var(--primary);"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--dark);">Listing Created</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">Mar 15, 2023 • 10:30 AM
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    style="display: flex; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
+                                    <div
+                                        style="width: 32px; height: 32px; background-color: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">
+                                        <i class="fas fa-check" style="color: var(--secondary);"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--dark);">Approved by Admin</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">Mar 15, 2023 • 2:45 PM
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 0.75rem; padding: 0.5rem 0;">
+                                    <div
+                                        style="width: 32px; height: 32px; background-color: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">
+                                        <i class="fas fa-eye" style="color: var(--primary);"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--dark);">Featured Listing</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">Apr 1, 2023 • 9:00 AM
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <h4 class="section-title"><i class="fas fa-flag"></i> Flagged Reports (14)</h4>
+                            <div
+                                style="background-color: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 0.375rem; padding: 1rem;">
+                                <div style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">Multiple reports
+                                    received</div>
+                                <div style="color: var(--dark); font-size: 0.875rem; margin-bottom: 0.5rem;">Users have
+                                    reported this listing for potentially misleading photos and inaccurate pricing
+                                    information.</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Last reported: Today, 11:20 AM by
+                                    User #8892</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel" onclick="closeListingModal()">Cancel</button>
+                <button class="btn-modal btn-save">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 2rem 0; margin-top: 2rem;">
+        <div class="container" style="text-align: center;">
+            <p>Peanech.com Admin Dashboard &copy; 2023. All rights reserved.</p>
+            <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem;">Internal use only.
+                Unauthorized access prohibited.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.user-actions').classList.toggle('show');
+        });
+
+        // Open listing modal
+        function openListingModal(listingTitle, status, isEditing = false) {
+            document.getElementById('modalListingTitle').textContent = listingTitle;
+            document.getElementById('listingModal').style.display = 'flex';
+
+            // Change button text based on mode
+            const saveButton = document.querySelector('.btn-save');
+            if (isEditing) {
+                saveButton.textContent = 'Save Changes';
+            } else {
+                saveButton.textContent = 'Close';
+                saveButton.classList.remove('btn-save');
+                saveButton.classList.add('btn-cancel');
+            }
+        }
+
+        // Close listing modal
+        function closeListingModal() {
+            document.getElementById('listingModal').style.display = 'none';
+
+            // Reset button to default state
+            const saveButton = document.querySelector('.btn-modal');
+            saveButton.textContent = 'Save Changes';
+            saveButton.classList.remove('btn-cancel');
+            saveButton.classList.add('btn-save');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('listingModal');
+            if (event.target == modal) {
+                closeListingModal();
+            }
+        }
+
+        // Add listing functionality
+        document.querySelector('.btn-primary').addEventListener('click', function (e) {
+            if (e.target.textContent.includes('Add Listing')) {
+                alert('This would open a form to add a new property listing to the platform.');
+            }
+        });
+
+        // Reject listing functionality
+        document.querySelectorAll('.reject-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const listingTitle = this.closest('tr')?.querySelector('.property-title')?.textContent ||
+                    this.closest('.moderation-actions')?.previousElementSibling?.querySelector('.property-title')?.textContent;
+
+                const reason = prompt(`Please provide a reason for rejecting "${listingTitle}":`, 'Inaccurate information, misleading photos, or policy violation');
+
+                if (reason) {
+                    alert(`Listing "${listingTitle}" has been rejected with the following reason:\n\n${reason}`);
+                }
+            });
+        });
+
+        // Suspend listing functionality
+        document.querySelectorAll('.suspend-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const listingTitle = this.closest('tr')?.querySelector('.property-title')?.textContent ||
+                    this.closest('.moderation-actions')?.previousElementSibling?.querySelector('.property-title')?.textContent;
+
+                if (confirm(`Are you sure you want to suspend "${listingTitle}"? This will hide the listing from public view.`)) {
+                    alert(`Listing "${listingTitle}" has been suspended.`);
+                }
+            });
+        });
+
+        // Feature listing functionality
+        document.querySelectorAll('.feature-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const listingTitle = this.closest('tr')?.querySelector('.property-title')?.textContent ||
+                    this.closest('.moderation-actions')?.previousElementSibling?.querySelector('.property-title')?.textContent;
+
+                alert(`Listing "${listingTitle}" has been featured and will appear in premium placement areas.`);
+            });
+        });
+
+        // Add image functionality
+        document.querySelector('.add-image-btn').addEventListener('click', function () {
+            alert('This would open a file upload dialog to add new images to the listing.');
+        });
+
+        // Gallery item selection
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function () {
+                document.querySelectorAll('.gallery-item').forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+
+</html>

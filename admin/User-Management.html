@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com Admin Dashboard - User Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --admin-bar-height: 48px;
+            --header-height: 64px;
+            --top-offset: calc(var(--admin-bar-height) + var(--header-height));
+            --sidebar-width: 240px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+        }
+
+        .admin-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: #0f172a;
+            font-size: 0.875rem;
+        }
+
+        .admin-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-bar a:hover {
+            color: white;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #ffffff;
+            height: calc(100vh - var(--top-offset));
+            position: fixed;
+            left: 0;
+            top: var(--top-offset);
+            box-shadow: var(--shadow);
+            overflow-y: auto;
+            padding: 0.5rem 0;
+            border-right: 1px solid var(--border);
+            transition: width 0.18s ease, transform 0.18s ease;
+        }
+
+        .sidebar .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar .menu-item {
+            display: block;
+        }
+
+        .sidebar .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--gray);
+            text-decoration: none;
+            transition: background-color 0.15s ease, color 0.15s ease, border-left-color 0.15s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar .menu-link .menu-icon {
+            width: 28px;
+            text-align: center;
+            font-size: 1.125rem;
+            color: inherit;
+        }
+
+        .sidebar .menu-link .label {
+            white-space: nowrap;
+        }
+
+        .sidebar .menu-item:hover .menu-link {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .sidebar .menu-item.active .menu-link {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.06), transparent);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Compact / collapsed state (small screens or explicit collapse) */
+        .sidebar.collapsed {
+            width: 72px;
+        }
+
+        .sidebar.collapsed .label {
+            display: none;
+        }
+
+        .sidebar.collapsed .menu-link {
+            justify-content: center;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* User Management Module */
+        .user-management {
+            margin-left: var(--sidebar-width);
+            padding: 2rem 0 4rem;
+            background-color: #f1f5f9;
+            transition: margin-left 0.18s ease;
+        }
+
+        /* When sidebar is collapsed, shrink content margin */
+        .sidebar.collapsed~.user-management {
+            margin-left: 72px;
+        }
+
+        /* Users Table */
+        .users-table-container {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .users-table th {
+            text-align: left;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .users-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .users-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .users-table tr:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .user-role {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        .role-agent {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .role-buyer {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: var(--secondary);
+        }
+
+        .role-seller {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .role-admin {
+            background-color: rgba(153, 27, 27, 0.1);
+            color: #991b1b;
+        }
+
+        .user-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-pending {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: #ea580c;
+        }
+
+        .status-suspended {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+        }
+
+        .action-buttons-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .action-btn:hover {
+            background-color: var(--border);
+            color: var(--dark);
+        }
+
+        .edit-btn {
+            color: var(--primary);
+        }
+
+        .edit-btn:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .view-btn {
+            color: var(--secondary);
+        }
+
+        .view-btn:hover {
+            background-color: rgba(5, 150, 105, 0.1);
+        }
+
+        .suspend-btn {
+            color: #dc2626;
+        }
+
+        .suspend-btn:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        /* User Profile Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0.25rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .close-modal:hover {
+            background-color: var(--light-gray);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .profile-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input {
+            margin: 0;
+        }
+
+        .permissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .permission-item {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            background-color: var(--light-gray);
+        }
+
+        .permission-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .permission-desc {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-action {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .activity-time {
+            color: var(--gray);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn-modal {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-cancel {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--border);
+        }
+
+        .btn-save {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .user-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--dark);
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .user-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 1.5rem 0;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .users-table th,
+            .users-table td {
+                padding: 0.75rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .admin-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Admin Bar -->
+    <div class="admin-bar">
+        <div class="left">
+            <a href="/admin/"><i class="fas fa-lock"></i> Admin Dashboard</a>
+            <a href="/"><i class="fas fa-home"></i> View Public Site</a>
+        </div>
+        <div class="right">
+            <a href="#" class="notification-badge"><i class="fas fa-bell"></i> Notifications <span
+                    class="notification-count-badge">3</span></a>
+            <a href="#"><i class="fas fa-user-circle"></i> Admin User</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="/admin/" class="logo">
+            <i class="fas fa-home"></i> Peanech Admin Dashboard
+        </a>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar" aria-label="Main sidebar navigation">
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="/admin/Admin-Dashboard.html" class="menu-link">
+                    <i class="fas fa-tachometer-alt menu-icon" aria-hidden="true"></i>
+                    <span class="label">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Property-Listings-Management.html" class="menu-link">
+                    <i class="fas fa-building menu-icon" aria-hidden="true"></i>
+                    <span class="label">Listings</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="/admin/User-Management.html" class="menu-link" aria-current="page">
+                    <i class="fas fa-users menu-icon" aria-hidden="true"></i>
+                    <span class="label">Users</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Agent-Agency-Management.html" class="menu-link">
+                    <i class="fas fa-user-tie menu-icon" aria-hidden="true"></i>
+                    <span class="label">Agents</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Content-Management-System.html" class="menu-link">
+                    <i class="fas fa-file-alt menu-icon" aria-hidden="true"></i>
+                    <span class="label">Content</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Finance-Billing.html" class="menu-link">
+                    <i class="fas fa-dollar-sign menu-icon" aria-hidden="true"></i>
+                    <span class="label">Finance</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Reports.html" class="menu-link">
+                    <i class="fas fa-chart-line menu-icon" aria-hidden="true"></i>
+                    <span class="label">Reports</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Communication-Tools.html" class="menu-link">
+                    <i class="fas fa-comments menu-icon" aria-hidden="true"></i>
+                    <span class="label">Communication</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Settings.html" class="menu-link">
+                    <i class="fas fa-cog menu-icon" aria-hidden="true"></i>
+                    <span class="label">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- User Management Module -->
+    <section class="user-management">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>User Management</h2>
+                    <p>Manage, moderate, and review all users on the platform.</p>
+                </div>
+                <div class="section-actions">
+                    <button class="btn btn-outline">Refresh</button>
+                    <button class="btn btn-primary">Export Data</button>
+                </div>
+            </div>
+
+            <div class="filters-bar">
+                <div class="search-filter">
+                    <input type="text" placeholder="Search users..." class="search-input">
+                    <select class="filter-select">
+                        <option>All Roles</option>
+                        <option>Buyers</option>
+                        <option>Sellers</option>
+                        <option>Agents</option>
+                        <option>Admins</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Status</option>
+                        <option>Active</option>
+                        <option>Pending</option>
+                        <option>Suspended</option>
+                    </select>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-outline"><i class="fas fa-filter"></i> Advanced Filters</button>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Add User</button>
+                </div>
+            </div>
+
+            <div class="users-table-container">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Contact</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-avatar">JS</div>
+                                    <div>
+                                        <div class="user-name">James Wilson</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">james.wilson@email.com
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 12 345 678</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Phnom Penh</div>
+                            </td>
+                            <td><span class="user-role role-agent">Real Estate Agent</span></td>
+                            <td><span class="user-status status-active">Active</span></td>
+                            <td>Mar 15, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openProfileModal('James Wilson', 'agent')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openProfileModal('James Wilson', 'agent', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-avatar">LC</div>
+                                    <div>
+                                        <div class="user-name">Lisa Chen</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">lisa.chen@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 92 456 789</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Siem Reap</div>
+                            </td>
+                            <td><span class="user-role role-buyer">Property Buyer</span></td>
+                            <td><span class="user-status status-active">Active</span></td>
+                            <td>Feb 28, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openProfileModal('Lisa Chen', 'buyer')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openProfileModal('Lisa Chen', 'buyer', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-avatar">TK</div>
+                                    <div>
+                                        <div class="user-name">Thomas Kim</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">thomas.kim@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 85 789 123</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Sihanoukville</div>
+                            </td>
+                            <td><span class="user-role role-seller">Property Seller</span></td>
+                            <td><span class="user-status status-active">Active</span></td>
+                            <td>Jan 10, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openProfileModal('Thomas Kim', 'seller')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openProfileModal('Thomas Kim', 'seller', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-avatar">MJ</div>
+                                    <div>
+                                        <div class="user-name">Maria Johnson</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">maria.johnson@email.com
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 77 234 567</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Phnom Penh</div>
+                            </td>
+                            <td><span class="user-role role-agent">Agency Owner</span></td>
+                            <td><span class="user-status status-pending">Pending</span></td>
+                            <td>Apr 5, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openProfileModal('Maria Johnson', 'agent')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openProfileModal('Maria Johnson', 'agent', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-avatar">AS</div>
+                                    <div>
+                                        <div class="user-name">Alex Smith</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">alex.smith@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 16 876 543</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Kep</div>
+                            </td>
+                            <td><span class="user-role role-buyer">Investor</span></td>
+                            <td><span class="user-status status-active">Active</span></td>
+                            <td>Mar 22, 2023</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openProfileModal('Alex Smith', 'buyer')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openProfileModal('Alex Smith', 'buyer', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-avatar">SK</div>
+                                    <div>
+                                        <div class="user-name">Sarah Kim</div>
+                                        <div style="color: var(--gray); font-size: 0.875rem;">sarah.kim@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: var(--dark);">+855 96 321 456</div>
+                                <div style="color: var(--gray); font-size: 0.875rem;">Phnom Penh</div>
+                            </td>
+                            <td><span class="user-role role-admin">Content Moderator</span></td>
+                            <td><span class="user-status status-active">Active</span></td>
+                            <td>Dec 15, 2022</td>
+                            <td>
+                                <div class="action-buttons-cell">
+                                    <button class="action-btn view-btn"
+                                        onclick="openProfileModal('Sarah Kim', 'admin')"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit-btn"
+                                        onclick="openProfileModal('Sarah Kim', 'admin', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="action-btn suspend-btn"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; color: var(--gray); font-size: 0.875rem;">
+                <div>
+                    Showing 1-6 of 142 users
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Previous</button>
+                    <button
+                        style="padding: 0.5rem 1rem; background-color: var(--primary); color: white; border: none; border-radius: 0.375rem;">1</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                    <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-user"></i> <span id="modalUserName">User Profile</span></h3>
+                <button class="close-modal" onclick="closeProfileModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-grid">
+                    <div class="profile-section">
+                        <h4 class="section-title"><i class="fas fa-user-circle"></i> Personal Information</h4>
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" class="form-control" value="James Wilson">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" value="james.wilson@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="text" id="phone" class="form-control" value="+855 12 345 678">
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" class="form-control" value="1985-06-15">
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h4 class="section-title"><i class="fas fa-map-marker-alt"></i> Location & Address</h4>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select id="country" class="form-control">
+                                <option value="cambodia" selected>Cambodia</option>
+                                <option value="thailand">Thailand</option>
+                                <option value="vietnam">Vietnam</option>
+                                <option value="laos">Laos</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" class="form-control" value="Phnom Penh">
+                        </div>
+                        <div class="form-group">
+                            <label for="district">District</label>
+                            <input type="text" id="district" class="form-control" value="Toul Kork">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Street Address</label>
+                            <input type="text" id="address" class="form-control" value="123 Main Street, Building 456">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h4 class="section-title"><i class="fas fa-user-tag"></i> Account & Verification</h4>
+                    <div class="profile-grid">
+                        <div>
+                            <div class="form-group">
+                                <label for="role">Role</label>
+                                <select id="role" class="form-control">
+                                    <option value="buyer">Property Buyer</option>
+                                    <option value="seller">Property Seller</option>
+                                    <option value="agent" selected>Real Estate Agent</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select id="status" class="form-control">
+                                    <option value="active" selected>Active</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="suspended">Suspended</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="joined">Joined Date</label>
+                                <input type="text" id="joined" class="form-control" value="March 15, 2023" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastLogin">Last Login</label>
+                                <input type="text" id="lastLogin" class="form-control" value="Today, 10:30 AM" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="verified" checked>
+                            <label for="verified">Email Verified</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="phoneVerified">
+                            <label for="phoneVerified">Phone Verified</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="idVerified" checked>
+                            <label for="idVerified">ID Document Verified</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h4 class="section-title"><i class="fas fa-shield-alt"></i> Permissions & Roles</h4>
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Define what this user can see and edit in the
+                        platform.</p>
+                    <div class="permissions-grid">
+                        <div class="permission-item">
+                            <div class="permission-name">List Properties</div>
+                            <div class="permission-desc">Can create new property listings</div>
+                        </div>
+                        <div class="permission-item">
+                            <div class="permission-name">Edit Listings</div>
+                            <div class="permission-desc">Can modify their own property listings</div>
+                        </div>
+                        <div class="permission-item">
+                            <div class="permission-name">Contact Buyers</div>
+                            <div class="permission-desc">Can respond to buyer inquiries</div>
+                        </div>
+                        <div class="permission-item">
+                            <div class="permission-name">View Analytics</div>
+                            <div class="permission-desc">Can see performance metrics for their listings</div>
+                        </div>
+                        <div class="permission-item">
+                            <div class="permission-name">Manage Team</div>
+                            <div class="permission-desc">Can add/remove team members (agency owners)</div>
+                        </div>
+                        <div class="permission-item">
+                            <div class="permission-name">Billing Access</div>
+                            <div class="permission-desc">Can view and manage subscription plans</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h4 class="section-title"><i class="fas fa-history"></i> Activity Log</h4>
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Recent actions taken by this user.</p>
+                    <div class="activity-item">
+                        <div class="activity-icon"
+                            style="background-color: rgba(37, 99, 235, 0.1); color: var(--primary);">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div>Added new listing: <span class="activity-action">Luxury Villa in Toul Kork</span></div>
+                            <div class="activity-time">Today, 10:30 AM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon"
+                            style="background-color: rgba(5, 150, 105, 0.1); color: var(--secondary);">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div>Responded to inquiry from <span class="activity-action">Buyer #7789</span></div>
+                            <div class="activity-time">Yesterday, 3:45 PM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background-color: rgba(234, 88, 12, 0.1); color: #ea580c;">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div>Purchased <span class="activity-action">Premium Listing Package</span></div>
+                            <div class="activity-time">Apr 10, 2023</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon"
+                            style="background-color: rgba(37, 99, 235, 0.1); color: var(--primary);">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div>Updated details for listing: <span class="activity-action">Modern Apartment in
+                                    BKK1</span></div>
+                            <div class="activity-time">Apr 5, 2023</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel" onclick="closeProfileModal()">Cancel</button>
+                <button class="btn-modal btn-save">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 2rem 0; margin-top: 2rem;">
+        <div class="container" style="text-align: center;">
+            <p>Peanech.com Admin Dashboard &copy; 2023. All rights reserved.</p>
+            <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem;">Internal use only.
+                Unauthorized access prohibited.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.user-actions').classList.toggle('show');
+        });
+
+        // Open profile modal
+        function openProfileModal(userName, role, isEditing = false) {
+            document.getElementById('modalUserName').textContent = userName;
+            document.getElementById('profileModal').style.display = 'flex';
+
+            // Change button text based on mode
+            const saveButton = document.querySelector('.btn-save');
+            if (isEditing) {
+                saveButton.textContent = 'Save Changes';
+            } else {
+                saveButton.textContent = 'Close';
+                saveButton.classList.remove('btn-save');
+                saveButton.classList.add('btn-cancel');
+            }
+        }
+
+        // Close profile modal
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+
+            // Reset button to default state
+            const saveButton = document.querySelector('.btn-modal');
+            saveButton.textContent = 'Save Changes';
+            saveButton.classList.remove('btn-cancel');
+            saveButton.classList.add('btn-save');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('profileModal');
+            if (event.target == modal) {
+                closeProfileModal();
+            }
+        }
+
+        // Add user functionality
+        document.querySelector('.btn-primary').addEventListener('click', function (e) {
+            if (e.target.textContent.includes('Add User')) {
+                alert('This would open a form to add a new user to the platform.');
+            }
+        });
+
+        // Suspend user functionality
+        document.querySelectorAll('.suspend-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const userName = this.closest('tr').querySelector('.user-name').textContent;
+                if (confirm(`Are you sure you want to suspend ${userName}'s account? This will prevent them from logging in and accessing the platform.`)) {
+                    alert(`${userName}'s account has been suspended.`);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

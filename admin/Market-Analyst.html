@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com - Cambodia's Real Estate Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .top-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://placehold.co/1600x600/2563eb/ffffff?text=Phnom+Penh+Skyline') no-repeat center center/cover;
+            color: white;
+            padding: 5rem 0 3rem;
+            text-align: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-header p {
+            font-size: 1.125rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .dashboard-analogy {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .analogy-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .analogy-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .analogy-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Dashboard Widgets */
+        .dashboard-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .widget-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--secondary);
+        }
+
+        .widget-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .widget-icon {
+            height: 80px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--secondary);
+        }
+
+        .widget-content {
+            padding: 1.5rem;
+        }
+
+        .widget-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .widget-title i {
+            color: var(--secondary);
+        }
+
+        .widget-desc {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .widget-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .widget-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .widget-feature i {
+            color: var(--secondary);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Dashboard User Perspectives */
+        .user-perspectives {
+            background-color: #f8fafc;
+            padding: 4rem 0;
+        }
+
+        .perspectives-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .perspective-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .perspective-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .perspective-header p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .perspective-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .perspective-tab {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--light-gray);
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .perspective-tab.active {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .perspective-tab:hover {
+            background-color: var(--light-gray);
+        }
+
+        .perspective-content {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .perspective-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .perspective-subtitle {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .perspective-desc {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Market Analysis Dashboard */
+        .analysis-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .analysis-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary);
+        }
+
+        .analysis-header {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .analysis-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .analysis-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .trend-up {
+            color: var(--secondary);
+        }
+
+        .trend-down {
+            color: #dc2626;
+        }
+
+        .analysis-details {
+            margin-top: 1rem;
+            color: var(--gray);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .price-segments {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .price-segment {
+            background-color: var(--light-gray);
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .segment-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .segment-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Market Trends Chart */
+        .market-trends {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .trend-chart {
+            height: 300px;
+            background-color: var(--light-gray);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trend-line {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .trend-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            bottom: 24px;
+        }
+
+        .trend-point:nth-child(1) {
+            left: 5%;
+            transform: translateY(-10px);
+        }
+
+        .trend-point:nth-child(2) {
+            left: 20%;
+            transform: translateY(5px);
+        }
+
+        .trend-point:nth-child(3) {
+            left: 35%;
+            transform: translateY(-15px);
+        }
+
+        .trend-point:nth-child(4) {
+            left: 50%;
+            transform: translateY(0px);
+        }
+
+        .trend-point:nth-child(5) {
+            left: 65%;
+            transform: translateY(-8px);
+        }
+
+        .trend-point:nth-child(6) {
+            left: 80%;
+            transform: translateY(12px);
+        }
+
+        .trend-point:nth-child(7) {
+            left: 95%;
+            transform: translateY(-5px);
+        }
+
+        .trend-labels {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .nav-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .dashboard-header {
+                padding: 4rem 0 2rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .dashboard-widgets {
+                grid-template-columns: 1fr;
+            }
+
+            .perspective-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="left">
+            <a href="#"><i class="fas fa-phone"></i>+855 92 800 801</a>
+            <a href="#"><i class="fas fa-envelope"></i> info@peanech.com</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="#" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="#">Buy</a>
+                    <a href="#">Rent</a>
+                    <a href="#">Commercial</a>
+                    <a href="#">New Developments</a>
+                    <a href="#">Agents</a>
+                    <a href="#">News</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <button class="btn btn-outline">Log In</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <h1>Your Real Estate Market Dashboard</h1>
+            <p>Peanech.com functions as a centralized control panel for Cambodia's entire property market, serving all
+                user needs simultaneously.</p>
+
+            <div class="dashboard-analogy">
+                <div class="analogy-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <h3 class="analogy-title">The Real Estate Dashboard Analogy</h3>
+                <p class="analogy-text">Think of a car dashboard. It doesn't just show one thing; it shows speed for the
+                    driver, RPM for the enthusiast, fuel level for the planner, and warning lights for everyone's
+                    safety. Similarly, Peanech.com's homepage provides key metrics and tools for each type of user.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Widgets -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Market Intelligence Dashboard</h2>
+                    <p>Key macro-economic indicators for investors and researchers</p>
+                </div>
+            </div>
+
+            <div class="dashboard-widgets">
+                <!-- Widget 1 -->
+                <div class="widget-card">
+                    <div class="widget-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="widget-content">
+                        <h3 class="widget-title"><i class="fas fa-chart-line"></i> Sentiment Indicator</h3>
+                        <p class="widget-desc">The volume and quality of "Featured" and "Hot" projects indicate
+                            developer and agent confidence in the market's future direction.</p>
+
+                        <div class="widget-features">
+                            <div class="widget-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Developer confidence metrics</span>
+                            </div>
+                            <div class="widget-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Agent market participation</span>
+                            </div>
+                            <div class="widget-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Investor sentiment analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget 2 -->
+                <div class="widget-card">
+                    <div class="widget-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <div class="widget-content">
+                        <h3 class="widget-title"><i class="fas fa-water"></i> Liquidity Gauge</h3>
+                        <p class="widget-desc">The number of "Latest Properties" suggests market liquidity and turnover
+                            rates, indicating how quickly properties are being bought and sold.</p>
+
+                        <div class="widget-features">
+                            <div class="widget-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Market turnover rates</span>
+                            </div>
+                            <div class="widget-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Inventory velocity metrics</span>
+                            </div>
+                            <div class="widget-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Sales cycle analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget 3 -->
+                <div class="widget-card">
+                    <div class="widget-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="widget-content">
+                        <h3 class="widget-title"><i class="fas fa-dollar-sign"></i> Price Discovery Tool</h3>
+                        <p class="widget-desc">Provides a snapshot of asking prices across different segments without
+                            needing a deep dive into individual listings.</p>
+
+                        <div class="widget-features">
+                            <div class="widget-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Price segmentation analysis</span>
+                            </div>
+                            <div class="widget-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Market pricing benchmarks</span>
+                            </div>
+                            <div class="widget-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Value assessment tools</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard User Perspectives -->
+    <section class="user-perspectives">
+        <div class="container perspectives-container">
+            <div class="perspective-header">
+                <h2>Dashboard Functions for Each User</h2>
+                <p>How the same interface serves different needs with tailored information and tools</p>
+            </div>
+
+            <div class="perspective-tabs">
+                <div class="perspective-tab">Property Seeker</div>
+                <div class="perspective-tab">Property Lister</div>
+                <div class="perspective-tab active">Market Analyst</div>
+            </div>
+
+            <div class="perspective-content">
+                <h3 class="perspective-title"><i class="fas fa-chart-line"></i> For The Market Analyst
+                    (Investor/Researcher)</h3>
+                <p class="perspective-desc">This user looks at the homepage as a macro-economic indicator, extracting
+                    valuable insights about market health, trends, and investment opportunities.</p>
+
+                <h4 class="perspective-subtitle"><i class="fas fa-chart-line"></i> Sentiment Indicator</h4>
+                <p class="perspective-desc">The volume and quality of "Featured" and "Hot" projects indicate developer
+                    and agent confidence. A high number of premium listings suggests optimism about future market
+                    conditions and price appreciation.</p>
+
+                <div class="analysis-dashboard">
+                    <!-- Analysis 1 -->
+                    <div class="analysis-card">
+                        <div class="analysis-header"><i class="fas fa-star"></i> Featured Projects</div>
+                        <div class="analysis-value">34</div>
+                        <div class="analysis-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12% increase from last quarter</span>
+                        </div>
+                        <div class="analysis-details">
+                            High-quality developments with premium marketing, indicating strong developer confidence in
+                            market recovery.
+                        </div>
+                    </div>
+
+                    <!-- Analysis 2 -->
+                    <div class="analysis-card" style="border-top-color: var(--secondary);">
+                        <div class="analysis-header"><i class="fas fa-fire"></i> Hot Projects</div>
+                        <div class="analysis-value">18</div>
+                        <div class="analysis-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>8 new launches this month</span>
+                        </div>
+                        <div class="analysis-details">
+                            New developments entering the market, showing active investment and development activity
+                            across key locations.
+                        </div>
+                    </div>
+
+                    <!-- Analysis 3 -->
+                    <div class="analysis-card" style="border-top-color: #059669;">
+                        <div class="analysis-header"><i class="fas fa-users"></i> Agent Activity</div>
+                        <div class="analysis-value">92%</div>
+                        <div class="analysis-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Market participation rate</span>
+                        </div>
+                        <div class="analysis-details">
+                            Percentage of active agencies listing properties, indicating overall market engagement and
+                            competitiveness.
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="perspective-subtitle"><i class="fas fa-water"></i> Liquidity Gauge</h4>
+                <p class="perspective-desc">The number of "Latest Properties" suggests market liquidity and turnover
+                    rates. High inventory velocity indicates a dynamic market with quick transaction cycles, while low
+                    velocity may suggest stagnation.</p>
+
+                <div class="analysis-dashboard">
+                    <!-- Analysis 4 -->
+                    <div class="analysis-card">
+                        <div class="analysis-header"><i class="fas fa-clock"></i> New Listings</div>
+                        <div class="analysis-value">289</div>
+                        <div class="analysis-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>This week</span>
+                        </div>
+                        <div class="analysis-details">
+                            Number of new properties listed, indicating market activity and seller willingness to enter
+                            the market.
+                        </div>
+                    </div>
+
+                    <!-- Analysis 5 -->
+                    <div class="analysis-card" style="border-top-color: #dc2626;">
+                        <div class="analysis-header"><i class="fas fa-exchange-alt"></i> Turnover Rate</div>
+                        <div class="analysis-value">4.2%</div>
+                        <div class="analysis-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Monthly market turnover</span>
+                        </div>
+                        <div class="analysis-details">
+                            Percentage of total inventory sold monthly, indicating market liquidity and buyer demand
+                            strength.
+                        </div>
+                    </div>
+
+                    <!-- Analysis 6 -->
+                    <div class="analysis-card" style="border-top-color: #7c3aed;">
+                        <div class="analysis-header"><i class="fas fa-calendar"></i> Days on Market</div>
+                        <div class="analysis-value">68</div>
+                        <div class="analysis-trend trend-down">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>Average days to sell</span>
+                        </div>
+                        <div class="analysis-details">
+                            Average time properties remain on the market before receiving an offer, indicating
+                            demand-supply balance.
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="perspective-subtitle"><i class="fas fa-dollar-sign"></i> Price Discovery Tool</h4>
+                <p class="perspective-desc">The homepage provides a snapshot of asking prices across different segments
+                    (luxury condos, suburban land, etc.) without needing a deep dive. This allows for quick comparative
+                    analysis and identification of value opportunities.</p>
+
+                <div class="analysis-card">
+                    <div class="analysis-header"><i class="fas fa-tags"></i> Price Segmentation Analysis</div>
+                    <div class="price-segments">
+                        <div class="price-segment">
+                            <div class="segment-label">Luxury Condos</div>
+                            <div class="segment-value">$850/m²</div>
+                        </div>
+                        <div class="price-segment">
+                            <div class="segment-label">Premium Apartments</div>
+                            <div class="segment-value">$620/m²</div>
+                        </div>
+                        <div class="price-segment">
+                            <div class="segment-label">Standard Housing</div>
+                            <div class="segment-value">$410/m²</div>
+                        </div>
+                        <div class="price-segment">
+                            <div class="segment-label">Suburban Land</div>
+                            <div class="segment-value">$280/m²</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="market-trends">
+                    <div class="analysis-header"><i class="fas fa-chart-area"></i> Market Trends Overview</div>
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Price trends across major property segments over
+                        the last 6 months</p>
+
+                    <div class="trend-chart">
+                        <div class="trend-line"></div>
+                        <div class="trend-point"></div>
+                        <div class="trend-point"></div>
+                        <div class="trend-point"></div>
+                        <div class="trend-point"></div>
+                        <div class="trend-point"></div>
+                        <div class="trend-point"></div>
+                        <div class="trend-point"></div>
+
+                        <div class="trend-labels">
+                            <span>Jan</span>
+                            <span>Feb</span>
+                            <span>Mar</span>
+                            <span>Apr</span>
+                            <span>May</span>
+                            <span>Jun</span>
+                            <span>Jul</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem;">
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600; color: var(--dark);">Phnom Penh</div>
+                            <div style="color: var(--primary); font-weight: 600;">+3.2% YTD</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600; color: var(--dark);">Siem Reap</div>
+                            <div style="color: var(--primary); font-weight: 600;">+5.8% YTD</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600; color: var(--dark);">Sihanoukville</div>
+                            <div style="color: var(--secondary); font-weight: 600;">+1.5% YTD</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600; color: var(--dark);">Kep</div>
+                            <div style="color: var(--primary); font-weight: 600;">+7.3% YTD</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Market Indicators</h2>
+                    <p>Key properties that influence market sentiment and pricing trends</p>
+                </div>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="properties-grid">
+                <!-- Property 1 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/2563eb/ffffff?text=Modern+Flat+BKK1"
+                            alt="Modern Flat in BKK1">
+                        <span class="property-badge">For Rent</span>
+                        <span class="property-price">$1,200/month</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Modern Flat for Rent in BKK1</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Boulevard Keo Monorom, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>2 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>2 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>85m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">CB</div>
+                            <div class="agent-name">CBRE Cambodia</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://placehold.co/400x300/059669/ffffff?text=Luxury+Villa+Toul+Kork"
+                            alt="Luxury Villa in Toul Kork">
+                        <span class="property-badge">For Sale</span>
+                        <span class="property-price">$450,000</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Luxury Villa in Toul Kork</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Toul Kork, Phnom Penh</span>
+                        </div>
+                        <div class="property-details">
+                            <div class="property-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>4 Beds</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>3 Baths</span>
+                            </div>
+                            <div class="property-detail">
+                                <i class="fas fa-vector-square"></i>
+                                <span>320m²</span>
+                            </div>
+                        </div>
+                        <div class="property-agent">
+                            <div class="agent-logo">KF</div>
+                            <div class="agent-name">Knight Frank</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 3rem 0; margin-top: 4rem;">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2023 Peanech.com. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.nav-actions').classList.toggle('show');
+        });
+
+        // Perspective tab switching
+        document.querySelectorAll('.perspective-tab').forEach((tab, index) => {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.perspective-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .admin-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: #0f172a;
+            font-size: 0.875rem;
+        }
+
+        .admin-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-bar a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-bar a:hover {
+            color: white;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+            background-color: var(--dark);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+            padding: 0.5rem 0;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+            border-bottom-color: var(--secondary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Admin Dashboard Content */
+        .admin-dashboard {
+            padding: 2rem 0 4rem;
+            background-color: #f1f5f9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .card-content {
+            padding: 1.25rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .metric-label {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .trend-up {
+            color: var(--secondary);
+        }
+
+        .trend-down {
+            color: #dc2626;
+        }
+
+        /* Activity Feed */
+        .activity-feed {
+            margin-top: 1rem;
+        }
+
+        .feed-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        .feed-item:last-child {
+            border-bottom: none;
+        }
+
+        .feed-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .feed-content {
+            flex: 1;
+        }
+
+        .feed-user {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .feed-action {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .feed-property {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .feed-time {
+            color: var(--gray);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        /* System Status */
+        .system-status {
+            margin-top: 1rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .status-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-green {
+            background-color: var(--secondary);
+        }
+
+        .status-red {
+            background-color: #dc2626;
+        }
+
+        .status-yellow {
+            background-color: #ea580c;
+        }
+
+        .status-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .status-value {
+            color: var(--gray);
+        }
+
+        /* Moderation Queue */
+        .moderation-queue {
+            margin-top: 1rem;
+        }
+
+        .queue-summary {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background-color: var(--light-gray);
+            border-radius: 0.375rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .queue-count {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .queue-type {
+            color: var(--gray);
+        }
+
+        .queue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        .queue-item:last-child {
+            border-bottom: none;
+        }
+
+        .queue-item-info {
+            flex: 1;
+        }
+
+        .queue-item-user {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .queue-item-property {
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+
+        .queue-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .approve-btn {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .reject-btn {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .user-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--dark);
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .user-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 1.5rem 0;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .admin-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Admin Bar -->
+    <div class="admin-bar">
+        <div class="left">
+            <a href="/admin/Admin-Dashboard.html"><i class="fas fa-lock"></i> Admin Dashboard</a>
+            <a href="/"><i class="fas fa-home"></i> View Public Site</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fas fa-bell"></i> Notifications <span
+                    style="background-color: var(--secondary); color: white; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.75rem;">3</span></a>
+            <a href="#"><i class="fas fa-user-circle"></i> Admin User</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="#" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="#" class="active">Dashboard</a>
+                    <a href="#">Listings</a>
+                    <a href="#">Users</a>
+                    <a href="#">Transactions</a>
+                    <a href="#">Reports</a>
+                    <a href="#">Settings</a>
+                </nav>
+
+                <div class="user-actions">
+                    <button class="btn btn-outline"><i class="fas fa-cog"></i> Settings</button>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Content</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Dashboard -->
+    <section class="admin-dashboard">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Core Dashboard Overview</h2>
+                    <p>Welcome back, Admin. Here's a snapshot of the platform's health and activity.</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-outline">Refresh</button>
+                    <button class="btn btn-primary">Export Data</button>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Key Metrics: Total Properties -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-th-large"></i>
+                        <span>Total Properties Listed</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-value">12,487</div>
+                        <div class="metric-label">Active Listings</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>3.2% from last week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics: New Properties -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-clock"></i>
+                        <span>New Properties (Last 7 Days)</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-value">289</div>
+                        <div class="metric-label">Recently Added</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12 new today</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics: New Users -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-user-plus"></i>
+                        <span>New User Registrations</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-value">347</div>
+                        <div class="metric-label">New Accounts</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>8.7% from last week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics: Agent Accounts -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-briefcase"></i>
+                        <span>Agent/Agency Accounts</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-value">142</div>
+                        <div class="metric-label">Verified Partners</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>5 new this week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid" style="margin-top: 1.5rem;">
+                <!-- Activity Feed -->
+                <div class="dashboard-card" style="grid-column: span 2;">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-rss"></i>
+                        <span>Activity Feed</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="widget-desc">Real-time log of significant events across the platform.</p>
+
+                        <div class="activity-feed">
+                            <div class="feed-item">
+                                <div class="feed-icon"
+                                    style="background-color: rgba(37, 99, 235, 0.1); color: var(--primary);">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                                <div class="feed-content">
+                                    <div>New property added by <span class="feed-user">CBRE Cambodia</span>: <span
+                                            class="feed-property">Luxury Villa in Toul Kork</span></div>
+                                    <div class="feed-time">2 minutes ago</div>
+                                </div>
+                            </div>
+
+                            <div class="feed-item">
+                                <div class="feed-icon"
+                                    style="background-color: rgba(234, 88, 12, 0.1); color: #ea580c;">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="feed-content">
+                                    <div><span class="feed-user">User #8892</span> reported a listing: <span
+                                            class="feed-property">Ocean View Condo, Sihanoukville</span></div>
+                                    <div class="feed-time">15 minutes ago</div>
+                                </div>
+                            </div>
+
+                            <div class="feed-item">
+                                <div class="feed-icon"
+                                    style="background-color: rgba(5, 150, 105, 0.1); color: var(--secondary);">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="feed-content">
+                                    <div>Payment received from <span class="feed-user">Knight Frank</span> for <span
+                                            class="feed-action">Agency Subscription</span></div>
+                                    <div class="feed-time">45 minutes ago</div>
+                                </div>
+                            </div>
+
+                            <div class="feed-item">
+                                <div class="feed-icon"
+                                    style="background-color: rgba(37, 99, 235, 0.1); color: var(--primary);">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="feed-content">
+                                    <div>New user registration: <span class="feed-user">Sarah Johnson</span> (Buyer)
+                                    </div>
+                                    <div class="feed-time">1 hour ago</div>
+                                </div>
+                            </div>
+
+                            <div class="feed-item">
+                                <div class="feed-icon"
+                                    style="background-color: rgba(220, 38, 38, 0.1); color: #dc2626;">
+                                    <i class="fas fa-trash"></i>
+                                </div>
+                                <div class="feed-content">
+                                    <div>Listing removed: <span class="feed-property">Land in Siem Reap</span> (Expired)
+                                    </div>
+                                    <div class="feed-time">2 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Health Status -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-heartbeat"></i>
+                        <span>System Health Status</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="widget-desc">Current status of platform infrastructure and services.</p>
+
+                        <div class="system-status">
+                            <div class="status-item">
+                                <div class="status-info">
+                                    <div class="status-icon status-green"></div>
+                                    <div class="status-name">Website</div>
+                                </div>
+                                <div class="status-value">Operational</div>
+                            </div>
+
+                            <div class="status-item">
+                                <div class="status-info">
+                                    <div class="status-icon status-green"></div>
+                                    <div class="status-name">API Service</div>
+                                </div>
+                                <div class="status-value">Operational</div>
+                            </div>
+
+                            <div class="status-item">
+                                <div class="status-info">
+                                    <div class="status-icon status-green"></div>
+                                    <div class="status-name">Database</div>
+                                </div>
+                                <div class="status-value">Operational</div>
+                            </div>
+
+                            <div class="status-item">
+                                <div class="status-info">
+                                    <div class="status-icon status-yellow"></div>
+                                    <div class="status-name">Image Processing</div>
+                                </div>
+                                <div class="status-value">Degraded</div>
+                            </div>
+
+                            <div class="status-item">
+                                <div class="status-info">
+                                    <div class="status-icon status-green"></div>
+                                    <div class="status-name">Search Index</div>
+                                </div>
+                                <div class="status-value">Operational</div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 1rem; padding: 0.75rem; background-color: rgba(234, 88, 12, 0.1); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: 0.375rem; font-size: 0.875rem;">
+                            <div style="font-weight: 600; color: #ea580c;">Maintenance Notice</div>
+                            <div style="color: var(--dark); margin-top: 0.25rem;">Scheduled database maintenance tonight
+                                from 2:00 AM to 4:00 AM (ICT).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid" style="margin-top: 1.5rem;">
+                <!-- Moderation Queue -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="card-icon fas fa-tasks"></i>
+                        <span>Moderation Queue</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="widget-desc">Items awaiting approval or review by administrators.</p>
+
+                        <div class="queue-summary">
+                            <div class="queue-type">Total Pending</div>
+                            <div class="queue-count">17</div>
+                        </div>
+
+                        <div class="queue-summary"
+                            style="background-color: rgba(37, 99, 235, 0.1); color: var(--primary);">
+                            <div class="queue-type">Properties</div>
+                            <div class="queue-count">8</div>
+                        </div>
+
+                        <div class="queue-summary" style="background-color: rgba(234, 88, 12, 0.1); color: #ea580c;">
+                            <div class="queue-type">Agents</div>
+                            <div class="queue-count">5</div>
+                        </div>
+
+                        <div class="queue-summary" style="background-color: rgba(220, 38, 38, 0.1); color: #dc2626;">
+                            <div class="queue-type">Comments</div>
+                            <div class="queue-count">4</div>
+                        </div>
+
+                        <div class="moderation-queue">
+                            <div class="queue-item">
+                                <div class="queue-item-info">
+                                    <div class="queue-item-user">John Smith</div>
+                                    <div class="queue-item-property">Luxury Villa, Toul Kork</div>
+                                </div>
+                                <div class="queue-actions">
+                                    <button class="action-btn approve-btn">Approve</button>
+                                    <button class="action-btn reject-btn">Reject</button>
+                                </div>
+                            </div>
+
+                            <div class="queue-item">
+                                <div class="queue-item-info">
+                                    <div class="queue-item-user">Maria Chen</div>
+                                    <div class="queue-item-property">Ocean View Condo, Sihanoukville</div>
+                                </div>
+                                <div class="queue-actions">
+                                    <button class="action-btn approve-btn">Approve</button>
+                                    <button class="action-btn reject-btn">Reject</button>
+                                </div>
+                            </div>
+
+                            <div class="queue-item">
+                                <div class="queue-item-info">
+                                    <div class="queue-item-user">CBRE Cambodia</div>
+                                    <div class="queue-item-property">Agent Verification</div>
+                                </div>
+                                <div class="queue-actions">
+                                    <button class="action-btn approve-btn">Approve</button>
+                                    <button class="action-btn reject-btn">Reject</button>
+                                </div>
+                            </div>
+
+                            <div class="queue-item">
+                                <div class="queue-item-info">
+                                    <div class="queue-item-user">User #7789</div>
+                                    <div class="queue-item-property">Comment on "Market Trends"</div>
+                                </div>
+                                <div class="queue-actions">
+                                    <button class="action-btn approve-btn">Approve</button>
+                                    <button class="action-btn reject-btn">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <a href="#" style="color: var(--primary); font-weight: 500; text-decoration: none;">View All
+                                Moderation Items</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 2rem 0; margin-top: 2rem;">
+        <div class="container" style="text-align: center;">
+            <p>Peanech.com Admin Dashboard &copy; 2023. All rights reserved.</p>
+            <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem;">Internal use only.
+                Unauthorized access prohibited.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.user-actions').classList.toggle('show');
+        });
+
+        // Approve/Reject buttons functionality
+        document.querySelectorAll('.approve-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const queueItem = this.closest('.queue-item');
+                queueItem.style.backgroundColor = 'rgba(5, 150, 105, 0.1)';
+                setTimeout(() => {
+                    queueItem.remove();
+                    // Update counts
+                    const propertyCount = document.querySelector('.queue-summary:nth-child(2) .queue-count');
+                    propertyCount.textContent = parseInt(propertyCount.textContent) - 1;
+
+                    const totalCount = document.querySelector('.queue-summary:first-child .queue-count');
+                    totalCount.textContent = parseInt(totalCount.textContent) - 1;
+
+                    alert('Item has been approved and published.');
+                }, 500);
+            });
+        });
+
+        document.querySelectorAll('.reject-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                if (confirm('Are you sure you want to reject this item? This action cannot be undone.')) {
+                    const queueItem = this.closest('.queue-item');
+                    queueItem.style.backgroundColor = 'rgba(220, 38, 38, 0.1)';
+                    setTimeout(() => {
+                        queueItem.remove();
+                        // Update counts
+                        const propertyCount = document.querySelector('.queue-summary:nth-child(2) .queue-count');
+                        propertyCount.textContent = parseInt(propertyCount.textContent) - 1;
+
+                        const totalCount = document.querySelector('.queue-summary:first-child .queue-count');
+                        totalCount.textContent = parseInt(totalCount.textContent) - 1;
+
+                        alert('Item has been rejected and removed from the queue.');
+                    }, 500);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

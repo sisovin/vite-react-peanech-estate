@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com - Cambodia's Leading Property Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .top-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Partners Section */
+        .partners {
+            background-color: #f8fafc;
+            padding: 4rem 0;
+        }
+
+        .partners-container {
+            text-align: center;
+        }
+
+        .partners-title {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .partner-logo {
+            height: 70px;
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--gray);
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+
+        .partner-logo:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--primary);
+        }
+
+        .partner-logo img {
+            max-height: 50px;
+            max-width: 130px;
+            object-fit: contain;
+        }
+
+        .partner-logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Partner Benefits Section */
+        .partner-benefits {
+            padding: 4rem 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .benefit-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .benefit-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .benefit-desc {
+            color: var(--gray);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* Become a Partner Section */
+        .become-partner {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .become-partner-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .become-partner-content h2 {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .become-partner-content p {
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .partner-logos {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .nav-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .partner-logos {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .partner-logo {
+                min-width: 200px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="left">
+            <a href="#"><i class="fas fa-phone"></i>+855 92 800 801</a>
+            <a href="#"><i class="fas fa-envelope"></i> info@peanech.com</a>
+        </div>
+        <div class="right">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="main-nav">
+            <div class="container nav-container">
+                <a href="#" class="logo">Peanech<span>.com</span></a>
+
+                <nav class="nav-links">
+                    <a href="#">Buy</a>
+                    <a href="#">Rent</a>
+                    <a href="#">Commercial</a>
+                    <a href="#">New Developments</a>
+                    <a href="#">Agents</a>
+                    <a href="#">News</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <button class="btn btn-outline">Log In</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container" style="padding: 4rem 0;">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--dark);">Find Your
+                    Dream Property in Cambodia</h1>
+                <p style="font-size: 1.125rem; color: var(--gray); margin-bottom: 2rem;">Discover thousands of
+                    properties for sale and rent across Phnom Penh, Siem Reap, Sihanoukville and more</p>
+
+                <div
+                    style="background: white; border-radius: 0.75rem; padding: 1.5rem; max-width: 1000px; margin: 0 auto; box-shadow: var(--shadow-lg);">
+                    <form style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem;">
+                        <input type="text" placeholder="Search by location, property name..."
+                            style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 0.375rem; font-size: 1rem;">
+
+                        <select
+                            style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 0.375rem; font-size: 1rem; background-color: white; appearance: none; background-image: url('image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236B7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27m6 8 4 4 4-4%27/%3e%3c/svg%3e'); background-position: right 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem;">
+                            <option>All Property Types</option>
+                            <option>House</option>
+                            <option>Land</option>
+                            <option>Apartment/Condo</option>
+                            <option>Commercial</option>
+                        </select>
+
+                        <select
+                            style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 0.375rem; font-size: 1rem; background-color: white; appearance: none; background-image: url('image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236B7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27m6 8 4 4 4-4%27/%3e%3c/svg%3e'); background-position: right 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem;">
+                            <option>For Sale or Rent</option>
+                            <option>For Sale</option>
+                            <option>For Rent</option>
+                        </select>
+
+                        <button type="submit"
+                            style="background-color: var(--primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; cursor: pointer; font-size: 1rem;">Search
+                            Properties</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Placeholder -->
+    <main class="container" style="padding: 4rem 0;">
+        <div style="text-align: center;">
+            <h2>Property Listings</h2>
+            <p style="color: var(--gray); margin-top: 1rem;">Featured properties will appear here</p>
+        </div>
+    </main>
+
+    <!-- Partner & Agency Logos Section -->
+    <section class="partners">
+        <div class="container partners-container">
+            <div class="section-header">
+                <div>
+                    <h2>Trusted by Cambodia's Leading Real Estate Professionals</h2>
+                    <p>Our platform partners with the most reputable agencies and developers across the country</p>
+                </div>
+                <a href="#" class="view-all">View All Partners <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <p class="partners-title">TRUSTED BY CAMBODIA'S LEADING REAL ESTATE PROFESSIONALS</p>
+
+            <div class="partner-logos">
+                <!-- Partner 1 -->
+                <div class="partner-logo" onclick="showPartnerInfo('CBRE')">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                            CB</div>
+                        <span style="font-weight: 600; color: var(--dark);">CBRE Cambodia</span>
+                    </div>
+                </div>
+
+                <!-- Partner 2 -->
+                <div class="partner-logo" onclick="showPartnerInfo('Knight Frank')">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                            KF</div>
+                        <span style="font-weight: 600; color: var(--dark);">Knight Frank</span>
+                    </div>
+                </div>
+
+                <!-- Partner 3 -->
+                <div class="partner-logo" onclick="showPartnerInfo('VTrust')">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                            VT</div>
+                        <span style="font-weight: 600; color: var(--dark);">VTrust Group</span>
+                    </div>
+                </div>
+
+                <!-- Partner 4 -->
+                <div class="partner-logo" onclick="showPartnerInfo('Habitat')">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                            HG</div>
+                        <span style="font-weight: 600; color: var(--dark);">Habitat Group</span>
+                    </div>
+                </div>
+
+                <!-- Partner 5 -->
+                <div class="partner-logo" onclick="showPartnerInfo('Realty Cambodia')">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                            RC</div>
+                        <span style="font-weight: 600; color: var(--dark);">Realty Cambodia</span>
+                    </div>
+                </div>
+
+                <!-- Partner 6 -->
+                <div class="partner-logo" onclick="showPartnerInfo('Sokha Group')">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                            SG</div>
+                        <span style="font-weight: 600; color: var(--dark);">Sokha Group</span>
+                    </div>
+                </div>
+
+                <!-- Partner 7 -->
+                <div class="partner-logo" onclick="showPartnerInfo('Borey Peng Huoth')">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                            BP</div>
+                        <span style="font-weight: 600; color: var(--dark);">Borey Peng Huoth</span>
+                    </div>
+                </div>
+
+                <!-- Partner 8 -->
+                <div class="partner-logo" onclick="showPartnerInfo('Golden Gate')">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background-color: white; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary);">
+                            GG</div>
+                        <span style="font-weight: 600; color: var(--dark);">Golden Gate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner Benefits Section -->
+    <section class="partner-benefits">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Why Partner with Peanech.com?</h2>
+                    <p>Maximize your property visibility and connect with qualified buyers and renters</p>
+                </div>
+            </div>
+
+            <div class="benefits-grid">
+                <!-- Benefit 1 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="benefit-title">Maximum Visibility</h3>
+                    <p class="benefit-desc">Reach thousands of property seekers across Cambodia through our platform,
+                        the #1 property portal in the country.</p>
+                </div>
+
+                <!-- Benefit 2 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3 class="benefit-title">Targeted Marketing</h3>
+                    <p class="benefit-desc">Our advanced search and recommendation algorithms ensure your properties are
+                        seen by the right audience.</p>
+                </div>
+
+                <!-- Benefit 3 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="benefit-title">Lead Generation</h3>
+                    <p class="benefit-desc">Receive qualified leads directly from interested buyers and renters looking
+                        for properties like yours.</p>
+                </div>
+
+                <!-- Benefit 4 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="benefit-title">Brand Credibility</h3>
+                    <p class="benefit-desc">Being featured on Cambodia's leading property portal enhances your agency's
+                        reputation and trustworthiness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Become a Partner CTA -->
+    <section class="become-partner">
+        <div class="container">
+            <div class="become-partner-content">
+                <h2>Become a Partner Agency</h2>
+                <p>Join Cambodia's most trusted real estate network and grow your business with our powerful platform.
+                </p>
+                <button class="btn btn-outline" style="background-color: white; color: var(--primary);">Partner With
+                    Us</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 3rem 0; margin-top: 4rem;">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2023 Peanech.com. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.nav-actions').classList.toggle('show');
+        });
+
+        // Partner info function
+        function showPartnerInfo(partnerName) {
+            alert(`${partnerName} is one of Cambodia's leading real estate agencies partnered with Peanech.com. Clicking on a partner logo would take you to their agency profile page with their listings and contact information.`);
+        }
+
+        // Add hover effects to partner logos
+        document.querySelectorAll('.partner-logo').forEach(logo => {
+            logo.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+            });
+
+            logo.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+            });
+        });
+    </script>
+</body>
+
+</html>

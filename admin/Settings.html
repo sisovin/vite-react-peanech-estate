@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peanech.com Admin Dashboard - Settings & Configuration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --admin-bar-height: 48px;
+            --header-height: 64px;
+            --top-offset: calc(var(--admin-bar-height) + var(--header-height));
+            --sidebar-width: 240px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #ffffff;
+            height: calc(100vh - var(--top-offset));
+            position: fixed;
+            left: 0;
+            top: var(--top-offset);
+            box-shadow: var(--shadow);
+            overflow-y: auto;
+            padding: 0.5rem 0;
+            border-right: 1px solid var(--border);
+            transition: width 0.18s ease, transform 0.18s ease;
+        }
+
+        .sidebar .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar .menu-item {
+            display: block;
+        }
+
+        .sidebar .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--gray);
+            text-decoration: none;
+            transition: background-color 0.15s ease, color 0.15s ease, border-left-color 0.15s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar .menu-link .menu-icon {
+            width: 28px;
+            text-align: center;
+            font-size: 1.125rem;
+            color: inherit;
+        }
+
+        .sidebar .menu-link .label {
+            white-space: nowrap;
+        }
+
+        .sidebar .menu-item:hover .menu-link {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .sidebar .menu-item.active .menu-link {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.06), transparent);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Compact / collapsed state (small screens or explicit collapse) */
+        .sidebar.collapsed {
+            width: 72px;
+        }
+
+        .sidebar.collapsed .label {
+            display: none;
+        }
+
+        .sidebar.collapsed .menu-link {
+            justify-content: center;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            color: var(--gray);
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Settings Module */
+        .settings-management {
+            margin-left: var(--sidebar-width);
+            padding: 2rem 0 4rem;
+            background-color: #f1f5f9;
+            transition: margin-left 0.18s ease;
+        }
+
+        /* When sidebar is collapsed, shrink content margin */
+        .sidebar.collapsed~.settings-management {
+            margin-left: 72px;
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .checkbox-group input {
+            margin: 0;
+        }
+
+        /* Site Settings */
+        .site-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-preview {
+            width: 100px;
+            height: 100px;
+            background-color: var(--border);
+            border-radius: 0.375rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-placeholder {
+            color: var(--gray);
+            font-size: 2rem;
+        }
+
+        .upload-logo-btn {
+            padding: 0.75rem;
+            border: 2px dashed var(--border);
+            border-radius: 0.375rem;
+            background-color: rgba(37, 99, 235, 0.05);
+            color: var(--primary);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-logo-btn:hover {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Taxonomy Management */
+        .taxonomy-section {
+            margin-bottom: 2rem;
+        }
+
+        .taxonomy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .taxonomy-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .add-item-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .item-list {
+            background-color: var(--light-gray);
+            border-radius: 0.375rem;
+            padding: 1rem;
+            min-height: 60px;
+        }
+
+        .item-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: white;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            margin: 0 0.5rem 0.5rem 0;
+            font-size: 0.875rem;
+            position: relative;
+        }
+
+        .item-remove {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 18px;
+            height: 18px;
+            background-color: #dc2626;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .new-item-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .new-item-input input {
+            flex: 1;
+        }
+
+        .new-item-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        /* Email Templates */
+        .email-template {
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .template-header {
+            padding: 1rem;
+            background-color: var(--light-gray);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .template-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .template-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-inactive {
+            background-color: rgba(156, 163, 175, 0.1);
+            color: #6b7280;
+        }
+
+        .template-body {
+            padding: 1rem;
+        }
+
+        .template-preview {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .variable-tag {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            margin: 0 0.25rem;
+        }
+
+        .template-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* API Keys */
+        .api-keys-container {
+            margin-top: 1.5rem;
+        }
+
+        .api-key-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .api-key-info {
+            flex: 1;
+        }
+
+        .api-key-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .api-key-value {
+            color: var(--gray);
+            font-family: monospace;
+            margin-bottom: 0.25rem;
+        }
+
+        .api-key-permissions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .permission-tag {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .api-key-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .api-btn {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .api-btn:hover {
+            background-color: var(--border);
+            color: var(--dark);
+        }
+
+        .rotate-btn {
+            color: var(--secondary);
+        }
+
+        .rotate-btn:hover {
+            background-color: rgba(5, 150, 105, 0.1);
+        }
+
+        .revoke-btn {
+            color: #dc2626;
+        }
+
+        .revoke-btn:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        .create-key-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links,
+            .user-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--dark);
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.show,
+            .user-actions.show {
+                display: flex;
+            }
+
+            .section {
+                padding: 1.5rem 0;
+            }
+
+            .site-logo {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .new-item-input {
+                flex-direction: column;
+            }
+
+            .template-actions {
+                flex-direction: column;
+            }
+
+            .api-key-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .admin-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .taxonomy-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .template-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Admin Bar -->
+    <div class="admin-bar">
+        <div class="left">
+            <a href="/admin/"><i class="fas fa-lock"></i> Admin Dashboard</a>
+            <a href="/"><i class="fas fa-home"></i> View Public Site</a>
+        </div>
+        <div class="right">
+            <a href="#" class="notification-badge"><i class="fas fa-bell"></i> Notifications <span
+                    class="notification-count-badge">3</span></a>
+            <a href="#"><i class="fas fa-user-circle"></i> Admin User</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="/admin/" class="logo">
+            <i class="fas fa-home"></i> Peanech Admin Dashboard
+        </a>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar" aria-label="Main sidebar navigation">
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="/admin/Admin-Dashboard.html" class="menu-link">
+                    <i class="fas fa-tachometer-alt menu-icon" aria-hidden="true"></i>
+                    <span class="label">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Property-Listings-Management.html" class="menu-link">
+                    <i class="fas fa-building menu-icon" aria-hidden="true"></i>
+                    <span class="label">Listings</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/User-Management.html" class="menu-link">
+                    <i class="fas fa-users menu-icon" aria-hidden="true"></i>
+                    <span class="label">Users</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Agent-Agency-Management.html" class="menu-link">
+                    <i class="fas fa-user-tie menu-icon" aria-hidden="true"></i>
+                    <span class="label">Agents</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Content-Management-System.html" class="menu-link">
+                    <i class="fas fa-file-alt menu-icon" aria-hidden="true"></i>
+                    <span class="label">Content</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Finance-Billing.html" class="menu-link">
+                    <i class="fas fa-dollar-sign menu-icon" aria-hidden="true"></i>
+                    <span class="label">Finance</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Reports.html" class="menu-link">
+                    <i class="fas fa-chart-line menu-icon" aria-hidden="true"></i>
+                    <span class="label">Reports</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/Communication-Tools.html" class="menu-link">
+                    <i class="fas fa-comments menu-icon" aria-hidden="true"></i>
+                    <span class="label">Communication</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="/admin/Settings.html" class="menu-link" aria-current="page">
+                    <i class="fas fa-cog menu-icon" aria-hidden="true"></i>
+                    <span class="label">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Settings & Configuration -->
+    <section class="settings-management">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Settings & Configuration</h2>
+                    <p>Manage global site settings, configurations, and system preferences.</p>
+                </div>
+                <div class="section-actions">
+                    <button class="btn btn-outline">Reset</button>
+                    <button class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+
+            <div class="settings-tabs">
+                <div class="settings-tab active">Global Settings</div>
+                <div class="settings-tab">Listing Configuration</div>
+                <div class="settings-tab">Email Templates</div>
+                <div class="settings-tab">API Keys</div>
+            </div>
+
+            <!-- Global Site Settings -->
+            <div id="global-settings" class="settings-container">
+                <h3 class="section-title"
+                    style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); color: var(--dark); font-size: 1.25rem; font-weight: 600;">
+                    <i class="fas fa-globe"></i> Global Site Settings
+                </h3>
+
+                <div class="site-logo">
+                    <div>
+                        <div class="form-group">
+                            <label for="siteName">Site Name</label>
+                            <input type="text" id="siteName" class="form-control" value="Peanech.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="siteTagline">Site Tagline</label>
+                            <input type="text" id="siteTagline" class="form-control"
+                                value="Cambodia's Premier Real Estate Platform">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="logo-preview">
+                            <div class="logo-placeholder"><i class="fas fa-building"></i></div>
+                        </div>
+                        <div class="upload-logo-btn">
+                            <i class="fas fa-upload"></i> Upload New Logo
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="siteDescription">Site Description</label>
+                    <textarea id="siteDescription" class="form-control"
+                        style="min-height: 100px;">Peanech.com is Cambodia's leading real estate platform, connecting buyers, sellers, and renters with the perfect property.</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="defaultCurrency">Default Currency</label>
+                    <select id="defaultCurrency" class="form-control">
+                        <option value="USD" selected>USD - US Dollar</option>
+                        <option value="KHR">KHR - Cambodian Riel</option>
+                        <option value="THB">THB - Thai Baht</option>
+                        <option value="SGD">SGD - Singapore Dollar</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="supportedLanguages">Supported Languages</label>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lang-en" checked>
+                            <label for="lang-en">English</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lang-km" checked>
+                            <label for="lang-km">Khmer</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lang-th">
+                            <label for="lang-th">Thai</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lang-zh">
+                            <label for="lang-zh">Chinese</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lang-ko">
+                            <label for="lang-ko">Korean</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactEmail">Contact Email Address</label>
+                    <input type="email" id="contactEmail" class="form-control" value="info@peanech.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="supportEmail">Support Email Address</label>
+                    <input type="email" id="supportEmail" class="form-control" value="support@peanech.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" class="form-control" value="+855 12 345 678">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Office Address</label>
+                    <input type="text" id="address" class="form-control"
+                        value="123 Business Tower, Phnom Penh, Cambodia">
+                </div>
+
+                <div class="form-group">
+                    <label for="googleAnalytics">Google Analytics Tracking ID</label>
+                    <input type="text" id="googleAnalytics" class="form-control" value="GA-12345678-9">
+                </div>
+            </div>
+
+            <!-- Listing Configuration -->
+            <div id="listing-config" class="settings-container" style="display: none;">
+                <h3 class="section-title"
+                    style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); color: var(--dark); font-size: 1.25rem; font-weight: 600;">
+                    <i class="fas fa-cogs"></i> Listing Configuration
+                </h3>
+
+                <!-- Property Types -->
+                <div class="taxonomy-section">
+                    <div class="taxonomy-header">
+                        <h4 class="taxonomy-title"><i class="fas fa-home"></i> Property Types</h4>
+                        <button class="add-item-btn"><i class="fas fa-plus"></i> Add Type</button>
+                    </div>
+                    <div class="item-list">
+                        <span class="item-tag">House <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Apartment <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Villa <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Land <span class="item-remove"><i class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Commercial <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Condo <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Townhouse <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                    </div>
+                    <div class="new-item-input">
+                        <input type="text" placeholder="Enter new property type...">
+                        <button class="new-item-btn">Add</button>
+                    </div>
+                </div>
+
+                <!-- Features/Amenities -->
+                <div class="taxonomy-section">
+                    <div class="taxonomy-header">
+                        <h4 class="taxonomy-title"><i class="fas fa-star"></i> Features & Amenities</h4>
+                        <button class="add-item-btn"><i class="fas fa-plus"></i> Add Feature</button>
+                    </div>
+                    <div class="item-list">
+                        <span class="item-tag">Swimming Pool <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Parking <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Garden <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Balcony <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Furnished <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Security <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Air Conditioning <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">High-Speed Internet <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Gym <span class="item-remove"><i class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Concierge <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                    </div>
+                    <div class="new-item-input">
+                        <input type="text" placeholder="Enter new feature...">
+                        <button class="new-item-btn">Add</button>
+                    </div>
+                </div>
+
+                <!-- Locations -->
+                <div class="taxonomy-section">
+                    <div class="taxonomy-header">
+                        <h4 class="taxonomy-title"><i class="fas fa-map-marker-alt"></i> Locations</h4>
+                        <button class="add-item-btn"><i class="fas fa-plus"></i> Add Location</button>
+                    </div>
+                    <div class="item-list">
+                        <span class="item-tag">Phnom Penh <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Siem Reap <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Sihanoukville <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Kep <span class="item-remove"><i class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Kampot <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Battambang <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Toul Kork <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">BKK1 <span class="item-remove"><i class="fas fa-times"></i></span></span>
+                        <span class="item-tag">Chamkarmon <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                    </div>
+                    <div class="new-item-input">
+                        <input type="text" placeholder="Enter new location...">
+                        <button class="new-item-btn">Add</button>
+                    </div>
+                </div>
+
+                <!-- Price Ranges -->
+                <div class="taxonomy-section">
+                    <div class="taxonomy-header">
+                        <h4 class="taxonomy-title"><i class="fas fa-tag"></i> Price Ranges</h4>
+                        <button class="add-item-btn"><i class="fas fa-plus"></i> Add Range</button>
+                    </div>
+                    <div class="item-list">
+                        <span class="item-tag">$0 - $100,000 <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">$100,000 - $250,000 <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">$250,000 - $500,000 <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">$500,000 - $1,000,000 <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                        <span class="item-tag">$1,000,000+ <span class="item-remove"><i
+                                    class="fas fa-times"></i></span></span>
+                    </div>
+                    <div class="new-item-input">
+                        <input type="text" placeholder="Enter price range (e.g., $750,000 - $1,200,000)...">
+                        <button class="new-item-btn">Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Templates -->
+            <div id="email-templates" class="settings-container" style="display: none;">
+                <h3 class="section-title"
+                    style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); color: var(--dark); font-size: 1.25rem; font-weight: 600;">
+                    <i class="fas fa-envelope"></i> Email & Notification Templates
+                </h3>
+
+                <div class="email-template">
+                    <div class="template-header">
+                        <div class="template-title">Welcome Email</div>
+                        <div class="template-status status-active">Active</div>
+                    </div>
+                    <div class="template-body">
+                        <div class="template-preview">
+                            <div style="font-weight: 600; color: var(--dark);">Subject: Welcome to Peanech.com!</div>
+                            <div style="margin: 1rem 0; line-height: 1.6;">
+                                Dear {first_name},
+                                <br><br>
+                                Welcome to Peanech.com, Cambodia's premier real estate platform. We're excited to have
+                                you on board!
+                                <br><br>
+                                Your account has been successfully created. You can now start browsing properties,
+                                saving your favorites, and contacting agents.
+                                <br><br>
+                                To get started, we recommend:
+                                <br>
+                                • Complete your profile information
+                                <br>
+                                • Set up your property alerts
+                                <br>
+                                • Explore our featured listings
+                                <br><br>
+                                If you have any questions, please don't hesitate to contact our support team.
+                                <br><br>
+                                Best regards,<br>
+                                The Peanech.com Team
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Available Variables:</strong>
+                            <span class="variable-tag">{first_name}</span>
+                            <span class="variable-tag">{last_name}</span>
+                            <span class="variable-tag">{email}</span>
+                            <span class="variable-tag">{date}</span>
+                        </div>
+                        <div class="template-actions">
+                            <button class="btn btn-outline"><i class="fas fa-edit"></i> Edit Template</button>
+                            <button class="btn btn-outline"><i class="fas fa-envelope"></i> Send Test Email</button>
+                            <button class="btn btn-outline"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-template">
+                    <div class="template-header">
+                        <div class="template-title">Listing Approved</div>
+                        <div class="template-status status-active">Active</div>
+                    </div>
+                    <div class="template-body">
+                        <div class="template-preview">
+                            <div style="font-weight: 600; color: var(--dark);">Subject: Your listing is live on
+                                Peanech.com!</div>
+                            <div style="margin: 1rem 0; line-height: 1.6;">
+                                Hi {agent_name},
+                                <br><br>
+                                Great news! Your listing "{property_title}" has been approved and is now live on
+                                Peanech.com.
+                                <br><br>
+                                Your property can now be viewed by thousands of potential buyers and renters. To
+                                maximize visibility:
+                                <br>
+                                • Respond to inquiries promptly
+                                <br>
+                                • Update photos if needed
+                                <br>
+                                • Consider upgrading to a featured listing
+                                <br><br>
+                                You can view your listing at: {listing_url}
+                                <br><br>
+                                Thank you for using Peanech.com!
+                                <br><br>
+                                Best regards,<br>
+                                The Peanech.com Team
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Available Variables:</strong>
+                            <span class="variable-tag">{agent_name}</span>
+                            <span class="variable-tag">{property_title}</span>
+                            <span class="variable-tag">{listing_url}</span>
+                            <span class="variable-tag">{date}</span>
+                        </div>
+                        <div class="template-actions">
+                            <button class="btn btn-outline"><i class="fas fa-edit"></i> Edit Template</button>
+                            <button class="btn btn-outline"><i class="fas fa-envelope"></i> Send Test Email</button>
+                            <button class="btn btn-outline"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-template">
+                    <div class="template-header">
+                        <div class="template-title">New Lead Notification</div>
+                        <div class="template-status status-active">Active</div>
+                    </div>
+                    <div class="template-body">
+                        <div class="template-preview">
+                            <div style="font-weight: 600; color: var(--dark);">Subject: You have a new lead for
+                                {property_title}</div>
+                            <div style="margin: 1rem 0; line-height: 1.6;">
+                                Hello {agent_name},
+                                <br><br>
+                                You've received a new inquiry for your listing "{property_title}".
+                                <br><br>
+                                <strong>Lead Details:</strong>
+                                <br>
+                                Name: {lead_name}
+                                <br>
+                                Email: {lead_email}
+                                <br>
+                                Phone: {lead_phone}
+                                <br>
+                                Message: {lead_message}
+                                <br><br>
+                                Please respond to this lead within 24 hours to maximize your chances of conversion.
+                                <br><br>
+                                You can contact the lead directly or view this lead in your dashboard.
+                                <br><br>
+                                Best regards,<br>
+                                The Peanech.com Team
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Available Variables:</strong>
+                            <span class="variable-tag">{agent_name}</span>
+                            <span class="variable-tag">{property_title}</span>
+                            <span class="variable-tag">{lead_name}</span>
+                            <span class="variable-tag">{lead_email}</span>
+                            <span class="variable-tag">{lead_phone}</span>
+                            <span class="variable-tag">{lead_message}</span>
+                        </div>
+                        <div class="template-actions">
+                            <button class="btn btn-outline"><i class="fas fa-edit"></i> Edit Template</button>
+                            <button class="btn btn-outline"><i class="fas fa-envelope"></i> Send Test Email</button>
+                            <button class="btn btn-outline"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-template">
+                    <div class="template-header">
+                        <div class="template-title">Subscription Renewal</div>
+                        <div class="template-status status-inactive">Inactive</div>
+                    </div>
+                    <div class="template-body">
+                        <div class="template-preview">
+                            <div style="font-weight: 600; color: var(--dark);">Subject: Your Peanech.com subscription is
+                                expiring soon</div>
+                            <div style="margin: 1rem 0; line-height: 1.6;">
+                                Dear {agency_name},
+                                <br><br>
+                                This is a reminder that your Peanech.com subscription plan will expire in 7 days.
+                                <br><br>
+                                Current plan: {current_plan}
+                                <br>
+                                Expiration date: {expiration_date}
+                                <br><br>
+                                To continue enjoying premium benefits including featured listings and enhanced
+                                visibility, please renew your subscription.
+                                <br><br>
+                                You can renew your subscription from your account dashboard or by contacting our billing
+                                department.
+                                <br><br>
+                                Best regards,<br>
+                                The Peanech.com Team
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Available Variables:</strong>
+                            <span class="variable-tag">{agency_name}</span>
+                            <span class="variable-tag">{current_plan}</span>
+                            <span class="variable-tag">{expiration_date}</span>
+                            <span class="variable-tag">{renewal_url}</span>
+                        </div>
+                        <div class="template-actions">
+                            <button class="btn btn-outline"><i class="fas fa-edit"></i> Edit Template</button>
+                            <button class="btn btn-outline"><i class="fas fa-envelope"></i> Send Test Email</button>
+                            <button class="btn btn-outline"><i class="fas fa-eye"></i> Preview</button>
+                            <button class="btn btn-primary"><i class="fas fa-check"></i> Activate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Keys -->
+            <div id="api-keys" class="settings-container" style="display: none;">
+                <h3 class="section-title"
+                    style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); color: var(--dark); font-size: 1.25rem; font-weight: 600;">
+                    <i class="fas fa-key"></i> API Keys Management
+                </h3>
+
+                <p style="color: var(--gray); margin-bottom: 1.5rem;">Manage access keys for third-party developers and
+                    integrations.</p>
+
+                <button class="create-key-btn"><i class="fas fa-plus"></i> Create New API Key</button>
+
+                <div class="api-key-item">
+                    <div class="api-key-info">
+                        <div class="api-key-name">CBRE Integration</div>
+                        <div class="api-key-value">pk_live_7d8f9a2b3c4d5e6f7g8h9i0j1k2l3m4n</div>
+                        <div style="color: var(--gray); font-size: 0.875rem; margin-bottom: 0.5rem;">Created: Mar 15,
+                            2023</div>
+                        <div class="api-key-permissions">
+                            <span class="permission-tag">Read Listings</span>
+                            <span class="permission-tag">Create Listings</span>
+                            <span class="permission-tag">Read Leads</span>
+                        </div>
+                    </div>
+                    <div class="api-key-actions">
+                        <button class="api-btn rotate-btn"><i class="fas fa-sync"></i> Rotate Key</button>
+                        <button class="api-btn revoke-btn"><i class="fas fa-trash"></i> Revoke</button>
+                    </div>
+                </div>
+
+                <div class="api-key-item">
+                    <div class="api-key-info">
+                        <div class="api-key-name">Knight Frank CRM Sync</div>
+                        <div class="api-key-value">pk_live_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p</div>
+                        <div style="color: var(--gray); font-size: 0.875rem; margin-bottom: 0.5rem;">Created: Feb 28,
+                            2023</div>
+                        <div class="api-key-permissions">
+                            <span class="permission-tag">Read Listings</span>
+                            <span class="permission-tag">Read Leads</span>
+                        </div>
+                    </div>
+                    <div class="api-key-actions">
+                        <button class="api-btn rotate-btn"><i class="fas fa-sync"></i> Rotate Key</button>
+                        <button class="api-btn revoke-btn"><i class="fas fa-trash"></i> Revoke</button>
+                    </div>
+                </div>
+
+                <div class="api-key-item">
+                    <div class="api-key-info">
+                        <div class="api-key-name">Market Data Analytics</div>
+                        <div class="api-key-value">pk_live_4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t</div>
+                        <div style="color: var(--gray); font-size: 0.875rem; margin-bottom: 0.5rem;">Created: Jan 10,
+                            2023</div>
+                        <div class="api-key-permissions">
+                            <span class="permission-tag">Read Listings</span>
+                            <span class="permission-tag">Read Analytics</span>
+                        </div>
+                    </div>
+                    <div class="api-key-actions">
+                        <button class="api-btn rotate-btn"><i class="fas fa-sync"></i> Rotate Key</button>
+                        <button class="api-btn revoke-btn"><i class="fas fa-trash"></i> Revoke</button>
+                    </div>
+                </div>
+
+                <div class="api-key-item">
+                    <div class="api-key-info">
+                        <div class="api-key-name">VTrust Mobile App</div>
+                        <div class="api-key-value">pk_live_9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x</div>
+                        <div style="color: var(--gray); font-size: 0.875rem; margin-bottom: 0.5rem;">Created: Dec 15,
+                            2022</div>
+                        <div class="api-key-permissions">
+                            <span class="permission-tag">Read Listings</span>
+                            <span class="permission-tag">Create Listings</span>
+                            <span class="permission-tag">Read Leads</span>
+                            <span class="permission-tag">Create Leads</span>
+                        </div>
+                    </div>
+                    <div class="api-key-actions">
+                        <button class="api-btn rotate-btn"><i class="fas fa-sync"></i> Rotate Key</button>
+                        <button class="api-btn revoke-btn"><i class="fas fa-trash"></i> Revoke</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <footer style="background-color: var(--dark); color: white; padding: 2rem 0; margin-top: 2rem;">
+        <div class="container" style="text-align: center;">
+            <p>Peanech.com Admin Dashboard &copy; 2023. All rights reserved.</p>
+            <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem;">Internal use only.
+                Unauthorized access prohibited.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('show');
+            document.querySelector('.user-actions').classList.toggle('show');
+        });
+
+        // Tab switching
+        document.querySelectorAll('.settings-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                // Remove active class from all tabs and containers
+                document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.settings-container').forEach(c => c.style.display = 'none');
+
+                // Add active class to clicked tab
+                this.classList.add('active');
+
+                // Show corresponding container
+                const tabIndex = Array.from(document.querySelectorAll('.settings-tab')).indexOf(this);
+                document.querySelectorAll('.settings-container')[tabIndex].style.display = 'block';
+            });
+        });
+
+        // Save changes functionality
+        document.querySelector('.btn-primary').addEventListener('click', function (e) {
+            if (e.target.textContent.includes('Save Changes')) {
+                alert('All changes have been saved successfully.');
+            }
+        });
+
+        // Reset functionality
+        document.querySelector('.btn-outline').addEventListener('click', function (e) {
+            if (e.target.textContent.includes('Reset')) {
+                if (confirm('Are you sure you want to reset all settings to their default values? This action cannot be undone.')) {
+                    alert('Settings have been reset to default values.');
+                }
+            }
+        });
+
+        // Add new item functionality
+        document.querySelectorAll('.add-item-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const section = this.closest('.taxonomy-section');
+                const input = section.querySelector('.new-item-input input');
+                const itemList = section.querySelector('.item-list');
+
+                input.focus();
+            });
+        });
+
+        // Add new item button
+        document.querySelectorAll('.new-item-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const input = this.parentElement.querySelector('input');
+                const value = input.value.trim();
+
+                if (value) {
+                    const itemList = this.closest('.taxonomy-section').querySelector('.item-list');
+                    const newTag = document.createElement('span');
+                    newTag.className = 'item-tag';
+                    newTag.innerHTML = `${value} <span class="item-remove"><i class="fas fa-times"></i></span>`;
+
+                    itemList.appendChild(newTag);
+                    input.value = '';
+
+                    // Add event listener to the remove button
+                    newTag.querySelector('.item-remove').addEventListener('click', function () {
+                        this.parentElement.remove();
+                    });
+                }
+            });
+        });
+
+        // Remove item functionality
+        document.querySelectorAll('.item-remove').forEach(removeBtn => {
+            removeBtn.addEventListener('click', function () {
+                this.parentElement.remove();
+            });
+        });
+
+        // Upload logo functionality
+        document.querySelector('.upload-logo-btn').addEventListener('click', function () {
+            alert('This would open a file upload dialog to select a new site logo.');
+        });
+
+        // Rotate API key functionality
+        document.querySelectorAll('.rotate-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const keyName = this.closest('.api-key-item').querySelector('.api-key-name').textContent;
+
+                if (confirm(`Are you sure you want to rotate the API key for "${keyName}"? This will invalidate the current key and generate a new one.`)) {
+                    alert(`API key for "${keyName}" has been rotated successfully.`);
+                }
+            });
+        });
+
+        // Revoke API key functionality
+        document.querySelectorAll('.revoke-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const keyName = this.closest('.api-key-item').querySelector('.api-key-name').textContent;
+
+                if (confirm(`Are you sure you want to revoke the API key for "${keyName}"? This will permanently disable access.`)) {
+                    this.closest('.api-key-item').remove();
+                    alert(`API key for "${keyName}" has been revoked.`);
+                }
+            });
+        });
+
+        // Create new API key functionality
+        document.querySelector('.create-key-btn').addEventListener('click', function () {
+            alert('This would open a form to create a new API key with specified permissions.');
+        });
+
+        // Activate template functionality
+        document.querySelector('.btn-primary').addEventListener('click', function (e) {
+            if (e.target.textContent.includes('Activate')) {
+                const template = this.closest('.email-template');
+                const status = template.querySelector('.template-status');
+                status.textContent = 'Active';
+                status.className = 'template-status status-active';
+                this.style.display = 'none';
+                alert('Email template has been activated.');
+            }
+        });
+
+        // Edit template functionality
+        document.querySelectorAll('.template-actions .btn-outline').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const templateTitle = this.closest('.template-body').previousElementSibling.querySelector('.template-title').textContent;
+
+                if (this.innerHTML.includes('Edit Template')) {
+                    alert(`This would open an editor to modify the "${templateTitle}" email template.`);
+                } else if (this.innerHTML.includes('Send Test Email')) {
+                    alert(`A test email for "${templateTitle}" has been sent to the admin email address.`);
+                } else if (this.innerHTML.includes('Preview')) {
+                    alert(`This would open a modal with a full preview of the "${templateTitle}" email template.`);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
